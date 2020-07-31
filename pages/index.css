@@ -1,0 +1,12 @@
+/*Импорт сторонних CSS*/
+
+@import url(../vendor/normalize.css);
+
+/*Импорт блоков*/
+
+@import url(../blocks/body/body.css);
+@import url(../blocks/page/page.css);
+@import url(../blocks/header/header.css);
+@import url(../blocks/footer/footer.css);
+
+/*Импорт модификаторов*/
