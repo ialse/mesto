@@ -1,1 +1,10 @@
-.profile__button-edit {}
+.profile__button-edit {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  background-color: #000;
+  background-image: url("../../../images/pencil.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+}
