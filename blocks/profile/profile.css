@@ -10,3 +10,17 @@
   display: flex;
   align-items: center;
 }
+
+@media screen and (max-width: 930px) {
+  .profile {
+    margin: 40px 2% 0;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .profile {
+    flex-direction: column;
+    margin-left: 19px;
+    margin-right: 19px;
+  }
+}

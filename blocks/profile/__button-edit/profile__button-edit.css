@@ -2,6 +2,7 @@
   width: 24px;
   height: 24px;
   border: 1px solid #fff;
+  margin: 0 5px;
   box-sizing: border-box;
   background-color: #000;
   background-image: url("../../../images/pencil.svg");
