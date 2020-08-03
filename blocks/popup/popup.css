@@ -1,0 +1,17 @@
+@import url(./__title/popup__title.css);
+@import url(./__inp-name/popup__inp-name.css);
+@import url(./__inp-work/popup__inp-work.css);
+@import url(./__btn-save/popup__btn-save.css);
+@import url(./__container/popup__container.css);
+@import url(./__btn-close/popup__btn-close.css);
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}

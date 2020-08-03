@@ -1,4 +1,8 @@
 .profile__title {
+  width: 11ch;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   margin: 0;
   font-size: 42px;
   line-height: 1.33;

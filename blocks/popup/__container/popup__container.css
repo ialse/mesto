@@ -1,0 +1,10 @@
+.popup__container {
+  position: relative;
+  font-family: 'Inter';
+  width: 430px;
+  height: 330px;
+  background-color: #FFF;
+  padding: 34px 36px 36px;
+  box-sizing: border-box;
+  border-radius: 10px;
+}

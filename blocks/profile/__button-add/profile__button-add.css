@@ -7,6 +7,15 @@
   background-color: #000;
   color: #FFF;
   margin-left: auto;
+  font-size: 52px;
+  font-weight: 200;
+  padding: 0;
+  line-height: 0;
+}
+
+.profile__button-add:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 690px) {
