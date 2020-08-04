@@ -1,4 +1,5 @@
 Место
+-----
 
 Практическая работа с целью освоить базовый Javascript, а также закрепить адаптивную верстку.
 
@@ -9,12 +10,12 @@
 Для лучшего понимания кода и файловой структуры используются принципы БЭМ, позволяющие создать легкочитаемый код для будущих доработок без значительных трудозатрат.
 
 Используемое программное обеспечение:
-Visual studio code
+1. Visual studio code
     Плагины:
-    JS-CSS-HTML Formatter
+    * JS-CSS-HTML Formatter
 
-GitBash
-GitHub
-Google Chrome developer
+2. GitBash
+4. GitHub
+5. Google Chrome developer
 
 Ссылка на проект: https://ialse.github.io/mesto/index.html
