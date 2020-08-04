@@ -5,6 +5,8 @@
   border: none;
   border-bottom: 1px solid #ccc;
   font-family: inherit;
+  font-size: 14px;
+  line-height: 1.21;
 }
 
 .popup__inp-name:focus {
