@@ -1,22 +1,24 @@
 /*Импорт сторонних CSS*/
 
-@import url(../vendor/normalize.css);
+@import url("../vendor/normalize.css");
 
 /*Импорт шрифтов*/
 
-@import url(../vendor/fonts/fonts.css);
+@import url("../vendor/fonts/fonts.css");
 
 /*Импорт блоков*/
 
-@import url(../blocks/body/body.css);
-@import url(../blocks/page/page.css);
-@import url(../blocks/header/header.css);
-@import url(../blocks/profile/profile.css);
-@import url(../blocks/elements/elements.css);
-@import url(../blocks/element/element.css);
-@import url(../blocks/footer/footer.css);
-@import url(../blocks/popup/popup.css);
+@import url("../blocks/body/body.css");
+@import url("../blocks/page/page.css");
+@import url("../blocks/header/header.css");
+@import url("../blocks/profile/profile.css");
+@import url("../blocks/elements/elements.css");
+@import url("../blocks/element/element.css");
+@import url("../blocks/footer/footer.css");
+@import url("../blocks/popup/popup.css");
 
 /*Импорт модификаторов*/
 
-@import url(../blocks/popup/_opened/popup_opened.css);
+@import url("../blocks/popup/_opened/popup_opened.css");
+@import url("../blocks/popup/__input/_name/popup__input_name.css");
+@import url("../blocks/popup/__input/_work/popup__input_work.css")

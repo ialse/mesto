@@ -1,19 +1,35 @@
+/* Кнопки */
 let btnEdit = document.querySelector('.profile__button-edit');
-let btnSave = document.querySelector('.popup__btn-save');
+let formSave = document.querySelector('.popup__container');
 let btnClose = document.querySelector('.popup__btn-close');
 
-btnEdit.addEventListener('click', function() {
-    document.querySelector('.popup').classList.add('popup_opened');
-    document.querySelector('.popup__inp-name').value = document.querySelector('.profile__title').textContent;
-    document.querySelector('.popup__inp-work').value = document.querySelector('.profile__subtitle').textContent;
-});
+/* Поля */
+let profileName = document.querySelector('.profile__title');
+let profileWork = document.querySelector('.profile__subtitle');
 
-btnSave.addEventListener('click', function() {
-    document.querySelector('.profile__title').textContent = document.querySelector('.popup__inp-name').value;
-    document.querySelector('.profile__subtitle').textContent = document.querySelector('.popup__inp-work').value;
-    document.querySelector('.popup').classList.remove('popup_opened');
-});
+let inputName = document.querySelector('.popup__input_name');
+let inputWork = document.querySelector('.popup__input_work');
 
-btnClose.addEventListener('click', function() {
-    document.querySelector('.popup').classList.remove('popup_opened');
-});
+/* Всплывающее окно */
+let popup = document.querySelector('.popup');
+
+let popupShow = function() {
+    if (popup.classList.contains('popup_opened')) {
+        popup.classList.remove('popup_opened');
+    } else {
+        popup.classList.add('popup_opened');
+        inputName.value = profileName.textContent;
+        inputWork.value = profileWork.textContent;
+    }
+};
+
+let popupSave = function(e) {
+    e.preventDefault();
+    profileName.textContent = inputName.value;
+    profileWork.textContent = inputWork.value;
+    popup.classList.remove('popup_opened');
+};
+
+btnEdit.addEventListener('click', popupShow);
+formSave.addEventListener('submit', popupSave);
+btnClose.addEventListener('click', popupShow);

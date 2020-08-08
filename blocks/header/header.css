@@ -1,4 +1,4 @@
-@import url(./__logo/header__logo.css);
+@import url("./__logo/header__logo.css");
 .header {
   min-height: 74px;
   margin: 45px auto 0;
@@ -8,6 +8,7 @@
 
 @media screen and (max-width: 690px) {
   .header {
+    min-height: 56px;
     margin: 28px 0 0;
   }
 }

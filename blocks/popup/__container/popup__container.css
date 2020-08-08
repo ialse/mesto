@@ -1,6 +1,6 @@
 .popup__container {
   position: relative;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Arial', sans-serif;
   width: 430px;
   height: 330px;
   background-color: #FFF;

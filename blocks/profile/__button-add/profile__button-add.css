@@ -4,7 +4,6 @@
   border: 2px solid #fff;
   border-radius: 2px;
   box-sizing: border-box;
-  background-color: #000;
   color: #FFF;
   margin-left: auto;
   font-size: 52px;
@@ -12,15 +11,16 @@
   padding: 0;
   line-height: 0;
   outline: 0;
+  background-color: #000;
+  background-image: url(../../../images/button_add.svg);
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .profile__button-add:hover {
   opacity: 0.6;
   cursor: pointer;
-}
-
-.profile__button-add:focus {
-  outline: 0;
+  transition: opacity 0.7s ease 0.1s;
 }
 
 @media screen and (max-width: 690px) {

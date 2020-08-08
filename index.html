@@ -11,7 +11,7 @@
 <body class="body">
     <div class="page">
         <header class="header">
-            <div class="header__logo"></div>
+            <img src="./images/logo.svg" class="header__logo" alt="Логотип Место">
         </header>
 
         <main class="content">
@@ -19,43 +19,43 @@
                 <img src="./images/avatar.jpg" alt="Аватар" class="profile__avatar">
                 <div class="profile__profile-info">
                     <h1 class="profile__title">Алексей</h1>
-                    <button class="profile__button-edit"></button>
+                    <button type="button" class="profile__button-edit"></button>
                     <p class="profile__subtitle">Исследователь закатов</p>
                 </div>
-                <button class="profile__button-add">+</button>
+                <button type="button" class="profile__button-add"></button>
             </section>
 
             <section class="elements">
-                <div class="element">
+                <article class="element">
                     <img src="./images/honkasalo.JPG" alt="Хонкасало" class="element__image">
                     <h2 class="element__title">Хонкасало</h2>
-                    <button class="element__button-like"></button>
-                </div>
-                <div class="element">
+                    <button type="button" class="element__button-like"></button>
+                </article>
+                <article class="element">
                     <img src="./images/ladShheri.JPG" alt="Ладожские шхеры" class="element__image">
                     <h2 class="element__title">Ладожские шхеры</h2>
-                    <button class="element__button-like"></button>
-                </div>
-                <div class="element">
+                    <button type="button" class="element__button-like"></button>
+                </article>
+                <article class="element">
                     <img src="./images/peterburg.JPG" alt="Санкт-Петербург" class="element__image">
                     <h2 class="element__title">Санкт-Петербург</h2>
-                    <button class="element__button-like"></button>
-                </div>
-                <div class="element">
+                    <button type="button" class="element__button-like"></button>
+                </article>
+                <article class="element">
                     <img src="./images/phuket.JPG" alt="Пхукет" class="element__image">
                     <h2 class="element__title">Пхукет</h2>
-                    <button class="element__button-like"></button>
-                </div>
-                <div class="element">
+                    <button type="button" class="element__button-like"></button>
+                </article>
+                <article class="element">
                     <img src="./images/ribackoe.JPG" alt="Рыбацкое" class="element__image">
                     <h2 class="element__title">Рыбацкое</h2>
-                    <button class="element__button-like"></button>
-                </div>
-                <div class="element">
+                    <button type="button" class="element__button-like"></button>
+                </article>
+                <article class="element">
                     <img src="./images/vuoksa.JPG" alt="Вуокса" class="element__image">
                     <h2 class="element__title">Вуокса</h2>
-                    <button class="element__button-like"></button>
-                </div>
+                    <button type="button" class="element__button-like"></button>
+                </article>
             </section>
         </main>
 
@@ -65,17 +65,16 @@
     </div>
 
     <div class="popup">
-        <form class="popup__container">
+        <form class="popup__container" name="popup__container">
             <h2 class="popup__title">Редактировать профиль</h2>
-            <input type="text" class="popup__inp-name" maxlength="35">
-            <input type="text" class="popup__inp-work" maxlength="35">
-            <button type="button" class="popup__btn-save">Сохранить</button>
-            <button type="button" class="popup__btn-close">+</button>
+            <input type="text" class="popup__input popup__input_name" name="popup__input_name" maxlength="35">
+            <input type="text" class="popup__input popup__input_work" name="popup__input_work" maxlength="35">
+            <button type="submit" class="popup__btn-save">Сохранить</button>
+            <button type="button" class="popup__btn-close"></button>
         </form>
 
     </div>
     <script src="./scripts/script.js"></script>
-    </script>
 </body>
 
 </html>
