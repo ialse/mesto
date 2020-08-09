@@ -27,7 +27,7 @@ let popupSave = function(e) {
     e.preventDefault();
     profileName.textContent = inputName.value;
     profileWork.textContent = inputWork.value;
-    popup.classList.remove('popup_opened');
+    popupShow();
 };
 
 btnEdit.addEventListener('click', popupShow);

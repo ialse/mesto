@@ -6,6 +6,7 @@
   font-family: inherit;
   font-size: 14px;
   line-height: 1.21;
+  box-sizing: border-box;
 }
 
 .popup__input:focus {
