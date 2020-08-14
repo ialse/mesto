@@ -1,3 +1,45 @@
+/*Создаем переменную с секцией карточек*/
+const elements = document.querySelector('.elements');
+
+
+const initialCards = [{
+        name: 'Хонкасало',
+        link: './images/honkasalo.JPG'
+    },
+    {
+        name: 'Ладожские шхеры',
+        link: './images/ladShheri.JPG'
+    },
+    {
+        name: 'Санкт-Петербург',
+        link: './images/peterburg.JPG'
+    },
+    {
+        name: 'Пхукет',
+        link: './images/phuket.JPG'
+    },
+    {
+        name: 'Рыбацкое',
+        link: './images/ribackoe.JPG'
+    },
+    {
+        name: 'Вуокса',
+        link: './images/vuoksa.JPG'
+    }
+];
+
+/*Функция, которая отрисовывает по шаблону первоначальные карточки */
+initialCards.forEach(function(item) {
+    const cardTemplate = document.querySelector('#card-template').content;
+    const card = cardTemplate.cloneNode(true);
+
+    card.querySelector('.element__image').src = item.link;
+    card.querySelector('.element__image').alt = item.name;
+    card.querySelector('.element__title').textContent = item.name;
+
+    elements.append(card);
+});
+
 /* Кнопки */
 let btnEdit = document.querySelector('.profile__button-edit');
 let formSave = document.querySelector('.popup__container');
