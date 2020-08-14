@@ -2,6 +2,10 @@
 const elements = document.querySelector('.elements');
 
 
+
+/* Переменная с шаблоном. Используется в нескольких функциях, поэтому глобальная*/
+const cardTemplate = document.querySelector('#card-template').content;
+
 const initialCards = [{
         name: 'Хонкасало',
         link: './images/honkasalo.JPG'
@@ -30,7 +34,6 @@ const initialCards = [{
 
 /*Функция, которая отрисовывает по шаблону первоначальные карточки */
 initialCards.forEach(function(item) {
-    const cardTemplate = document.querySelector('#card-template').content;
     const card = cardTemplate.cloneNode(true);
 
     card.querySelector('.element__image').src = item.link;
@@ -40,38 +43,59 @@ initialCards.forEach(function(item) {
     elements.append(card);
 });
 
+
 /* Кнопки */
-let btnEdit = document.querySelector('.profile__button-edit');
-let formSave = document.querySelector('.popup__container');
-let btnClose = document.querySelector('.popup__btn-close');
+const btnEdit = document.querySelector('.profile__button-edit');
+const formSave = document.querySelector('.popup__container');
+const btnClose = document.querySelector('.popup__btn-close');
+const btnAdd = document.querySelector('.profile__button-add');
 
 /* Поля */
-let profileName = document.querySelector('.profile__title');
-let profileWork = document.querySelector('.profile__subtitle');
+const profileName = document.querySelector('.profile__title');
+const profileWork = document.querySelector('.profile__subtitle');
 
-let inputName = document.querySelector('.popup__input_name');
-let inputWork = document.querySelector('.popup__input_work');
+const inputName = document.querySelector('.popup__input_name');
+const inputWork = document.querySelector('.popup__input_work');
 
 /* Всплывающее окно */
-let popup = document.querySelector('.popup');
+const popup = document.querySelector('.popup');
 
-let popupShow = function() {
+function popupShow(event) {
+
     if (popup.classList.contains('popup_opened')) {
         popup.classList.remove('popup_opened');
     } else {
         popup.classList.add('popup_opened');
-        inputName.value = profileName.textContent;
-        inputWork.value = profileWork.textContent;
-    }
-};
 
-let popupSave = function(e) {
+        if (event.currentTarget === btnEdit) {
+            inputName.value = profileName.textContent;
+            inputWork.value = profileWork.textContent;
+        } else if (event.currentTarget === btnAdd) {
+
+            inputName.value = '';
+            inputWork.value = '';
+        }
+    }
+}
+
+function popupSave(e) {
     e.preventDefault();
     profileName.textContent = inputName.value;
     profileWork.textContent = inputWork.value;
     popupShow();
-};
+}
+
+function addCard() {
+    const card = cardTemplate.cloneNode(true);
+
+    card.querySelector('.element__image').src = './images/phuket.JPG';
+    card.querySelector('.element__image').alt = 'name';
+    card.querySelector('.element__title').textContent = 'name';
+
+    elements.prepend(card);
+}
 
 btnEdit.addEventListener('click', popupShow);
 formSave.addEventListener('submit', popupSave);
 btnClose.addEventListener('click', popupShow);
+btnAdd.addEventListener('click', popupShow);
