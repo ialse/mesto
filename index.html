@@ -45,6 +45,23 @@
         </form>
     </div>
 
+    <div class="popup add-card">
+        <form class="popup__container" name="popup__container">
+            <h2 class="popup__title">Новое место</h2>
+            <input type="text" class="popup__input popup__input_place" name="popup__input_place" placeholder="Название" maxlength="35">
+            <input type="text" class="popup__input popup__input_link" name="popup__input_link" placeholder="Ссылка на картинку">
+            <button type="submit" class="popup__btn-save">Сохранить</button>
+            <button type="button" class="popup__btn-close"></button>
+        </form>
+    </div>
+
+    <div class="popup-image">
+        <form class="popup__container" name="popup__container">
+            <h2 class="popup__title"></h2>
+            <button type="button" class="popup__btn-close"></button>
+        </form>
+    </div>
+
     <template id="card-template">
         <article class="element">
             <img class="element__image">

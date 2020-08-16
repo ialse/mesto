@@ -1,6 +1,3 @@
-/*Для КР: окно редактирования профиля и добавление карточки повторяют друг друга один в один. 
-Поэтому чтобы не добавлять еще один popup я использовал тот же с переопределением полей*/
-
 /*Создаем переменную с секцией карточек*/
 const elements = document.querySelector('.elements');
 
@@ -36,8 +33,6 @@ const initialCards = [{
     }
 ];
 
-
-
 /* Кнопки */
 const btnEdit = document.querySelector('.profile__button-edit');
 const formSave = document.querySelector('.popup__container');
@@ -54,24 +49,28 @@ const inputWork = document.querySelector('.popup__input_work');
 /* Всплывающее окно */
 const popup = document.querySelector('.popup');
 
-function popupShow(event) {
+function popupShow() {
 
     if (popup.classList.contains('popup_opened')) {
         popup.classList.remove('popup_opened', 'popup_edit-profile', 'popup_add-card');
     } else {
         popup.classList.add('popup_opened');
 
-        /*определяем по какому элементу щелкнули и в заисимости от этого формируем нужное окно*/
-        if (event.currentTarget === btnEdit) {
-            formEditProfile();
-        } else if (event.currentTarget === btnAdd) {
-            formAddCard();
-        }
+    }
+}
+
+function addCardShow() {
+
+    if (popup.classList.contains('popup_opened')) {
+        popup.classList.remove('popup_opened', 'popup_edit-profile', 'popup_add-card');
+    } else {
+        popup.classList.add('popup_opened');
+
     }
 }
 
 /*Функция, отрабатывающая при нажатии кнопки сохранить и либо сохраняющая данные по профилю, либо по добавляемой карточке*/
-function popupSave(e) {
+function popupProfileSave(e) {
     e.preventDefault();
 
     if (popup.classList.contains('popup_edit-profile')) {
@@ -84,6 +83,15 @@ function popupSave(e) {
     }
 
     popupShow();
+}
+
+function popupCardSave() {
+    e.preventDefault();
+    const name = inputName.value;
+    const link = inputWork.value;
+    addCard(name, link);
+
+    addCardShow();
 }
 
 /*Функция, добавляющая карточку*/
@@ -100,6 +108,7 @@ function addCard(name, link) {
         event.currentTarget.classList.toggle('element__button-like_active');
     });
 
+    /*Добавляем сформированную карточку в начало страницы*/
     elements.prepend(card);
 }
 
@@ -131,6 +140,8 @@ initialCards.forEach(function(item) {
 });
 
 btnEdit.addEventListener('click', popupShow);
+addCard.addEventListener('click', addCardShow);
+formSave.addEventListener('submit', popupSave);
 formSave.addEventListener('submit', popupSave);
 btnClose.addEventListener('click', popupShow);
 btnAdd.addEventListener('click', popupShow);
