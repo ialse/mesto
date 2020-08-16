@@ -36,16 +36,6 @@ const initialCards = [{
     }
 ];
 
-/*Функция, которая отрисовывает по шаблону первоначальные карточки */
-initialCards.forEach(function(item) {
-    const card = cardTemplate.cloneNode(true);
-
-    card.querySelector('.element__image').src = item.link;
-    card.querySelector('.element__image').alt = item.name;
-    card.querySelector('.element__title').textContent = item.name;
-
-    elements.append(card);
-});
 
 
 /* Кнопки */
@@ -71,6 +61,7 @@ function popupShow(event) {
     } else {
         popup.classList.add('popup_opened');
 
+        /*определяем по какому элементу щелкнули и в заисимости от этого формируем нужное окно*/
         if (event.currentTarget === btnEdit) {
             formEditProfile();
         } else if (event.currentTarget === btnAdd) {
@@ -97,11 +88,17 @@ function popupSave(e) {
 
 /*Функция, добавляющая карточку*/
 function addCard(name, link) {
-    const card = cardTemplate.cloneNode(true);
+    const card = document.querySelector('#card-template').content.cloneNode(true);
+    console.log(card.querySelector('.element__button-like'));
 
     card.querySelector('.element__image').src = link;
     card.querySelector('.element__image').alt = name;
     card.querySelector('.element__title').textContent = name;
+
+    /*каждой кнопке навешиваем обработчик события*/
+    card.querySelector('.element__button-like').addEventListener('click', event => {
+        event.currentTarget.classList.toggle('element__button-like_active');
+    });
 
     elements.prepend(card);
 }
@@ -127,6 +124,11 @@ function formAddCard() {
     inputName.value = '';
     inputWork.value = '';
 }
+
+/*Функция, которая отрисовывает по шаблону первоначальные карточки */
+initialCards.forEach(function(item) {
+    addCard(item.name, item.link);
+});
 
 btnEdit.addEventListener('click', popupShow);
 formSave.addEventListener('submit', popupSave);
