@@ -1,7 +1,8 @@
 /*Создаем переменную с секцией карточек*/
 const elements = document.querySelector('.elements');
 
-
+/*Создаем переменную страницы*/
+const page = document.querySelector('.page');
 
 /* Переменная с шаблоном. Используется в нескольких функциях, поэтому глобальная*/
 const cardTemplate = document.querySelector('#card-template').content;
@@ -63,36 +64,65 @@ const popup = document.querySelector('.popup');
 function popupShow(event) {
 
     if (popup.classList.contains('popup_opened')) {
-        popup.classList.remove('popup_opened');
+        popup.classList.remove('popup_opened', 'popup_edit-profile', 'popup_add-card');
     } else {
         popup.classList.add('popup_opened');
 
         if (event.currentTarget === btnEdit) {
-            inputName.value = profileName.textContent;
-            inputWork.value = profileWork.textContent;
+            formEditProfile();
         } else if (event.currentTarget === btnAdd) {
-
-            inputName.value = '';
-            inputWork.value = '';
+            formAddCard();
         }
     }
 }
 
+/*Функция, отрабатывающая при нажатии кнопки сохранить и либо сохраняющая данные по профилю, либо по добавляемой карточке*/
 function popupSave(e) {
     e.preventDefault();
-    profileName.textContent = inputName.value;
-    profileWork.textContent = inputWork.value;
+
+    if (popup.classList.contains('popup_edit-profile')) {
+        profileName.textContent = inputName.value;
+        profileWork.textContent = inputWork.value;
+    } else if (popup.classList.contains('popup_add-card')) {
+        const name = inputName.value;
+        const link = inputWork.value;
+        addCard(name, link);
+    }
+
     popupShow();
 }
 
-function addCard() {
+/*Функция, добавляющая карточку*/
+function addCard(name, link) {
     const card = cardTemplate.cloneNode(true);
 
-    card.querySelector('.element__image').src = './images/phuket.JPG';
-    card.querySelector('.element__image').alt = 'name';
-    card.querySelector('.element__title').textContent = 'name';
+    card.querySelector('.element__image').src = link;
+    card.querySelector('.element__image').alt = name;
+    card.querySelector('.element__title').textContent = name;
 
     elements.prepend(card);
+}
+
+/*Функция, формирующая окно редактирования профиля*/
+function formEditProfile() {
+    popup.querySelector('.popup__title').textContent = 'Редактировать профиль';
+    /*Задаю класс с модификатором, чтобы различать окно редактирования профиля от окна добавления карточки:*/
+    popup.classList.add('popup_edit-profile');
+
+    inputName.value = profileName.textContent;
+    inputWork.value = profileWork.textContent;
+}
+
+/*Функция, формирующая окно добавления карточки*/
+function formAddCard() {
+    popup.querySelector('.popup__title').textContent = 'Новое место';
+    popup.querySelector('.popup__input_name').placeholder = 'Название';
+    popup.querySelector('.popup__input_work').placeholder = 'Ссылка на картинку';
+    /*Задаю класс с модификатором, чтобы различать окно редактирования профиля от окна добавления карточки:*/
+    popup.classList.add('popup_add-card');
+
+    inputName.value = '';
+    inputWork.value = '';
 }
 
 btnEdit.addEventListener('click', popupShow);
