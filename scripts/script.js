@@ -50,7 +50,7 @@ const inputWork = document.querySelector('.popup__input_work');
 const popupEditProfile = document.querySelector('.popup_edit-profile');
 const popupAddCard = document.querySelector('.popup_add-card');
 
-/*Функция, открывающая и закрывающая окно popup*/
+/*Функция, открывающая и закрывающая окно popup редактирования профиля*/
 function popupEditProfileShow() {
 
     if (popupEditProfile.classList.contains('popup_opened')) {
@@ -60,7 +60,7 @@ function popupEditProfileShow() {
     }
 }
 
-/*Функция, открывающая и закрывающая окно popup*/
+/*Функция, открывающая и закрывающая окно popup добавления карточки*/
 function popupAddCardShow() {
 
     if (popupAddCard.classList.contains('popup_opened')) {
