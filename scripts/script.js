@@ -36,7 +36,7 @@ const initialCards = [{
 /* Кнопки */
 const btnEdit = document.querySelector('.profile__button-edit');
 const formSave = document.querySelector('.popup__container');
-const btnClose = document.querySelector('.popup__btn-close');
+const btnClose = document.querySelectorAll('.popup__btn-close');
 const btnAdd = document.querySelector('.profile__button-add');
 
 /* Поля */
@@ -50,26 +50,19 @@ const inputWork = document.querySelector('.popup__input_work');
 const popupEditProfile = document.querySelector('.popup_edit-profile');
 const popupAddCard = document.querySelector('.popup_add-card');
 
-/*Функция, открывающая и закрывающая окно popup редактирования профиля*/
-function popupEditProfileShow() {
 
-    if (popupEditProfile.classList.contains('popup_opened')) {
-        popupEditProfile.classList.remove('popup_opened');
-    } else {
+/*Функция, открывающая один из трех попапов в зависимости от кнопки, по которой нажали или закрывающая попап*/
+function popupShow(e) {
+
+    if(e.target === btnEdit ) {
         popupEditProfile.classList.add('popup_opened');
-    }
-}
-
-/*Функция, открывающая и закрывающая окно popup добавления карточки*/
-function popupAddCardShow() {
-
-    if (popupAddCard.classList.contains('popup_opened')) {
-        popupEditProfileShow(); //Закрываю окно
-    } else {
+    } else if (e.target === btnAdd) {
         popupAddCard.classList.add('popup_opened');
+    } else { 
+        popupEditProfile.classList.remove('popup_opened');
+        popupAddCard.classList.remove('popup_opened');
     }
 }
-
 
 /*Функция, отрабатывающая при нажатии кнопки сохранить и либо сохраняющая данные по профилю, либо по добавляемой карточке*/
 function popupProfileSave(e) {
@@ -98,7 +91,6 @@ function popupCardSave() {
 /*Функция, добавляющая карточку*/
 function addCard(name, link) {
     const card = document.querySelector('#card-template').content.cloneNode(true);
-    console.log(card.querySelector('.element__button-like'));
 
     card.querySelector('.element__image').src = link;
     card.querySelector('.element__image').alt = name;
@@ -118,8 +110,8 @@ initialCards.forEach(function(item) {
     addCard(item.name, item.link);
 });
 
-btnEdit.addEventListener('click', popupEditProfileShow);
-btnAdd.addEventListener('click', popupAddCardShow);
-btnClose.addEventListener('click', popupEditProfileShow);
+btnEdit.addEventListener('click', popupShow);
+btnAdd.addEventListener('click', popupShow);
+btnClose.forEach((item) => {item.addEventListener('click', popupShow)})
 
 formSave.addEventListener('submit', popupProfileSave);
