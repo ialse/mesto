@@ -64,10 +64,14 @@ function popupShow(e) {
         inputWork.value = profileWork.textContent;
     } else if (e.target === btnAdd) {
         popupAddCard.classList.add('popup_opened');
-        inputPlace.value = '';
+        inputPlace.value = ''; //очищаю поля, так как окно просто скрывается
         inputLink.value = '';
-    } else if (e.target === 'imageShow') {
+    } else if (e.target.classList.contains('element__image')) {
+        const image = e.target.src;
+        const title = e.target.nextElementSibling.textContent;
         popupImage.classList.add('popup_opened');
+        popupImage.querySelector('.popup__image').src = image
+        popupImage.querySelector('.popup__title').textContent = title;
     }
 }
 
@@ -91,7 +95,7 @@ function popupSave(e) {
         const link = inputLink.value;
         addCard(name, link);
     }
-    popupClose()
+    popupClose();
 }
 
 /*Функция, добавляющая карточку*/
@@ -106,6 +110,8 @@ function addCard(name, link) {
     card.querySelector('.element__button-like').addEventListener('click', event => {
         event.currentTarget.classList.toggle('element__button-like_active');
     });
+    /*каждой картинке навешиваем обработчик события: клик по картинке - открывается попап с картинкой*/
+    card.querySelector('.element__image').addEventListener('click', popupShow);
 
     /*Добавляем сформированную карточку в начало страницы*/
     elements.prepend(card);

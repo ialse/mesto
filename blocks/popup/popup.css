@@ -3,6 +3,7 @@
 @import url("./__btn-save/popup__btn-save.css");
 @import url("./__container/popup__container.css");
 @import url("./__btn-close/popup__btn-close.css");
+@import url("./__image/popup__image.css");
 .popup {
   display: none;
   position: fixed;
