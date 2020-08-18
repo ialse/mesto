@@ -58,12 +58,14 @@ const popupImage = document.querySelector('.popup_image');
 /*Функция, открывающая один из трех попапов в зависимости от кнопки, по которой нажали или закрывающая попап*/
 function popupShow(e) {
 
-    if(e.target === btnEdit ) {
+    if (e.target === btnEdit) {
         popupEditProfile.classList.add('popup_opened');
         inputName.value = profileName.textContent;
         inputWork.value = profileWork.textContent;
     } else if (e.target === btnAdd) {
         popupAddCard.classList.add('popup_opened');
+        inputPlace.value = '';
+        inputLink.value = '';
     } else if (e.target === 'imageShow') {
         popupImage.classList.add('popup_opened');
     }
@@ -83,7 +85,7 @@ function popupSave(e) {
     if (popupEditProfile.classList.contains('popup_opened')) {
         profileName.textContent = inputName.value;
         profileWork.textContent = inputWork.value;
-        
+
     } else if (popupAddCard.classList.contains('popup_opened')) {
         const name = inputPlace.value;
         const link = inputLink.value;
@@ -116,6 +118,6 @@ initialCards.forEach(function(item) {
 
 btnEdit.addEventListener('click', popupShow);
 btnAdd.addEventListener('click', popupShow);
-btnClose.forEach((item) => {item.addEventListener('click', popupClose)})
+btnClose.forEach((item) => { item.addEventListener('click', popupClose) })
 
-formSave.forEach((item) => {item.addEventListener('submit', popupSave)});
+formSave.forEach((item) => { item.addEventListener('submit', popupSave) });
