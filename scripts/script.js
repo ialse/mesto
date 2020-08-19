@@ -54,8 +54,31 @@ const popupEditProfile = document.querySelector('.popup_edit-profile');
 const popupAddCard = document.querySelector('.popup_add-card');
 const popupImage = document.querySelector('.popup_image');
 
+/*Функция, добавляющая карточку*/
+function addCard(name, link) {
+    const card = document.querySelector('#card-template').content.cloneNode(true);
 
-/*Функция, открывающая один из трех попапов в зависимости от кнопки, по которой нажали или закрывающая попап*/
+    card.querySelector('.element__image').src = link;
+    card.querySelector('.element__image').alt = name;
+    card.querySelector('.element__title').textContent = name;
+
+    /*каждой кнопке навешиваем обработчик события, отвечающий за работу лайка*/
+    card.querySelector('.element__button-like').addEventListener('click', event => {
+        event.currentTarget.classList.toggle('element__button-like_active');
+    });
+    /*каждой картинке навешиваем обработчик события: клик по картинке - открывается попап с картинкой*/
+    card.querySelector('.element__image').addEventListener('click', popupShow);
+
+    /*каждой кнопке удаления навешиваем обработчик события*/
+    card.querySelector('.element__button-remove').addEventListener('click', event => {
+        event.currentTarget.closest('.element').remove();
+    });
+
+    /*Добавляем сформированную карточку в начало страницы*/
+    elements.prepend(card);
+}
+
+/*Функция, открывающая один из трех попапов в зависимости от кнопки, по которой нажали*/
 function popupShow(e) {
 
     if (e.target === btnEdit) {
@@ -71,6 +94,7 @@ function popupShow(e) {
         const title = e.target.nextElementSibling.textContent;
         popupImage.classList.add('popup_opened');
         popupImage.querySelector('.popup__image').src = image
+        popupImage.querySelector('.popup__image').alt = title;
         popupImage.querySelector('.popup__title').textContent = title;
     }
 }
@@ -96,30 +120,6 @@ function popupSave(e) {
         addCard(name, link);
     }
     popupClose();
-}
-
-/*Функция, добавляющая карточку*/
-function addCard(name, link) {
-    const card = document.querySelector('#card-template').content.cloneNode(true);
-
-    card.querySelector('.element__image').src = link;
-    card.querySelector('.element__image').alt = name;
-    card.querySelector('.element__title').textContent = name;
-
-    /*каждой кнопке навешиваем обработчик события, отвечающий за работу лайка*/
-    card.querySelector('.element__button-like').addEventListener('click', event => {
-        event.currentTarget.classList.toggle('element__button-like_active');
-    });
-    /*каждой картинке навешиваем обработчик события: клик по картинке - открывается попап с картинкой*/
-    card.querySelector('.element__image').addEventListener('click', popupShow);
-
-    /*каждой кнопке удаления навешиваем обработчик события*/
-    card.querySelector('.element__button-remove').addEventListener('click', event => {
-        event.currentTarget.closest('.element').remove();
-    });
-
-    /*Добавляем сформированную карточку в начало страницы*/
-    elements.prepend(card);
 }
 
 /*Функция, которая отрисовывает по шаблону первоначальные карточки */
