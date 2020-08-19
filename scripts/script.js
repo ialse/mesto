@@ -35,8 +35,8 @@ const initialCards = [{
 
 /* Кнопки */
 const btnEdit = document.querySelector('.profile__button-edit');
-const formSave = document.querySelectorAll('.popup__container');
-const btnClose = document.querySelectorAll('.popup__btn-close');
+const formsSave = document.querySelectorAll('.popup__container');
+const btnsClose = document.querySelectorAll('.popup__btn-close');
 const btnAdd = document.querySelector('.profile__button-add');
 
 /* Поля */
@@ -49,7 +49,6 @@ const inputPlace = document.querySelector('.popup__input_place');
 const inputLink = document.querySelector('.popup__input_link');
 
 /* Всплывающие окна */
-const popup = document.querySelectorAll('.popup');
 const popupEditProfile = document.querySelector('.popup_edit-profile');
 const popupAddCard = document.querySelector('.popup_add-card');
 const popupImage = document.querySelector('.popup_image');
@@ -67,7 +66,7 @@ function addCard(name, link) {
         event.currentTarget.classList.toggle('element__button-like_active');
     });
     /*каждой картинке навешиваем обработчик события: клик по картинке - открывается попап с картинкой*/
-    card.querySelector('.element__image').addEventListener('click', popupShow);
+    card.querySelector('.element__image').addEventListener('click', showPopup);
 
     /*каждой кнопке удаления навешиваем обработчик события*/
     card.querySelector('.element__button-remove').addEventListener('click', event => {
@@ -79,7 +78,7 @@ function addCard(name, link) {
 }
 
 /*Функция, открывающая один из трех попапов в зависимости от кнопки, по которой нажали*/
-function popupShow(e) {
+function showPopup(e) {
 
     if (e.target === btnEdit) {
         popupEditProfile.classList.add('popup_opened');
@@ -100,14 +99,14 @@ function popupShow(e) {
 }
 
 /*Функция, закрывающая попап */
-function popupClose() {
+function closePopup() {
     popupEditProfile.classList.remove('popup_opened');
     popupAddCard.classList.remove('popup_opened');
     popupImage.classList.remove('popup_opened');
 }
 
 /*Функция, отрабатывающая при нажатии кнопки сохранить и либо сохраняющая данные по профилю, либо по добавляемой карточке*/
-function popupSave(e) {
+function savePopup(e) {
     e.preventDefault();
 
     if (popupEditProfile.classList.contains('popup_opened')) {
@@ -119,7 +118,7 @@ function popupSave(e) {
         const link = inputLink.value;
         addCard(name, link);
     }
-    popupClose();
+    closePopup();
 }
 
 /*Функция, которая отрисовывает по шаблону первоначальные карточки */
@@ -127,8 +126,8 @@ initialCards.forEach(function(item) {
     addCard(item.name, item.link);
 });
 
-btnEdit.addEventListener('click', popupShow);
-btnAdd.addEventListener('click', popupShow);
-btnClose.forEach((item) => { item.addEventListener('click', popupClose) })
+btnEdit.addEventListener('click', showPopup);
+btnAdd.addEventListener('click', showPopup);
+btnsClose.forEach((item) => { item.addEventListener('click', closePopup) })
 
-formSave.forEach((item) => { item.addEventListener('submit', popupSave) });
+formsSave.forEach((item) => { item.addEventListener('submit', savePopup) });
