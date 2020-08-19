@@ -1,7 +1,9 @@
 @import url("./__image/element__image.css");
 @import url("./__title/element__title.css");
 @import url("./__button-like/element__button-like.css");
+@import url("./__button-remove/element__button-remove.css");
 .element {
+  position: relative;
   max-width: 282px;
   height: 361px;
   background-color: #fff;
