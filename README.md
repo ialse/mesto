@@ -19,5 +19,6 @@
 2. Git Bash
 3. GitHub
 4. Google Chrome developer
+5. Figma
 
 Ссылка на проект: https://ialse.github.io/mesto/index.html
