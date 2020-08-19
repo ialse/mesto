@@ -112,7 +112,7 @@ function addCard(name, link) {
     });
     /*каждой картинке навешиваем обработчик события: клик по картинке - открывается попап с картинкой*/
     card.querySelector('.element__image').addEventListener('click', popupShow);
-    
+
     /*каждой кнопке удаления навешиваем обработчик события*/
     card.querySelector('.element__button-remove').addEventListener('click', event => {
         event.currentTarget.closest('.element').remove();
