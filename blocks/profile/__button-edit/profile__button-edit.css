@@ -8,8 +8,9 @@
     background-image: url("../../../images/pencil.svg");
     background-position: center;
     background-repeat: no-repeat;
+    order: 2;
   }
-  
+ 
   .profile__button-edit:hover {
     opacity: 0.6;
     cursor: pointer;
@@ -20,6 +21,13 @@
     outline: 0;
   }
   
+  
+  @media screen and (max-width: 690px) {
+    .profile__button-edit {
+      break-before: always;
+    }
+  }
+
   @media screen and (max-width: 690px) {
     .profile__button-edit {
       width: 18px;
