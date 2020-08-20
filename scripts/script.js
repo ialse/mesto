@@ -17,15 +17,19 @@ const btnAdd = document.querySelector('.profile__button-add');
 const profileName = document.querySelector('.profile__title');
 const profileWork = document.querySelector('.profile__subtitle');
 
-const inputName = document.querySelector('.popup__input_name');
-const inputWork = document.querySelector('.popup__input_work');
-const inputPlace = document.querySelector('.popup__input_place');
-const inputLink = document.querySelector('.popup__input_link');
-
-/* Всплывающие окна */
+/* Всплывающие окна и их поля */
 const popupEditProfile = document.querySelector('.popup_edit-profile');
+const inputName = popupEditProfile.querySelector('.popup__input_name');
+const inputWork = popupEditProfile.querySelector('.popup__input_work');
+
 const popupAddCard = document.querySelector('.popup_add-card');
+const inputPlace = popupAddCard.querySelector('.popup__input_place');
+const inputLink = popupAddCard.querySelector('.popup__input_link');
+
 const popupImage = document.querySelector('.popup_image');
+const elementImage = popupImage.querySelector('.popup__image');
+const elementTitle = popupImage.querySelector('.popup__title');
+
 
 /*Функция, создающая карточку*/
 function createCard(name, link) {
@@ -67,24 +71,44 @@ function addCard(name, link) {
     elements.prepend(card);
 }
 
+/*Открываем попап*/
+function openPopup(popup) {
+    popup.classList.add('popup_opened');
+}
+
+/*Настраиваем попап EditProfile*/
+function openEditProfilePopup() {
+    inputName.value = profileName.textContent;
+    inputWork.value = profileWork.textContent;
+    openPopup(popupEditProfile);
+}
+
+/*Настраиваем попап AddCard*/
+function openAddCardPopup() {
+    inputPlace.value = ''; //очищаю поля, так как окно просто скрывается
+    inputLink.value = '';
+    openPopup(popupAddCard);
+}
+
+/*Настраиваем попап Image*/
+function openImagePopup(e) {
+    const image = e.target.src;
+    const title = e.target.nextElementSibling.textContent;   
+
+    elementImage.src = image
+    elementImage.alt = title;
+    elementTitle.textContent = title;
+    openPopup(popupImage);
+}
+
 /*Функция, открывающая один из трех попапов в зависимости от кнопки, по которой нажали*/
 function showPopup(e) {
-
     if (e.target === btnEdit) {
-        popupEditProfile.classList.add('popup_opened');
-        inputName.value = profileName.textContent;
-        inputWork.value = profileWork.textContent;
+        openEditProfilePopup();
     } else if (e.target === btnAdd) {
-        popupAddCard.classList.add('popup_opened');
-        inputPlace.value = ''; //очищаю поля, так как окно просто скрывается
-        inputLink.value = '';
+        openAddCardPopup();
     } else if (e.target.classList.contains('element__image')) {
-        const image = e.target.src;
-        const title = e.target.nextElementSibling.textContent;
-        popupImage.classList.add('popup_opened');
-        popupImage.querySelector('.popup__image').src = image
-        popupImage.querySelector('.popup__image').alt = title;
-        popupImage.querySelector('.popup__title').textContent = title;
+        openImagePopup(e);        
     }
 }
 
