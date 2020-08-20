@@ -29,11 +29,13 @@ const popupImage = document.querySelector('.popup_image');
 
 /*Функция, создающая карточку*/
 function createCard(name, link) {
-    const card = document.querySelector('#card-template').content.cloneNode(true);
+    const card = cardTemplate.cloneNode(true);
+    const elementImage = card.querySelector('.element__image');
+    const elementTitle = card.querySelector('.element__title')
 
-    card.querySelector('.element__image').src = link;
-    card.querySelector('.element__image').alt = name;
-    card.querySelector('.element__title').textContent = name;
+    elementImage.src = link;
+    elementImage.alt = name;
+    elementTitle.textContent = name;
 
     return card;
 }
