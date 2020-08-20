@@ -1,12 +1,19 @@
 .profile__profile-info {
-  width: 336px;
+  width: auto;
+  max-width: 336px;
   height: 77px;
   margin-left: 30px;
   color: #fff;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
+}
+
+/*Чтобы subtitle не перносился на первую строку*/
+.profile__profile-info::after {
+  content: '';
+  width: 100%;
+  order: 3;
 }
 
 @media screen and (max-width: 400px) {

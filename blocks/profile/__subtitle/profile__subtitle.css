@@ -2,10 +2,11 @@
   margin: 0;
   font-size: 18px;
   line-height: 1.22;
-  width: 25ch;
+  max-width: 25ch;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  order: 4;
 }
 
 @media screen and (max-width: 400px) {
