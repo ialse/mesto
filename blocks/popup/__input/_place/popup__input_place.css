@@ -1,3 +1,9 @@
 .popup__input_place {
   margin-bottom: 30px;
 }
+
+@media screen and (max-width: 500px) {
+  .popup__input_place {
+    margin: 0 0 20px 0;
+  }
+}
