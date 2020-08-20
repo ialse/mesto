@@ -9,16 +9,18 @@
   align-items: center;
 }
 
+
 /*Чтобы subtitle не перносился на первую строку*/
+
 .profile__profile-info::after {
   content: '';
   width: 100%;
   order: 3;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 690px) {
   .profile__profile-info {
     justify-content: center;
-    width: 250px;
+    margin-left: 0;
   }
 }
