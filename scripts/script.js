@@ -7,32 +7,6 @@ const page = document.querySelector('.page');
 /* Переменная с шаблоном. Используется в нескольких функциях, поэтому глобальная*/
 const cardTemplate = document.querySelector('#card-template').content;
 
-const initialCards = [{
-        name: 'Хонкасало',
-        link: './images/honkasalo.JPG'
-    },
-    {
-        name: 'Ладожские шхеры',
-        link: './images/ladShheri.JPG'
-    },
-    {
-        name: 'Санкт-Петербург',
-        link: './images/peterburg.JPG'
-    },
-    {
-        name: 'Пхукет',
-        link: './images/phuket.JPG'
-    },
-    {
-        name: 'Рыбацкое',
-        link: './images/ribackoe.JPG'
-    },
-    {
-        name: 'Вуокса',
-        link: './images/vuoksa.JPG'
-    }
-];
-
 /* Кнопки */
 const btnEdit = document.querySelector('.profile__button-edit');
 const formsSave = document.querySelectorAll('.popup__container');
@@ -53,14 +27,19 @@ const popupEditProfile = document.querySelector('.popup_edit-profile');
 const popupAddCard = document.querySelector('.popup_add-card');
 const popupImage = document.querySelector('.popup_image');
 
-/*Функция, добавляющая карточку*/
-function addCard(name, link) {
+/*Функция, создающая карточку*/
+function createCard(name, link) {
     const card = document.querySelector('#card-template').content.cloneNode(true);
 
     card.querySelector('.element__image').src = link;
     card.querySelector('.element__image').alt = name;
     card.querySelector('.element__title').textContent = name;
 
+    return card;
+}
+
+/*Функция, навешивающая обработчики на карточки*/
+function addHandlerCard(card) {
     /*каждой кнопке навешиваем обработчик события, отвечающий за работу лайка*/
     card.querySelector('.element__button-like').addEventListener('click', event => {
         event.currentTarget.classList.toggle('element__button-like_active');
@@ -72,6 +51,15 @@ function addCard(name, link) {
     card.querySelector('.element__button-remove').addEventListener('click', event => {
         event.currentTarget.closest('.element').remove();
     });
+}
+
+/*Функция, добавляющая карточку*/
+function addCard(name, link) {
+    /*Создаем карточку*/
+    const card = createCard(name, link);
+
+    /*Навешиваем обработчики*/
+    addHandlerCard(card);
 
     /*Добавляем сформированную карточку в начало страницы*/
     elements.prepend(card);
