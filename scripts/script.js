@@ -107,7 +107,7 @@ function closePopup(popup) {
     popup.classList.remove('popup_opened');
 }
 
-/*Функция, отрабатывающая при нажатии кнопки сохранить и либо сохраняющая данные по профилю, либо по добавляемой карточке*/
+/*Функция, отрабатывающая при нажатии кнопки сохранить в попапе с редактированием профиля*/
 function saveEditProfilePopup(e) {
     e.preventDefault();
 
@@ -116,6 +116,7 @@ function saveEditProfilePopup(e) {
     closePopup(popupEditProfile);
 }
 
+/*Функция, отрабатывающая при нажатии кнопки создать в попапе с добавлением карточки*/
 function saveAddCardPopup(e) {
     e.preventDefault();
 
@@ -130,6 +131,7 @@ initialCards.forEach(function(item) {
     addCard(item.name, item.link);
 });
 
+/*Навешиваем обработчики*/
 btnEdit.addEventListener('click', openEditProfilePopup);
 btnAdd.addEventListener('click', openAddCardPopup);
 btnCloseEditProfile.addEventListener('click', () => closePopup(popupEditProfile));
