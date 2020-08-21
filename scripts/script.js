@@ -41,19 +41,23 @@ function createCard(name, link) {
     elementImage.alt = name;
     elementTitle.textContent = name;
 
+    /*Навешиваем обработчики*/
+    addHandlerCard(card);
+
     return card;
 }
 
 /*Функция, навешивающая обработчики на карточки*/
-function addHandlerCard(card) {
+function addHandlerCard(card) {    
     /*каждой кнопке навешиваем обработчик события, отвечающий за работу лайка*/
     card.querySelector('.element__button-like').addEventListener('click', event => {
         event.currentTarget.classList.toggle('element__button-like_active');
     });
-    /*каждой картинке навешиваем обработчик события: клик по картинке - открывается попап с картинкой*/
-    card.querySelector('.element__image').addEventListener('click', showPopup);
 
-    /*каждой кнопке удаления навешиваем обработчик события*/
+    /*каждой картинке навешиваем обработчик события: клик по картинке - открывается попап с картинкой*/
+    card.querySelector('.element__image').addEventListener('click', openImagePopup);
+
+    /*каждой кнопке удаления навешиваем обработчик события, удаляющий карточку*/
     card.querySelector('.element__button-remove').addEventListener('click', event => {
         event.currentTarget.closest('.element').remove();
     });
@@ -63,9 +67,6 @@ function addHandlerCard(card) {
 function addCard(name, link) {
     /*Создаем карточку*/
     const card = createCard(name, link);
-
-    /*Навешиваем обработчики*/
-    addHandlerCard(card);
 
     /*Добавляем сформированную карточку в начало страницы*/
     elements.prepend(card);
@@ -101,17 +102,6 @@ function openImagePopup(e) {
     openPopup(popupImage);
 }
 
-/*Функция, открывающая один из трех попапов в зависимости от кнопки, по которой нажали*/
-function showPopup(e) {
-    if (e.target === btnEdit) {
-        openEditProfilePopup();
-    } else if (e.target === btnAdd) {
-        openAddCardPopup();
-    } else if (e.target.classList.contains('element__image')) {
-        openImagePopup(e);        
-    }
-}
-
 /*Функция, закрывающая попап */
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
@@ -140,8 +130,8 @@ initialCards.forEach(function(item) {
     addCard(item.name, item.link);
 });
 
-btnEdit.addEventListener('click', showPopup);
-btnAdd.addEventListener('click', showPopup);
+btnEdit.addEventListener('click', openEditProfilePopup);
+btnAdd.addEventListener('click', openAddCardPopup);
 btnCloseEditProfile.addEventListener('click', () => closePopup(popupEditProfile));
 btnCloseAddCard.addEventListener('click', () => closePopup(popupAddCard));
 btnCloseImage.addEventListener('click', () => closePopup(popupImage));
