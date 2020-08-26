@@ -1,0 +1,14 @@
+.popup__form {
+  position: relative;
+  font-family: 'Inter', 'Arial', sans-serif;
+  background-color: #FFF;
+  padding: 34px 36px 36px;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 500px) {
+  .popup__form {
+    padding: 30px 20px;
+  }
+}

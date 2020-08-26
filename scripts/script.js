@@ -17,13 +17,13 @@ const profileWork = document.querySelector('.profile__subtitle');
 const popupEditProfile = document.querySelector('.popup_edit-profile');
 const inputName = popupEditProfile.querySelector('.popup__input_name');
 const inputWork = popupEditProfile.querySelector('.popup__input_work');
-const formSaveEditProfile = popupEditProfile.querySelector('.popup__container');
+const formSaveEditProfile = popupEditProfile.querySelector('.popup__form');
 const btnCloseEditProfile = popupEditProfile.querySelector('.popup__btn-close');
 
 const popupAddCard = document.querySelector('.popup_add-card');
 const inputPlace = popupAddCard.querySelector('.popup__input_place');
 const inputLink = popupAddCard.querySelector('.popup__input_link');
-const formSaveAddCard = popupAddCard.querySelector('.popup__container');
+const formSaveAddCard = popupAddCard.querySelector('.popup__form');
 const btnCloseAddCard = popupAddCard.querySelector('.popup__btn-close');
 
 const popupImage = document.querySelector('.popup_image');
