@@ -78,14 +78,25 @@ function openPopup(popup) {
     /*checkInputValidity(popup.querySelector());*/
 }
 
+/*Функция, закрывающая попап по Escape*/
+function closeEscape(evt, popup) {
+    if (evt.key === 'Escape') {
+        closePopup(popup);
+    }
+}
+
 /*Настраиваем попап EditProfile*/
 function openEditProfilePopup() {
     inputName.value = profileName.textContent;
     inputWork.value = profileWork.textContent;
     checkInputValidity(formSaveEditProfile, inputName); //скрываем текст ошибок при закрытии попапа
     checkInputValidity(formSaveEditProfile, inputWork); //скрываем текст ошибок
+    //навешиваем обработчик для закрытия попапа по Escape
+    popupEditProfile.addEventListener('keydown', (evt) => { closeEscape(evt, popupEditProfile) });
     openPopup(popupEditProfile);
 }
+
+
 
 /*Настраиваем попап AddCard*/
 function openAddCardPopup() {
@@ -93,6 +104,8 @@ function openAddCardPopup() {
     inputLink.value = '';
     checkInputValidity(formSaveAddCard, inputPlace); //скрываем текст ошибок
     checkInputValidity(formSaveAddCard, inputLink);
+    //навешиваем обработчик для закрытия попапа по Escape
+    popupAddCard.addEventListener('keydown', (evt) => { closeEscape(evt, popupAddCard) });
     openPopup(popupAddCard);
 }
 
