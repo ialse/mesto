@@ -92,7 +92,7 @@ function openEditProfilePopup() {
     checkInputValidity(formSaveEditProfile, inputName); //скрываем текст ошибок при закрытии попапа
     checkInputValidity(formSaveEditProfile, inputWork); //скрываем текст ошибок
     //навешиваем обработчик для закрытия попапа по Escape
-    popupEditProfile.addEventListener('keydown', (evt) => { closeEscape(evt, popupEditProfile) });
+    document.body.addEventListener('keydown', (evt) => { closeEscape(evt, popupEditProfile) });
     openPopup(popupEditProfile);
 }
 
@@ -105,7 +105,7 @@ function openAddCardPopup() {
     checkInputValidity(formSaveAddCard, inputPlace); //скрываем текст ошибок
     checkInputValidity(formSaveAddCard, inputLink);
     //навешиваем обработчик для закрытия попапа по Escape
-    popupAddCard.addEventListener('keydown', (evt) => { closeEscape(evt, popupAddCard) });
+    document.body.addEventListener('keydown', (evt) => { closeEscape(evt, popupAddCard) });
     openPopup(popupAddCard);
 }
 
