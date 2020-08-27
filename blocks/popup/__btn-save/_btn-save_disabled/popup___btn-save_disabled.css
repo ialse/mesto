@@ -1,9 +1,11 @@
 .popup__btn-save_disabled {
+    position: relative;
     opacity: 0.2;
     border: 1px solid #000;
     color: #000;
     cursor: auto;
     background-color: #fff;
+    user-select: none;
 }
 
 .popup__btn-save_disabled:hover {

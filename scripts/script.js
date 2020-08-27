@@ -75,12 +75,15 @@ function addCard(name, link) {
 /*Открываем попап*/
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    /*checkInputValidity(popup.querySelector());*/
 }
 
 /*Настраиваем попап EditProfile*/
 function openEditProfilePopup() {
     inputName.value = profileName.textContent;
     inputWork.value = profileWork.textContent;
+    checkInputValidity(formSaveEditProfile, inputName); //скрываем текст ошибок
+    checkInputValidity(formSaveEditProfile, inputWork); //скрываем текст ошибок
     openPopup(popupEditProfile);
 }
 
