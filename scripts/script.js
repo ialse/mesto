@@ -48,7 +48,7 @@ function createCard(name, link) {
 }
 
 /*Функция, навешивающая обработчики на карточки*/
-function addHandlerCard(card) {    
+function addHandlerCard(card) {
     /*каждой кнопке навешиваем обработчик события, отвечающий за работу лайка*/
     card.querySelector('.element__button-like').addEventListener('click', event => {
         event.currentTarget.classList.toggle('element__button-like_active');
@@ -82,7 +82,7 @@ function openPopup(popup) {
 function openEditProfilePopup() {
     inputName.value = profileName.textContent;
     inputWork.value = profileWork.textContent;
-    checkInputValidity(formSaveEditProfile, inputName); //скрываем текст ошибок
+    checkInputValidity(formSaveEditProfile, inputName); //скрываем текст ошибок при закрытии попапа
     checkInputValidity(formSaveEditProfile, inputWork); //скрываем текст ошибок
     openPopup(popupEditProfile);
 }
@@ -91,13 +91,15 @@ function openEditProfilePopup() {
 function openAddCardPopup() {
     inputPlace.value = ''; //очищаю поля, так как окно просто скрывается
     inputLink.value = '';
+    checkInputValidity(formSaveAddCard, inputPlace); //скрываем текст ошибок
+    checkInputValidity(formSaveAddCard, inputLink);
     openPopup(popupAddCard);
 }
 
 /*Настраиваем попап Image*/
 function openImagePopup(e) {
     const image = e.target.src;
-    const title = e.target.nextElementSibling.textContent;   
+    const title = e.target.nextElementSibling.textContent;
 
     elementImage.src = image
     elementImage.alt = title;
