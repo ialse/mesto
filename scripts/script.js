@@ -79,16 +79,12 @@ function openPopup(popup) {
 }
 
 /*Функция, закрывающая попап по Escape*/
-function closeEscape (evt, popup) {
+function closeEscape (popup, evt) {
+    console.log(popup);
     if (evt.key === 'Escape') {
         closePopup(popup);
-        document.body.removeEventListener('keydown', closeEscapeEvent);
+        document.body.removeEventListener('keydown', closeEscape);
     }
-}
-
-/*Обработчик для Escape: специально отдельная функция, чтобы обработчик можно было удалить*/
-function closeEscapeEvent (evt) {
-    closeEscape(evt, popupEditProfile);
 }
 
 /*Функция, закрывающая попап при клике по оверлею*/
@@ -105,6 +101,7 @@ function closePopupClickOverlayEvent(evt) {
     closePopupClickOverlay(evt, popupEditProfile);    
 }
 
+
 /*Настраиваем попап EditProfile*/
 function openEditProfilePopup() {
     inputName.value = profileName.textContent;
@@ -114,6 +111,8 @@ function openEditProfilePopup() {
     /*checkInputValidity(formSaveEditProfile, inputName); 
     checkInputValidity(formSaveEditProfile, inputWork);*/
 
+    /*Чтобы передать параметры создаю*/
+    const closeEscapeEvent = closeEscape.bind(null, popupEditProfile);
     //навешиваем обработчик для закрытия попапа по Escape
     document.body.addEventListener('keydown', closeEscapeEvent);
     //навешиваем обработчик для закрытия попапа при клике по оверлею
@@ -132,9 +131,9 @@ function openAddCardPopup() {
     checkInputValidity(formSaveAddCard, inputLink);*/
 
     //навешиваем обработчик для закрытия попапа по Escape
-    document.body.addEventListener('keydown', (evt) => { closeEscape(evt, popupAddCard) });
+    document.body.addEventListener('keydown', closeEscapeEvent);
     //навешиваем обработчик для закрытия попапа при клике по оверлею
-    popupAddCard.addEventListener('click', (evt) => { closePopupClickOverlay(evt, popupAddCard) });  
+    popupAddCard.addEventListener('click', closePopupClickOverlayEvent); 
 
     openPopup(popupAddCard);
 }
@@ -149,9 +148,9 @@ function openImagePopup(e) {
     elementTitle.textContent = title;
 
     //навешиваем обработчик для закрытия попапа по Escape
-    document.body.addEventListener('keydown', (evt) => { closeEscape(evt, popupImage) });
+    document.body.addEventListener('keydown', closeEscapeEvent);
     //навешиваем обработчик для закрытия попапа при клике по оверлею
-    popupImage.addEventListener('click', (evt) => { closePopupClickOverlay(evt, popupImage) });
+    popupImage.addEventListener('click', closePopupClickOverlayEvent);
 
     openPopup(popupImage);
 }
