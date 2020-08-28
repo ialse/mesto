@@ -1,3 +1,6 @@
+let closeEscapeEvent;
+let closePopupClickOverlayEvent;
+
 /*Создаем переменную с секцией карточек*/
 const elements = document.querySelector('.elements');
 
@@ -75,32 +78,42 @@ function addCard(name, link) {
 /*Открываем попап*/
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-    
+
+}
+
+/*Функция, удаляющая обработчики*/
+function removeHandlerPopup(popup) {
+    document.body.removeEventListener('keydown', closeEscapeEvent);
+    popup.removeEventListener('click', closePopupClickOverlayEvent);
 }
 
 /*Функция, закрывающая попап по Escape*/
-function closeEscape (popup, evt) {
+function closeEscape(popup, evt) {
     console.log(popup);
     if (evt.key === 'Escape') {
         closePopup(popup);
-        document.body.removeEventListener('keydown', closeEscape);
+        removeHandlerPopup(popup);
     }
 }
 
 /*Функция, закрывающая попап при клике по оверлею*/
-function closePopupClickOverlay (evt, popup) {
+function closePopupClickOverlay(popup, evt) {
     /*Если клик по области попапа (а не внутреннему контейнеру), то закрываем*/
-    if(evt.target === popup) {
+    if (evt.target === popup) {
         closePopup(popup);
-        popupEditProfile.removeEventListener('click', closePopupClickOverlay);  
+        removeHandlerPopup(popup);
     }
 }
 
-/*Обработчик для клика по оверлею: специально отдельная функция, чтобы обработчик можно было удалить*/
-function closePopupClickOverlayEvent(evt) { 
-    closePopupClickOverlay(evt, popupEditProfile);    
-}
+function addHandlerPopup(popup) {
+    /*Чтобы передать параметры использую bind*/
+    closeEscapeEvent = closeEscape.bind(null, popup);
+    closePopupClickOverlayEvent = closePopupClickOverlay.bind(null, popup);
 
+    //навешиваем обработчики для закрытия попапа по Escape и по клику по оверлею
+    document.body.addEventListener('keydown', closeEscapeEvent);
+    popup.addEventListener('click', closePopupClickOverlayEvent);
+}
 
 /*Настраиваем попап EditProfile*/
 function openEditProfilePopup() {
@@ -111,13 +124,7 @@ function openEditProfilePopup() {
     /*checkInputValidity(formSaveEditProfile, inputName); 
     checkInputValidity(formSaveEditProfile, inputWork);*/
 
-    /*Чтобы передать параметры создаю*/
-    const closeEscapeEvent = closeEscape.bind(null, popupEditProfile);
-    //навешиваем обработчик для закрытия попапа по Escape
-    document.body.addEventListener('keydown', closeEscapeEvent);
-    //навешиваем обработчик для закрытия попапа при клике по оверлею
-    popupEditProfile.addEventListener('click', closePopupClickOverlayEvent);   
-    
+    addHandlerPopup(popupEditProfile);
     openPopup(popupEditProfile);
 }
 
@@ -130,11 +137,7 @@ function openAddCardPopup() {
     /*checkInputValidity(formSaveAddCard, inputPlace); 
     checkInputValidity(formSaveAddCard, inputLink);*/
 
-    //навешиваем обработчик для закрытия попапа по Escape
-    document.body.addEventListener('keydown', closeEscapeEvent);
-    //навешиваем обработчик для закрытия попапа при клике по оверлею
-    popupAddCard.addEventListener('click', closePopupClickOverlayEvent); 
-
+    addHandlerPopup(popupAddCard);
     openPopup(popupAddCard);
 }
 
@@ -147,11 +150,7 @@ function openImagePopup(e) {
     elementImage.alt = title;
     elementTitle.textContent = title;
 
-    //навешиваем обработчик для закрытия попапа по Escape
-    document.body.addEventListener('keydown', closeEscapeEvent);
-    //навешиваем обработчик для закрытия попапа при клике по оверлею
-    popupImage.addEventListener('click', closePopupClickOverlayEvent);
-
+    addHandlerPopup(popupImage);
     openPopup(popupImage);
 }
 
