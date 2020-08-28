@@ -1,53 +1,53 @@
 /*Показать текст ошибки*/
-const showInputError = (popupElement, inputElement, errorMessage) => {
+const showInputError = (parameters, popupElement, inputElement, errorMessage) => {
     const errorElement = popupElement.querySelector(`#${inputElement.id}-error`);
-    inputElement.classList.add('popup__input_type_error');
+    inputElement.classList.add(parameters.inputErrorClass);
     errorElement.textContent = errorMessage;
-    errorElement.classList.add('popup__input-error_visible');
+    errorElement.classList.add(parameters.errorClass);
   };
   
   /*Скрыть текст ошибки*/
-  const hideInputError = (popupElement, inputElement) => {
+  const hideInputError = (parameters, popupElement, inputElement) => {
     const errorElement = popupElement.querySelector(`#${inputElement.id}-error`);
-    inputElement.classList.remove('popup__input_type_error');
-    errorElement.classList.remove('popup__input-error_visible');
+    inputElement.classList.remove(parameters.inputErrorClass);
+    errorElement.classList.remove(parameters.errorClass);
     errorElement.textContent = '';
   };
   
   /*Проверка на ошибки*/
-  const checkInputValidity = (popupElement, inputElement) => {
+  const checkInputValidity = (parameters, popupElement, inputElement) => {
     if (!inputElement.validity.valid) {
-      showInputError(popupElement, inputElement, inputElement.validationMessage);      
+      showInputError(parameters, popupElement, inputElement, inputElement.validationMessage);      
     } else {
-      hideInputError(popupElement, inputElement);
+      hideInputError(parameters, popupElement, inputElement);
     }
   };
   
   /*Установка обработчиков на все поля форм*/
-  const setEventListeners = (popupElement) => {
-    const inputList = Array.from(popupElement.querySelectorAll('.popup__input'));
-    const buttonElement = popupElement.querySelector('.popup__btn-save');
-    toggleButtonState(inputList, buttonElement);
+  const setEventListeners = (parameters, popupElement) => {
+    const inputList = Array.from(popupElement.querySelectorAll(parameters.inputSelector));
+    const buttonElement = popupElement.querySelector(parameters.submitButtonSelector);
+    toggleButtonState(parameters, inputList, buttonElement);
    
     inputList.forEach((inputElement) => {
       
       inputElement.addEventListener('input', function () {
         
-        checkInputValidity(popupElement, inputElement);        
-        toggleButtonState(inputList, buttonElement);
+        checkInputValidity(parameters, popupElement, inputElement);        
+        toggleButtonState(parameters, inputList, buttonElement);
       });
     });
   };
   
   /*Включение проверки для нужных форм*/
-  const enableValidation = (formsValidation) => {
-    const formList = Array.from(document.querySelectorAll(formsValidation.formSelector));
+  const enableValidation = (parameters) => {
+    const formList = Array.from(document.querySelectorAll(parameters.formSelector));
     formList.forEach((popupElement) => {
       popupElement.addEventListener('submit', function (evt) {
         evt.preventDefault();
       });
       
-    setEventListeners(popupElement);      
+    setEventListeners(parameters, popupElement);      
     });
   };
   
@@ -58,7 +58,7 @@ const showInputError = (popupElement, inputElement, errorMessage) => {
     submitButtonSelector: '.popup__btn-save',
     inactiveButtonClass: 'popup__btn-save_disabled',
     inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
+    errorClass: 'popup__input-error_visible'
   });
   
 
@@ -71,13 +71,13 @@ const showInputError = (popupElement, inputElement, errorMessage) => {
   }
   
   /*Блокировка и разблокировка кнопки*/
-  function toggleButtonState (inputList, buttonElement) {
+  function toggleButtonState (parameters, inputList, buttonElement) {
  
     if(hasInvalidInput(inputList)) {
-      buttonElement.classList.add('popup__btn-save_disabled');
-      buttonElement.setAttribute('disabled', 'disabled');
+      buttonElement.classList.add(parameters.inactiveButtonClass);
+      buttonElement.setAttribute('disabled', 'disabled'); //Чтобы кнопка не кликалась
     } else {
-        buttonElement.classList.remove('popup__btn-save_disabled');
+        buttonElement.classList.remove(parameters.inactiveButtonClass);
         buttonElement.removeAttribute('disabled', 'disabled');
     }
   }
