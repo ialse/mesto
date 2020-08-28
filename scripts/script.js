@@ -82,7 +82,13 @@ function openPopup(popup) {
 function closeEscape (evt, popup) {
     if (evt.key === 'Escape') {
         closePopup(popup);
+        document.body.removeEventListener('keydown', closeEscapeEvent);
     }
+}
+
+/*Обработчик для Escape: специально отдельная функция, чтобы обработчик можно было удалить*/
+function closeEscapeEvent (evt) {
+    closeEscape(evt, popupEditProfile);
 }
 
 /*Функция, закрывающая попап при клике по оверлею*/
@@ -90,7 +96,13 @@ function closePopupClickOverlay (evt, popup) {
     /*Если клик по области попапа (а не внутреннему контейнеру), то закрываем*/
     if(evt.target === popup) {
         closePopup(popup);
+        popupEditProfile.removeEventListener('click', closePopupClickOverlay);  
     }
+}
+
+/*Обработчик для клика по оверлею: специально отдельная функция, чтобы обработчик можно было удалить*/
+function closePopupClickOverlayEvent(evt) { 
+    closePopupClickOverlay(evt, popupEditProfile);    
 }
 
 /*Настраиваем попап EditProfile*/
@@ -103,9 +115,9 @@ function openEditProfilePopup() {
     checkInputValidity(formSaveEditProfile, inputWork);*/
 
     //навешиваем обработчик для закрытия попапа по Escape
-    document.body.addEventListener('keydown', (evt) => { closeEscape(evt, popupEditProfile) });
+    document.body.addEventListener('keydown', closeEscapeEvent);
     //навешиваем обработчик для закрытия попапа при клике по оверлею
-    popupEditProfile.addEventListener('click', (evt) => { closePopupClickOverlay(evt, popupEditProfile) });   
+    popupEditProfile.addEventListener('click', closePopupClickOverlayEvent);   
     
     openPopup(popupEditProfile);
 }
