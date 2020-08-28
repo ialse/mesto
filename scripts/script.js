@@ -75,12 +75,20 @@ function addCard(name, link) {
 /*Открываем попап*/
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-    /*checkInputValidity(popup.querySelector());*/
+    
 }
 
 /*Функция, закрывающая попап по Escape*/
-function closeEscape(evt, popup) {
+function closeEscape (evt, popup) {
     if (evt.key === 'Escape') {
+        closePopup(popup);
+    }
+}
+
+/*Функция, закрывающая попап при клике по оверлею*/
+function closePopupClickOverlay (evt, popup) {
+    /*Если клик по области попапа (а не внутреннему контейнеру), то закрываем*/
+    if(evt.target === popup) {
         closePopup(popup);
     }
 }
@@ -89,23 +97,33 @@ function closeEscape(evt, popup) {
 function openEditProfilePopup() {
     inputName.value = profileName.textContent;
     inputWork.value = profileWork.textContent;
-    checkInputValidity(formSaveEditProfile, inputName); //скрываем текст ошибок при закрытии попапа
-    checkInputValidity(formSaveEditProfile, inputWork); //скрываем текст ошибок
+
+    //скрываем текст ошибок при закрытии попапа
+    checkInputValidity(formSaveEditProfile, inputName); 
+    checkInputValidity(formSaveEditProfile, inputWork);
+
     //навешиваем обработчик для закрытия попапа по Escape
     document.body.addEventListener('keydown', (evt) => { closeEscape(evt, popupEditProfile) });
+    //навешиваем обработчик для закрытия попапа при клике по оверлею
+    popupEditProfile.addEventListener('click', (evt) => { closePopupClickOverlay(evt, popupEditProfile) });   
+    
     openPopup(popupEditProfile);
 }
-
-
 
 /*Настраиваем попап AddCard*/
 function openAddCardPopup() {
     inputPlace.value = ''; //очищаю поля, так как окно просто скрывается
     inputLink.value = '';
-    checkInputValidity(formSaveAddCard, inputPlace); //скрываем текст ошибок
+
+    //скрываем текст ошибок
+    checkInputValidity(formSaveAddCard, inputPlace); 
     checkInputValidity(formSaveAddCard, inputLink);
+
     //навешиваем обработчик для закрытия попапа по Escape
     document.body.addEventListener('keydown', (evt) => { closeEscape(evt, popupAddCard) });
+    //навешиваем обработчик для закрытия попапа при клике по оверлею
+    popupAddCard.addEventListener('click', (evt) => { closePopupClickOverlay(evt, popupAddCard) });  
+
     openPopup(popupAddCard);
 }
 
@@ -117,6 +135,12 @@ function openImagePopup(e) {
     elementImage.src = image
     elementImage.alt = title;
     elementTitle.textContent = title;
+
+    //навешиваем обработчик для закрытия попапа по Escape
+    document.body.addEventListener('keydown', (evt) => { closeEscape(evt, popupImage) });
+    //навешиваем обработчик для закрытия попапа при клике по оверлею
+    popupImage.addEventListener('click', (evt) => { closePopupClickOverlay(evt, popupImage) });
+
     openPopup(popupImage);
 }
 

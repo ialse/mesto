@@ -1,7 +1,6 @@
 /*Показать текст ошибки*/
 const showInputError = (popupElement, inputElement, errorMessage) => {
     const errorElement = popupElement.querySelector(`#${inputElement.id}-error`);
-    console.log(errorElement);
     inputElement.classList.add('popup__input_type_error');
     errorElement.textContent = errorMessage;
     errorElement.classList.add('popup__input-error_visible');
@@ -9,7 +8,6 @@ const showInputError = (popupElement, inputElement, errorMessage) => {
   
   /*Скрыть текст ошибки*/
   const hideInputError = (popupElement, inputElement) => {
-    console.log(inputElement);
     const errorElement = popupElement.querySelector(`#${inputElement.id}-error`);
     inputElement.classList.remove('popup__input_type_error');
     errorElement.classList.remove('popup__input-error_visible');
