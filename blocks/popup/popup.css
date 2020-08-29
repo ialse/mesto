@@ -1,13 +1,12 @@
 @import url("./__title/popup__title.css");
 @import url("./__input/popup__input.css");
-@import url("./__input-error/popup__input-error.css");
+@import url("./__error/popup__error.css");
 @import url("./__btn-save/popup__btn-save.css");
 @import url("./__container/popup__container.css");
 @import url("./__form/popup__form.css");
 @import url("./__btn-close/popup__btn-close.css");
 @import url("./__image/popup__image.css");
-
-
+@import url("./__field/popup__field.css");
 .popup {
   position: fixed;
   top: 0;
@@ -21,10 +20,4 @@
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.4s ease-in-out, visibility 0.4s;
-}
-
-.popup__field {
-  position: relative;
-  display: block;
-  margin-bottom: 52px; /*Чтобы поместился текст ошибки, в том числе на разрешении 320px*/
 }

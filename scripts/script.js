@@ -147,7 +147,7 @@ function openImagePopup(e) {
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
     removeHandlerPopup(popup);
-    hideInputError();
+    /*hideInputError(,popup,);*/
 }
 
 /*Функция, отрабатывающая при нажатии кнопки сохранить в попапе с редактированием профиля*/

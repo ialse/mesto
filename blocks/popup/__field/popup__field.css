@@ -1,0 +1,6 @@
+.popup__field {
+  position: relative;
+  display: block;
+  margin-bottom: 52px;
+  /*Чтобы поместился текст ошибки, в том числе на разрешении 320px*/
+}

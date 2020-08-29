@@ -1,0 +1,10 @@
+.popup__input_work {
+  display: block;
+  margin-bottom: 48px;
+}
+
+@media screen and (max-width: 500px) {
+  .popup__input_work {
+    margin-bottom: 36px;
+  }
+}
