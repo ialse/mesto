@@ -1,5 +1,4 @@
-let closeEscapeEvent;
-let closePopupClickOverlayEvent;
+let closeEscapeAndClickOverlayEvent;
 
 /*Создаем переменную с секцией карточек*/
 const elements = document.querySelector('.elements');
@@ -81,38 +80,28 @@ function openPopup(popup) {
 
 }
 
-/*Функция, удаляющая обработчики*/
-function removeHandlerPopup(popup) {
-    document.body.removeEventListener('keydown', closeEscapeEvent);
-    popup.removeEventListener('click', closePopupClickOverlayEvent);
-}
-
-/*Функция, закрывающая попап по Escape*/
-function closeEscape(popup, evt) {
+/*Функция, закрывающая попап по Escape или при клике по оверлею*/
+function closeEscapeAndClickOverlay(popup, evt) {
     console.log(popup);
-    if (evt.key === 'Escape') {
+    if (evt.key === 'Escape' || evt.target === popup) {
         closePopup(popup);
-        removeHandlerPopup(popup);
     }
 }
 
-/*Функция, закрывающая попап при клике по оверлею*/
-function closePopupClickOverlay(popup, evt) {
-    /*Если клик по области попапа (а не внутреннему контейнеру), то закрываем*/
-    if (evt.target === popup) {
-        closePopup(popup);
-        removeHandlerPopup(popup);
-    }
-}
-
+/*Навешиваем обработчики на попапы*/
 function addHandlerPopup(popup) {
     /*Чтобы передать параметры использую bind*/
-    closeEscapeEvent = closeEscape.bind(null, popup);
-    closePopupClickOverlayEvent = closePopupClickOverlay.bind(null, popup);
+    closeEscapeAndClickOverlayEvent = closeEscapeAndClickOverlay.bind(null, popup);
 
     //навешиваем обработчики для закрытия попапа по Escape и по клику по оверлею
-    document.body.addEventListener('keydown', closeEscapeEvent);
-    popup.addEventListener('click', closePopupClickOverlayEvent);
+    document.body.addEventListener('keydown', closeEscapeAndClickOverlayEvent);
+    popup.addEventListener('click', closeEscapeAndClickOverlayEvent);
+}
+
+/*Удаляем обработчики*/
+function removeHandlerPopup(popup) {
+    document.body.removeEventListener('keydown', closeEscapeAndClickOverlayEvent);
+    popup.removeEventListener('click', closeEscapeAndClickOverlayEvent);
 }
 
 /*Настраиваем попап EditProfile*/
@@ -157,6 +146,8 @@ function openImagePopup(e) {
 /*Функция, закрывающая попап */
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
+    removeHandlerPopup(popup);
+    hideInputError();
 }
 
 /*Функция, отрабатывающая при нажатии кнопки сохранить в попапе с редактированием профиля*/
