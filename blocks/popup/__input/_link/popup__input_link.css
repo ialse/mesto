@@ -1,10 +1,5 @@
-.popup__input_link {
-  display: block;
- /* margin-bottom: 48px;*/
-}
+.popup__input_link {}
 
 @media screen and (max-width: 500px) {
-  .popup__input_link {
-    /*margin-bottom: 36px;*/
-  }
+  .popup__input_link {}
 }

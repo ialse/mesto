@@ -1,9 +1,5 @@
-.popup__input_place {
-  /*margin-bottom: 30px;*/
-}
+.popup__input_place {}
 
 @media screen and (max-width: 500px) {
-  .popup__input_place {
-    /*margin: 0 0 20px 0;*/
-  }
+  .popup__input_place {}
 }
