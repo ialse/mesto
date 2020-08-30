@@ -1,5 +1,3 @@
-let closeEscapeAndClickOverlayEvent;
-
 /*Создаем переменную с секцией карточек*/
 const elements = document.querySelector('.elements');
 
@@ -33,7 +31,14 @@ const elementImage = popupImage.querySelector('.popup__image');
 const elementTitle = popupImage.querySelector('.popup__title');
 const btnCloseImage = popupImage.querySelector('.popup__btn-close');
 
-/*Функция, создающая карточку*/
+/* Для КР: Переменная для удаления обработчиков после закрытия попапа по Esc или клику по оверлею.
+Так как addEventListener не ползволяет напрямую передать функцию с параметрами, а нужно передавать 
+неанонимную функцию, чтобы потом удалить обработчик, то использую эту переменную, куда записываю
+функцию по резльтату метода .bind, который позволяет передать параметры
+*/
+let closeEscapeAndClickOverlayEvent;
+
+/*Создаем карточку*/
 function createCard(name, link) {
     const card = cardTemplate.cloneNode(true);
     const elementImage = card.querySelector('.element__image');
@@ -43,8 +48,7 @@ function createCard(name, link) {
     elementImage.alt = name;
     elementTitle.textContent = name;
 
-    /*Навешиваем обработчики*/
-    addHandlerCard(card);
+    addHandlerCard(card); /*Навешиваем обработчики*/
 
     return card;
 }
@@ -67,22 +71,17 @@ function addHandlerCard(card) {
 
 /*Функция, добавляющая карточку*/
 function addCard(name, link) {
-    /*Создаем карточку*/
-    const card = createCard(name, link);
-
-    /*Добавляем сформированную карточку в начало страницы*/
-    elements.prepend(card);
+    const card = createCard(name, link); /*Создаем карточку*/
+    elements.prepend(card); /*Добавляем сформированную карточку в начало страницы*/
 }
 
 /*Открываем попап*/
 function openPopup(popup) {
     popup.classList.add('popup_opened');
-
 }
 
 /*Функция, закрывающая попап по Escape или при клике по оверлею*/
 function closeEscapeAndClickOverlay(popup, evt) {
-    console.log(popup);
     if (evt.key === 'Escape' || evt.target === popup) {
         closePopup(popup);
     }
@@ -109,10 +108,6 @@ function openEditProfilePopup() {
     inputName.value = profileName.textContent;
     inputWork.value = profileWork.textContent;
 
-    //скрываем текст ошибок при закрытии попапа
-    /*checkInputValidity(formSaveEditProfile, inputName); 
-    checkInputValidity(formSaveEditProfile, inputWork);*/
-
     addHandlerPopup(popupEditProfile);
     openPopup(popupEditProfile);
 }
@@ -121,10 +116,6 @@ function openEditProfilePopup() {
 function openAddCardPopup() {
     inputPlace.value = ''; //очищаю поля, так как окно просто скрывается
     inputLink.value = '';
-
-    //скрываем текст ошибок
-    /*checkInputValidity(formSaveAddCard, inputPlace); 
-    checkInputValidity(formSaveAddCard, inputLink);*/
 
     addHandlerPopup(popupAddCard);
     openPopup(popupAddCard);
@@ -143,11 +134,29 @@ function openImagePopup(e) {
     openPopup(popupImage);
 }
 
+/*Очищаем тексты ошибок на тот случай, когда попап закрывается с текстом ошибок,
+чтобы при его открытии не было видно ошибок, хотя форма может быть заполнена правильно.
+По рекомендациям наставника enableValidation() должна вызываться только один раз, поэтому 
+делаю отдельную функцию*/
+function clearErrorPopup(popup) {
+    const inputList = Array.from(popup.querySelectorAll('.popup__input'));
+
+    inputList.forEach((inputElement) => {
+
+        hideInputError({
+                inputErrorClass: 'popup__input_type_error',
+                errorClass: 'popup__error_visible'
+            },
+            popup, inputElement);
+
+    });
+}
+
 /*Функция, закрывающая попап */
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
     removeHandlerPopup(popup);
-    /*hideInputError(,popup,);*/
+    clearErrorPopup(popup);
 }
 
 /*Функция, отрабатывающая при нажатии кнопки сохранить в попапе с редактированием профиля*/
