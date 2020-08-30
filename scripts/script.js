@@ -32,9 +32,10 @@ const elementTitle = popupImage.querySelector('.popup__title');
 const btnCloseImage = popupImage.querySelector('.popup__btn-close');
 
 /* Для КР: Переменная для удаления обработчиков после закрытия попапа по Esc или клику по оверлею.
-Так как addEventListener не ползволяет напрямую передать функцию с параметрами, а нужно передавать 
+Так как addEventListener не позволяет напрямую передать функцию с параметрами, а нужно передавать 
 неанонимную функцию, чтобы потом удалить обработчик, то использую эту переменную, куда записываю
-функцию по резльтату метода .bind, который позволяет передать параметры
+функцию по резльтату метода .bind, который позволяет передать параметры. Возможно, правильнее в 
+функции закрытия попапа делать проверку по селектору popup_opened. Я так и не смог понять. Если что, переделаю.
 */
 let closeEscapeAndClickOverlayEvent;
 
@@ -186,6 +187,7 @@ initialCards.forEach(function(item) {
 /*Навешиваем обработчики*/
 btnEdit.addEventListener('click', openEditProfilePopup);
 btnAdd.addEventListener('click', openAddCardPopup);
+
 btnCloseEditProfile.addEventListener('click', () => closePopup(popupEditProfile));
 btnCloseAddCard.addEventListener('click', () => closePopup(popupAddCard));
 btnCloseImage.addEventListener('click', () => closePopup(popupImage));
