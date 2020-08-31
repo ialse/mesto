@@ -75,9 +75,9 @@ function toggleButtonState(parameters, inputList, buttonElement) {
 
     if (hasInvalidInput(inputList)) {
         buttonElement.classList.add(parameters.inactiveButtonClass);
-        buttonElement.setAttribute('disabled', 'disabled'); //Чтобы кнопка не кликалась
+        buttonElement.disabled = true; //Чтобы кнопка не кликалась
     } else {
         buttonElement.classList.remove(parameters.inactiveButtonClass);
-        buttonElement.removeAttribute('disabled', 'disabled');
+        buttonElement.disabled = false;
     }
 }

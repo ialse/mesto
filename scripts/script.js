@@ -31,14 +31,6 @@ const elementImage = popupImage.querySelector('.popup__image');
 const elementTitle = popupImage.querySelector('.popup__title');
 const btnCloseImage = popupImage.querySelector('.popup__btn-close');
 
-/* Для КР: Переменная для удаления обработчиков после закрытия попапа по Esc или клику по оверлею.
-Так как addEventListener не позволяет напрямую передать функцию с параметрами, а нужно передавать 
-неанонимную функцию, чтобы потом удалить обработчик, то использую эту переменную, куда записываю
-функцию по резльтату метода .bind, который позволяет передать параметры. Возможно, правильнее в 
-функции закрытия попапа делать проверку по селектору popup_opened. Я так и не смог понять. Если что, переделаю.
-*/
-let closeEscapeAndClickOverlayEvent;
-
 /*Создаем карточку*/
 function createCard(name, link) {
     const card = cardTemplate.cloneNode(true);
@@ -82,26 +74,24 @@ function openPopup(popup) {
 }
 
 /*Функция, закрывающая попап по Escape или при клике по оверлею*/
-function closeEscapeAndClickOverlay(popup, evt) {
-    if (evt.key === 'Escape' || evt.target === popup) {
-        closePopup(popup);
+function closeEscapeAndClickOverlay(evt) {
+    const popupActive = document.querySelector('.popup_opened');
+
+    if (evt.key === 'Escape' || evt.target === popupActive) {
+        closePopup(popupActive);
     }
 }
 
-/*Навешиваем обработчики на попапы*/
+/*Навешиваем обработчики для закрытия попапа по Escape и по клику по оверлею*/
 function addHandlerPopup(popup) {
-    /*Чтобы передать параметры использую bind*/
-    closeEscapeAndClickOverlayEvent = closeEscapeAndClickOverlay.bind(null, popup);
-
-    //навешиваем обработчики для закрытия попапа по Escape и по клику по оверлею
-    document.body.addEventListener('keydown', closeEscapeAndClickOverlayEvent);
-    popup.addEventListener('click', closeEscapeAndClickOverlayEvent);
+    document.body.addEventListener('keyup', closeEscapeAndClickOverlay);
+    popup.addEventListener('click', closeEscapeAndClickOverlay);
 }
 
 /*Удаляем обработчики*/
 function removeHandlerPopup(popup) {
-    document.body.removeEventListener('keydown', closeEscapeAndClickOverlayEvent);
-    popup.removeEventListener('click', closeEscapeAndClickOverlayEvent);
+    document.body.removeEventListener('keyup', closeEscapeAndClickOverlay);
+    popup.removeEventListener('click', closeEscapeAndClickOverlay);
 }
 
 /*Настраиваем попап EditProfile*/
@@ -115,8 +105,7 @@ function openEditProfilePopup() {
 
 /*Настраиваем попап AddCard*/
 function openAddCardPopup() {
-    inputPlace.value = ''; //очищаю поля, так как окно просто скрывается
-    inputLink.value = '';
+    popupAddCard.firstElementChild.reset(); //очищаю поля, так как окно просто скрывается
 
     addHandlerPopup(popupAddCard);
     openPopup(popupAddCard);
@@ -143,13 +132,11 @@ function clearErrorPopup(popup) {
     const inputList = Array.from(popup.querySelectorAll('.popup__input'));
 
     inputList.forEach((inputElement) => {
-
         hideInputError({
                 inputErrorClass: 'popup__input_type_error',
                 errorClass: 'popup__error_visible'
             },
             popup, inputElement);
-
     });
 }
 
