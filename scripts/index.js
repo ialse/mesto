@@ -1,6 +1,7 @@
 import * as nodes from './nodes.js';
 import {initialCards} from './initial-сards.js';
-import Card from './card.js';
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 
 /*Открываем попап*/
 function openPopup(popup) {
@@ -42,6 +43,18 @@ function createAddCardPopup() {
     nodes.popupAddCard.firstElementChild.reset(); //очищаю поля, так как окно просто скрывается
 
     addHandlerPopup(nodes.popupAddCard);
+
+    const data = {
+        formSelector: '.popup__form',
+        inputSelector: '.popup__input',
+        submitButtonSelector: '.popup__btn-save',
+        inactiveButtonClass: 'popup__btn-save_disabled',
+        inputErrorClass: 'popup__input_type_error',
+        errorClass: 'popup__error_visible'
+    };
+
+    const formValidation = new FormValidator(data, nodes.popupAddCard); /*Создаем объект*/
+    formValidation.enableValidation(); /*включаем валидацию объекта*/
     openPopup(nodes.popupAddCard);
 }
 

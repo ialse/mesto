@@ -9,7 +9,7 @@ export default class Card {
     }
 
     /*Создаем карточку*/
-    createCard() {
+    createCard () {
         this._card = document.querySelector(this._cardTemplate).content.cloneNode(true);
 
         const elementImage = this._card.querySelector('.element__image');
@@ -25,7 +25,7 @@ export default class Card {
     }
 
     /*Функция, навешивающая обработчики на карточки*/
-    _addHandlerCard(card) {
+    _addHandlerCard (card) {
         /*каждой кнопке навешиваем обработчик события, отвечающий за работу лайка*/
         card.querySelector('.element__button-like').addEventListener('click', event => {
             event.currentTarget.classList.toggle('element__button-like_active');
