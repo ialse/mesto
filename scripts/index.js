@@ -58,7 +58,7 @@ function createEditProfilePopup() {
 
 /*Настраиваем попап AddCard*/
 function createAddCardPopup() {
-    nodes.popupAddCard.firstElementChild.reset(); //очищаю поля, так как окно просто скрывается
+    
 
     addHandlerPopup(nodes.popupAddCard);
     openPopup(nodes.popupAddCard);
@@ -77,16 +77,24 @@ function createImagePopup(e) {
     openPopup(nodes.popupImage);
 }
 
-/*Очищаем тексты ошибок на тот случай, когда попап закрывается с текстом ошибок,
-чтобы при его открытии не было видно ошибок, хотя форма может быть заполнена правильно.
-*/
+/*Очищаем тексты ошибок и ставим кнопку неактивной на тот случай, когда попап закрывается
+с текстом ошибок, чтобы при его открытии не было видно ошибок,
+хотя форма может быть заполнена правильно.*/
 function clearErrorPopup(popup) {
     
     const inputList = Array.from(popup.querySelectorAll('.popup__input'));
-    const formClear = popup.classList.contains('popup_edit-profile') ? EditProfileValidation : AddCardValidation;
+    const buttonElement = popup.querySelector(formSelectors.submitButtonSelector);
 
+    /*проверяем какой попап открыт и берем ссылку на нужный объект*/
+    const formClear = popup.classList.contains('popup_edit-profile') ? editProfileValidation :
+                      popup.classList.contains('popup_add-card') ? addCardValidation : null;
+
+    if(!formClear)  return; //Если закрывают попап с картинкой, то выходим из функции
+    
+    /*блокируем кнопку и скрываем тексты ошибок*/
+    formClear.toggleButtonState(inputList, buttonElement);
     inputList.forEach((inputElement) => {
-        formClear.hideInputError(inputElement);
+        formClear.hideInputError(inputElement);        
     });
 }
 
@@ -94,6 +102,7 @@ function clearErrorPopup(popup) {
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
     removeHandlerPopup(popup);
+    popup.firstElementChild.reset(); //очищаю поля, так как окно просто скрывается
     clearErrorPopup(popup);
 }
 

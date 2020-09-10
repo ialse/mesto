@@ -22,8 +22,6 @@ export default class FormValidator {
     /*Скрыть текст ошибки. Метод публичный, 
     так как использую его для скрытия текста ошибок после закрытия попапа*/
     hideInputError = (inputElement) => {
-        console.log(inputElement);
-        console.log(this._form);
         const errorElement = this._form.querySelector(`#${inputElement.id}-error`);
         inputElement.classList.remove(this._inputErrorClass);
         errorElement.classList.remove(this._errorClass);
@@ -35,7 +33,7 @@ export default class FormValidator {
         if (!inputElement.validity.valid) {
             this._showInputError(inputElement, inputElement.validationMessage);
         } else {
-            this._hideInputError(inputElement);
+            this.hideInputError(inputElement);
         }
     };
 
@@ -43,59 +41,37 @@ export default class FormValidator {
     _setEventListeners = () => {
         const inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
         const buttonElement = this._form.querySelector(this._submitButtonSelector);
-        this._toggleButtonState(inputList, buttonElement);
+        this.toggleButtonState(inputList, buttonElement);
 
         inputList.forEach((inputElement) => {
 
-            inputElement.addEventListener('input', () => {
-                
+            inputElement.addEventListener('input', () => {                
                 this._checkInputValidity(inputElement);
-                this._toggleButtonState(inputList, buttonElement);
-                
+                this.toggleButtonState(inputList, buttonElement);                
             });
         });
     };
 
     /*Включение проверки для нужной формы*/
     enableValidation = () => {
-        this._form.addEventListener('submit', (evt) => {
-                evt.preventDefault();
-            });
-            this._setEventListeners();
+        this._form.addEventListener('submit', evt => {evt.preventDefault()});
+        this._setEventListeners();
     };
 
     /*Проверка на валидность всех полей формы*/
     _hasInvalidInput(inputList) {
-
-        return inputList.some(function(input) {
-            return !input.validity.valid;
-        })
+        return inputList.some( input => !input.validity.valid);
     }
 
     /*Блокировка и разблокировка кнопки*/
-    _toggleButtonState(inputList, buttonElement) {
+    toggleButtonState(inputList, buttonElement) {
 
         if (this._hasInvalidInput(inputList)) {
             buttonElement.classList.add(this._inactiveButtonClass);
             buttonElement.disabled = true; //Чтобы кнопка не кликалась
         } else {
             buttonElement.classList.remove(this._inactiveButtonClass);
-            buttonElement.disabled = false;
+            buttonElement.disabled = false;            
         }
     }
-
 }
-
-
-
-/*Выбираем формы и элементы, на которые ставим проверки
-enableValidation({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__btn-save',
-    inactiveButtonClass: 'popup__btn-save_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
-});
-
-*/
