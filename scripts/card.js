@@ -1,11 +1,10 @@
-import {createImagePopup} from './index.js';  //Правильно ли сюда эскпортировать эту функцию?
-
 export default class Card {
 
-    constructor (data, cardTemplate) {
+    constructor (data, cardTemplate, createImagePopup) {
         this._name = data.name;
         this._link = data.link;
         this._cardTemplate = cardTemplate;
+        this._createImagePopup = createImagePopup;
     }
 
     /*Создаем карточку*/
@@ -32,7 +31,7 @@ export default class Card {
         });
 
         /*каждой картинке навешиваем обработчик события: клик по картинке - открывается попап с картинкой*/
-        card.querySelector('.element__image').addEventListener('click', createImagePopup);
+        card.querySelector('.element__image').addEventListener('click', this._createImagePopup);
 
         /*каждой кнопке удаления навешиваем обработчик события, удаляющий карточку*/
         card.querySelector('.element__button-remove').addEventListener('click', event => {

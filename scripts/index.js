@@ -1,7 +1,25 @@
-import * as nodes from './nodes.js';
-import {initialCards} from './initial-сards.js';
-import Card from './Card.js';
-import FormValidator from './FormValidator.js';
+import * as nodes from './nodes.js'; //импорт констант с узлами страницы
+import {initialCards} from './initial-сards.js'; //импорт массива с данными начальных карточек
+import Card from './Card.js';  //импорт класса, отвечающего за создание карточек
+import FormValidator from './FormValidator.js'; //импорт класса, отвечающего за валидацию форм
+
+/*Объект с селекторами формы*/
+const formSelectors = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__btn-save',
+    inactiveButtonClass: 'popup__btn-save_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+};
+
+/*Создаем объекты для валидации*/
+const editProfileValidation = new FormValidator(formSelectors, nodes.popupEditProfile);
+const addCardValidation = new FormValidator(formSelectors, nodes.popupAddCard); 
+
+/*включаем валидацию*/
+editProfileValidation.enableValidation();
+addCardValidation.enableValidation();
 
 /*Открываем попап*/
 function openPopup(popup) {
@@ -43,23 +61,11 @@ function createAddCardPopup() {
     nodes.popupAddCard.firstElementChild.reset(); //очищаю поля, так как окно просто скрывается
 
     addHandlerPopup(nodes.popupAddCard);
-
-    const data = {
-        formSelector: '.popup__form',
-        inputSelector: '.popup__input',
-        submitButtonSelector: '.popup__btn-save',
-        inactiveButtonClass: 'popup__btn-save_disabled',
-        inputErrorClass: 'popup__input_type_error',
-        errorClass: 'popup__error_visible'
-    };
-
-    const formValidation = new FormValidator(data, nodes.popupAddCard); /*Создаем объект*/
-    formValidation.enableValidation(); /*включаем валидацию объекта*/
     openPopup(nodes.popupAddCard);
 }
 
 /*Настраиваем попап Image*/
-export function createImagePopup(e) {
+function createImagePopup(e) {
     const image = e.target.src;
     const title = e.target.nextElementSibling.textContent;
 
@@ -73,25 +79,22 @@ export function createImagePopup(e) {
 
 /*Очищаем тексты ошибок на тот случай, когда попап закрывается с текстом ошибок,
 чтобы при его открытии не было видно ошибок, хотя форма может быть заполнена правильно.
-По рекомендациям наставника enableValidation() должна вызываться только один раз, поэтому 
-делаю отдельную функцию*/
-/*function clearErrorPopup(popup) {
+*/
+function clearErrorPopup(popup) {
+    
     const inputList = Array.from(popup.querySelectorAll('.popup__input'));
+    const formClear = popup.classList.contains('popup_edit-profile') ? EditProfileValidation : AddCardValidation;
 
     inputList.forEach((inputElement) => {
-        hideInputError({
-                inputErrorClass: 'popup__input_type_error',
-                errorClass: 'popup__error_visible'
-            },
-            popup, inputElement);
+        formClear.hideInputError(inputElement);
     });
-}*/
+}
 
 /*Функция, закрывающая попап */
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
     removeHandlerPopup(popup);
-   /* clearErrorPopup(popup);*/
+    clearErrorPopup(popup);
 }
 
 /*Функция, отрабатывающая при нажатии кнопки сохранить в попапе с редактированием профиля*/
@@ -105,7 +108,8 @@ function saveEditProfilePopup(e) {
 
 /*Создание и добавление карточки на страницу*/
 function addCard(data) {
-    const card = new Card (data, '#card-template'); /*Создаем объект с данными*/
+    /*Создаем объект с данными, третьим параметром передаю функцию обработчик для слушателя событий*/
+    const card = new Card (data, '#card-template', createImagePopup); 
     const cardNode = card.createCard(); /*Вставляем разметку*/
     nodes.elements.prepend(cardNode); /*Добавляем сформированную карточку в начало страницы*/
 }
