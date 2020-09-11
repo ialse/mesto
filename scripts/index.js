@@ -23,6 +23,7 @@ addCardValidation.enableValidation();
 
 /*Открываем попап*/
 function openPopup(popup) {
+    addHandlerPopup(popup);
     popup.classList.add('popup_opened');
 }
 
@@ -38,62 +39,58 @@ function closeEscapeAndClickOverlay(evt) {
 /*Навешиваем обработчики для закрытия попапа по Escape и по клику по оверлею*/
 function addHandlerPopup(popup) {
     document.body.addEventListener('keyup', closeEscapeAndClickOverlay);
-    popup.addEventListener('click', closeEscapeAndClickOverlay);
+    popup.addEventListener('mousedown', closeEscapeAndClickOverlay);
 }
 
 /*Удаляем обработчики*/
 function removeHandlerPopup(popup) {
     document.body.removeEventListener('keyup', closeEscapeAndClickOverlay);
-    popup.removeEventListener('click', closeEscapeAndClickOverlay);
+    popup.removeEventListener('mousedown', closeEscapeAndClickOverlay);
 }
 
 /*Настраиваем попап EditProfile*/
-function createEditProfilePopup() {
+function openEditProfilePopup() {
+    editProfileValidation.resetForm(); //очищаю тексты ошибок и блокирую кнопку
     nodes.inputName.value = nodes.profileName.textContent;
-    nodes.inputWork.value = nodes.profileWork.textContent;
-
-    addHandlerPopup(nodes.popupEditProfile);
+    nodes.inputWork.value = nodes.profileWork.textContent;    
     openPopup(nodes.popupEditProfile);
 }
 
 /*Настраиваем попап AddCard*/
-function createAddCardPopup() {
-    
-
-    addHandlerPopup(nodes.popupAddCard);
+function openAddCardPopup() {
+    addCardValidation.resetForm(); //очищаю тексты ошибок и блокирую кнопку
+    nodes.popupAddCard.querySelector('.popup__form').reset(); //очищаю поля, так как окно просто скрывается    
     openPopup(nodes.popupAddCard);
 }
 
 /*Настраиваем попап Image*/
-function createImagePopup(e) {
+function openImagePopup(e) {
     const image = e.target.src;
-    const title = e.target.nextElementSibling.textContent;
+    const title = e.target.closest('.element').querySelector('.element__title').textContent;
 
     nodes.elementImage.src = image
     nodes.elementImage.alt = title;
     nodes.elementTitle.textContent = title;
 
-    addHandlerPopup(nodes.popupImage);
     openPopup(nodes.popupImage);
 }
 
 /*Очищаем тексты ошибок и ставим кнопку неактивной на тот случай, когда попап закрывается
 с текстом ошибок, чтобы при его открытии не было видно ошибок,
 хотя форма может быть заполнена правильно.*/
-function clearErrorPopup(popup) {
+/*function clearErrorPopup(popup) {
     /*проверяем какой попап открыт и берем ссылку на нужный объект*/
-    const formClear = popup.classList.contains('popup_edit-profile') ? editProfileValidation :
+   /* const formClear = popup.classList.contains('popup_edit-profile') ? editProfileValidation :
                       popup.classList.contains('popup_add-card') ? addCardValidation : null;
 
     if(!formClear)  return; //Если закрывают попап с картинкой, то выходим из функции    
     formClear.resetForm(); //Вызываем метод для открытого объекта
-}
+}*/
 
 /*Функция, закрывающая попап */
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
     removeHandlerPopup(popup);
-    popup.firstElementChild.reset(); //очищаю поля, так как окно просто скрывается
     clearErrorPopup(popup);
 }
 
@@ -109,7 +106,7 @@ function saveEditProfilePopup(e) {
 /*Создание и добавление карточки на страницу*/
 function addCard(data) {
     /*Создаем объект с данными, третьим параметром передаю функцию обработчик для слушателя событий*/
-    const card = new Card (data, '#card-template', createImagePopup); 
+    const card = new Card (data, '#card-template', openImagePopup); 
     const cardNode = card.createCard(); /*Вставляем разметку*/
     nodes.elements.prepend(cardNode); /*Добавляем сформированную карточку в начало страницы*/
 }
@@ -133,8 +130,8 @@ initialCards.forEach(function(item) {
 });
 
 /*Навешиваем обработчики*/
-nodes.btnEdit.addEventListener('click', createEditProfilePopup);
-nodes.btnAdd.addEventListener('click', createAddCardPopup);
+nodes.btnEdit.addEventListener('click', openEditProfilePopup);
+nodes.btnAdd.addEventListener('click', openAddCardPopup);
 
 nodes.btnCloseEditProfile.addEventListener('click', () => closePopup(nodes.popupEditProfile));
 nodes.btnCloseAddCard.addEventListener('click', () => closePopup(nodes.popupAddCard));
