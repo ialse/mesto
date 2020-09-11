@@ -21,7 +21,7 @@ export default class FormValidator {
 
     /*Скрыть текст ошибки. Метод публичный, 
     так как использую его для скрытия текста ошибок после закрытия попапа*/
-    hideInputError = (inputElement) => {
+    _hideInputError = (inputElement) => {
         const errorElement = this._form.querySelector(`#${inputElement.id}-error`);
         inputElement.classList.remove(this._inputErrorClass);
         errorElement.classList.remove(this._errorClass);
@@ -33,21 +33,31 @@ export default class FormValidator {
         if (!inputElement.validity.valid) {
             this._showInputError(inputElement, inputElement.validationMessage);
         } else {
-            this.hideInputError(inputElement);
+            this._hideInputError(inputElement);
         }
     };
 
+    /*Получить массив полей текущей формы*/
+    _getInputList = () => {
+        return Array.from(this._form.querySelectorAll(this._inputSelector));
+    }
+
+    /*Получить кнопку Сохранить текущей формы*/
+    _getButtonElement = () => {
+        return this._form.querySelector(this._submitButtonSelector);
+    }
+
     /*Установка обработчиков на все поля форм*/
     _setEventListeners = () => {
-        const inputList = Array.from(this._form.querySelectorAll(this._inputSelector));
-        const buttonElement = this._form.querySelector(this._submitButtonSelector);
-        this.toggleButtonState(inputList, buttonElement);
+        const inputList = this._getInputList();
+        const buttonElement = this._getButtonElement();
+        this._toggleButtonState(inputList, buttonElement);
 
         inputList.forEach((inputElement) => {
 
             inputElement.addEventListener('input', () => {                
                 this._checkInputValidity(inputElement);
-                this.toggleButtonState(inputList, buttonElement);                
+                this._toggleButtonState(inputList, buttonElement);                
             });
         });
     };
@@ -64,7 +74,7 @@ export default class FormValidator {
     }
 
     /*Блокировка и разблокировка кнопки*/
-    toggleButtonState(inputList, buttonElement) {
+    _toggleButtonState(inputList, buttonElement) {
 
         if (this._hasInvalidInput(inputList)) {
             buttonElement.classList.add(this._inactiveButtonClass);
@@ -73,5 +83,16 @@ export default class FormValidator {
             buttonElement.classList.remove(this._inactiveButtonClass);
             buttonElement.disabled = false;            
         }
+    }
+
+    /*Очищаем тексты ошибок и блокируем кнопку */
+    resetForm = () => {
+        const inputList = this._getInputList();
+        const buttonElement = this._getButtonElement();
+
+        this._toggleButtonState(inputList, buttonElement);
+        inputList.forEach((inputElement) => {
+            this._hideInputError(inputElement);        
+        });
     }
 }

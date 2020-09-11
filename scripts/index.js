@@ -81,21 +81,12 @@ function createImagePopup(e) {
 с текстом ошибок, чтобы при его открытии не было видно ошибок,
 хотя форма может быть заполнена правильно.*/
 function clearErrorPopup(popup) {
-    
-    const inputList = Array.from(popup.querySelectorAll('.popup__input'));
-    const buttonElement = popup.querySelector(formSelectors.submitButtonSelector);
-
     /*проверяем какой попап открыт и берем ссылку на нужный объект*/
     const formClear = popup.classList.contains('popup_edit-profile') ? editProfileValidation :
                       popup.classList.contains('popup_add-card') ? addCardValidation : null;
 
-    if(!formClear)  return; //Если закрывают попап с картинкой, то выходим из функции
-    
-    /*блокируем кнопку и скрываем тексты ошибок*/
-    formClear.toggleButtonState(inputList, buttonElement);
-    inputList.forEach((inputElement) => {
-        formClear.hideInputError(inputElement);        
-    });
+    if(!formClear)  return; //Если закрывают попап с картинкой, то выходим из функции    
+    formClear.resetForm(); //Вызываем метод для открытого объекта
 }
 
 /*Функция, закрывающая попап */
