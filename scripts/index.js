@@ -1,6 +1,6 @@
 import * as nodes from './nodes.js'; //импорт констант с узлами страницы
-import {initialCards} from './initial-сards.js'; //импорт массива с данными начальных карточек
-import Card from './Card.js';  //импорт класса, отвечающего за создание карточек
+import { initialCards } from './initial-сards.js'; //импорт массива с данными начальных карточек
+import Card from './Card.js'; //импорт класса, отвечающего за создание карточек
 import FormValidator from './FormValidator.js'; //импорт класса, отвечающего за валидацию форм
 
 /*Объект с селекторами формы*/
@@ -15,7 +15,7 @@ const formSelectors = {
 
 /*Создаем объекты для валидации*/
 const editProfileValidation = new FormValidator(formSelectors, nodes.popupEditProfile);
-const addCardValidation = new FormValidator(formSelectors, nodes.popupAddCard); 
+const addCardValidation = new FormValidator(formSelectors, nodes.popupAddCard);
 
 /*включаем валидацию*/
 editProfileValidation.enableValidation();
@@ -27,39 +27,47 @@ function openPopup(popup) {
     popup.classList.add('popup_opened');
 }
 
-/*Функция, закрывающая попап по Escape или при клике по оверлею*/
-function closeEscapeAndClickOverlay(evt) {
+/*Функция, закрывающая попап по Escape */
+function closeEscape(evt) {
     const popupActive = document.querySelector('.popup_opened');
 
-    if (evt.key === 'Escape' || evt.target === popupActive) {
+    if (evt.key === 'Escape') {
+        closePopup(popupActive);
+    }
+}
+
+/*Функция, закрывающая попап при клике по оверлею*/
+function closeClickOverlay(evt) {
+    const popupActive = document.querySelector('.popup_opened');
+
+    if (evt.target === popupActive) {
         closePopup(popupActive);
     }
 }
 
 /*Навешиваем обработчики для закрытия попапа по Escape и по клику по оверлею*/
 function addHandlerPopup(popup) {
-    document.body.addEventListener('keyup', closeEscapeAndClickOverlay);
-    popup.addEventListener('mousedown', closeEscapeAndClickOverlay);
+    document.body.addEventListener('keyup', closeEscape);
+    popup.addEventListener('mousedown', closeClickOverlay);
 }
 
 /*Удаляем обработчики*/
 function removeHandlerPopup(popup) {
-    document.body.removeEventListener('keyup', closeEscapeAndClickOverlay);
-    popup.removeEventListener('mousedown', closeEscapeAndClickOverlay);
+    document.body.removeEventListener('keyup', closeEscape);
+    popup.removeEventListener('mousedown', closeClickOverlay);
 }
 
 /*Настраиваем попап EditProfile*/
 function openEditProfilePopup() {
-    editProfileValidation.resetForm(); //очищаю тексты ошибок и блокирую кнопку
+    editProfileValidation.resetForm(); //очищаю поля, тексты ошибок и блокирую кнопку
     nodes.inputName.value = nodes.profileName.textContent;
-    nodes.inputWork.value = nodes.profileWork.textContent;    
+    nodes.inputWork.value = nodes.profileWork.textContent;
     openPopup(nodes.popupEditProfile);
 }
 
 /*Настраиваем попап AddCard*/
 function openAddCardPopup() {
-    addCardValidation.resetForm(); //очищаю тексты ошибок и блокирую кнопку
-    nodes.popupAddCard.querySelector('.popup__form').reset(); //очищаю поля, так как окно просто скрывается    
+    addCardValidation.resetForm(); //очищаю поля, тексты ошибок и блокирую кнопку
     openPopup(nodes.popupAddCard);
 }
 
@@ -75,23 +83,10 @@ function openImagePopup(e) {
     openPopup(nodes.popupImage);
 }
 
-/*Очищаем тексты ошибок и ставим кнопку неактивной на тот случай, когда попап закрывается
-с текстом ошибок, чтобы при его открытии не было видно ошибок,
-хотя форма может быть заполнена правильно.*/
-/*function clearErrorPopup(popup) {
-    /*проверяем какой попап открыт и берем ссылку на нужный объект*/
-   /* const formClear = popup.classList.contains('popup_edit-profile') ? editProfileValidation :
-                      popup.classList.contains('popup_add-card') ? addCardValidation : null;
-
-    if(!formClear)  return; //Если закрывают попап с картинкой, то выходим из функции    
-    formClear.resetForm(); //Вызываем метод для открытого объекта
-}*/
-
 /*Функция, закрывающая попап */
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
     removeHandlerPopup(popup);
-    clearErrorPopup(popup);
 }
 
 /*Функция, отрабатывающая при нажатии кнопки сохранить в попапе с редактированием профиля*/
@@ -106,7 +101,7 @@ function saveEditProfilePopup(e) {
 /*Создание и добавление карточки на страницу*/
 function addCard(data) {
     /*Создаем объект с данными, третьим параметром передаю функцию обработчик для слушателя событий*/
-    const card = new Card (data, '#card-template', openImagePopup); 
+    const card = new Card(data, '#card-template', openImagePopup);
     const cardNode = card.createCard(); /*Вставляем разметку*/
     nodes.elements.prepend(cardNode); /*Добавляем сформированную карточку в начало страницы*/
 }
@@ -118,8 +113,8 @@ function saveAddCardPopup(e) {
     const data = {
         name: nodes.inputPlace.value,
         link: nodes.inputLink.value
-    }    
-    
+    }
+
     addCard(data);
     closePopup(nodes.popupAddCard);
 }

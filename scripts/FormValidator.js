@@ -55,22 +55,22 @@ export default class FormValidator {
 
         inputList.forEach((inputElement) => {
 
-            inputElement.addEventListener('input', () => {                
+            inputElement.addEventListener('input', () => {
                 this._checkInputValidity(inputElement);
-                this._toggleButtonState(inputList, buttonElement);                
+                this._toggleButtonState(inputList, buttonElement);
             });
         });
     };
 
     /*Включение проверки для нужной формы*/
     enableValidation = () => {
-        this._form.addEventListener('submit', evt => {evt.preventDefault()});
+        this._form.addEventListener('submit', evt => { evt.preventDefault() });
         this._setEventListeners();
     };
 
     /*Проверка на валидность всех полей формы*/
     _hasInvalidInput(inputList) {
-        return inputList.some( input => !input.validity.valid);
+        return inputList.some(input => !input.validity.valid);
     }
 
     /*Блокировка и разблокировка кнопки*/
@@ -81,18 +81,21 @@ export default class FormValidator {
             buttonElement.disabled = true; //Чтобы кнопка не кликалась
         } else {
             buttonElement.classList.remove(this._inactiveButtonClass);
-            buttonElement.disabled = false;            
+            buttonElement.disabled = false;
         }
     }
 
-    /*Очищаем тексты ошибок и блокируем кнопку */
+    /*Очищаем тексты ошибок, поля и блокируем кнопку*/
     resetForm = () => {
         const inputList = this._getInputList();
         const buttonElement = this._getButtonElement();
 
         this._toggleButtonState(inputList, buttonElement);
         inputList.forEach((inputElement) => {
-            this._hideInputError(inputElement);        
+            this._hideInputError(inputElement);
         });
+
+        this._form.querySelector(this._formSelector).reset();
+
     }
 }
