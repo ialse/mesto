@@ -1,5 +1,5 @@
 import * as nodes from './nodes.js'; //импорт констант с узлами страницы
-import { initialCards } from './initial-сards.js'; //импорт массива с данными начальных карточек
+import { initialCards } from './initial-cards.js'; //импорт массива с данными начальных карточек
 import Card from './Card.js'; //импорт класса, отвечающего за создание карточек
 import FormValidator from './FormValidator.js'; //импорт класса, отвечающего за валидацию форм
 
