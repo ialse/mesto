@@ -96,6 +96,5 @@ export default class FormValidator {
         });
 
         this._form.querySelector(this._formSelector).reset();
-
     }
 }
