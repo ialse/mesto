@@ -1,6 +1,6 @@
 export default class Card {
 
-    constructor (data, cardTemplate, createImagePopup) {
+    constructor(data, cardTemplate, createImagePopup) {
         this._name = data.name;
         this._link = data.link;
         this._cardTemplate = cardTemplate;
@@ -8,29 +8,32 @@ export default class Card {
         this._card = document.querySelector(this._cardTemplate).content.cloneNode(true);
     }
 
-    /*Обработчик события, отвечающий за работу лайка*/
-    _addHandlerLike () {        
+    _setEventListeners() {
         const like = this._card.querySelector('.element__button-like');
-        like.addEventListener('click', () => {
-            like.classList.toggle('element__button-like_active');
-        });
+        const btnRemove = this._card.querySelector('.element__button-remove');
+        const image = this._card.querySelector('.element__image');
+
+        like.addEventListener('click', () => { this._addHandlerLike(like); });
+        btnRemove.addEventListener('click', () => { this._addHandlerBtnRemove(btnRemove); });
+        image.addEventListener('click', this._createImagePopup);
+    }
+
+    /*Обработчик события, отвечающий за работу лайка*/
+    _addHandlerLike(like) {
+        like.classList.toggle('element__button-like_active');
     }
 
     /*Обработчик события, удаляющий карточку*/
-    _addHandlerBtnRemove () { 
-        const btnRemove = this._card.querySelector('.element__button-remove');
-        btnRemove.addEventListener('click', () => {
-            btnRemove.closest('.element').remove();
-        });
-    }
-
-    /*Обработчик события: клик по картинке - открывается попап с картинкой*/
-    _addHandlerClickImage () {        
-        this._card.querySelector('.element__image').addEventListener('click', this._createImagePopup);
+    _addHandlerBtnRemove(btnRemove) {
+        btnRemove.closest('.element').remove();
+        /* в this._card хранится DocumentFragment,
+        который, если я правильно понял документацию, не имеет метода remove()
+        Подробнее https://habr.com/ru/post/413287/  */
+        this._card = null;
     }
 
     /*Создаем карточку*/
-    createCard () {
+    createCard() {
         const elementImage = this._card.querySelector('.element__image');
         const elementTitle = this._card.querySelector('.element__title');
 
@@ -39,10 +42,8 @@ export default class Card {
         elementTitle.textContent = this._name;
 
         /*Навешиваем обработчики*/
-        this._addHandlerLike(); 
-        this._addHandlerClickImage();
-        this._addHandlerBtnRemove();
+        this._setEventListeners();
 
         return this._card;
-    }    
+    }
 }
