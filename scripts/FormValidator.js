@@ -87,6 +87,9 @@ export default class FormValidator {
 
     /*Очищаем тексты ошибок, поля и блокируем кнопку*/
     resetForm = () => {
+        /*Сначала очишаю поля, чтобы дальнейшие проверки корректно работали*/
+        this._form.querySelector(this._formSelector).reset();
+
         const inputList = this._getInputList();
         const buttonElement = this._getButtonElement();
 
@@ -94,8 +97,5 @@ export default class FormValidator {
         inputList.forEach((inputElement) => {
             this._hideInputError(inputElement);
         });
-
-        this._form.querySelector(this._formSelector).reset();
-
     }
 }
