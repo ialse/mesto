@@ -12,24 +12,23 @@ export default class Card {
             .cloneNode(true);
     }
 
-    /*Обработчик события, отвечающий за работу лайка*/
-    _addHandlerLike() {
+    _setEventListeners() {
         const like = this._card.querySelector('.element__button-like');
-        like.addEventListener('click', () => {
-            like.classList.toggle('element__button-like_active');
-        });
+        const btnRemove = this._card.querySelector('.element__button-remove');
+        const image = this._card.querySelector('.element__image');
+
+        like.addEventListener('click', () => { this._addHandlerLike(like); });
+        btnRemove.addEventListener('click', () => { this._addHandlerBtnRemove(); });
+        image.addEventListener('click', this._createImagePopup);
+    }
+
+    /*Обработчик события, отвечающий за работу лайка*/
+    _addHandlerLike(like) {
+        like.classList.toggle('element__button-like_active');
     }
 
     /*Обработчик события, удаляющий карточку*/
     _addHandlerBtnRemove() {
-        const btnRemove = this._card.querySelector('.element__button-remove');
-        btnRemove.addEventListener('click', () => {
-            btnRemove.closest('.element').remove();
-        });
-    }
-
-    /*Обработчик события, удаляющий карточку*/
-    _addHandlerBtnRemove(btnRemove) {
         this._card.remove();
         this._card = null;
     }
@@ -44,9 +43,7 @@ export default class Card {
         elementTitle.textContent = this._name;
 
         /*Навешиваем обработчики*/
-        this._addHandlerLike();
-        this._addHandlerClickImage();
-        this._addHandlerBtnRemove();
+        this._setEventListeners();
 
         return this._card;
     }
