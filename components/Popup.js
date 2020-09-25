@@ -9,15 +9,14 @@ export default class Popup {
     }
 
     close() {
-        popup.classList.remove('popup_opened');
-        removeHandlerPopup(popup);
+        this._popup.classList.remove('popup_opened');
     }
 
     _handleEscClose() {
         const popupActive = document.querySelector('.popup_opened');
 
         if (this._popup === 'Escape') {
-            close(popupActive);
+            this.close(popupActive);
         }
     }
 
@@ -25,7 +24,7 @@ export default class Popup {
         const popupActive = document.querySelector('.popup_opened');
 
         if (this._popup === popupActive) {
-        this.close(popupActive);
+            this.close(popupActive);
         }
     }
 
