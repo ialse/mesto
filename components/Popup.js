@@ -1,6 +1,6 @@
 export default class Popup {
     constructor(popupSelector) {
-        this._popup = document.querySelector(popupSelector);
+        this._popup = popupSelector;
     }
 
     open() {
@@ -27,7 +27,7 @@ export default class Popup {
         }
     }
 
-    setEventListeners () {
+    setEventListeners() {
         document.body.addEventListener('keyup', _handleEscClose);
         this._popup.addEventListener('mousedown', _handleClickOverlayClose);
     }
