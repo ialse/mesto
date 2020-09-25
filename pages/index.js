@@ -1,6 +1,7 @@
 import * as nodes from '../utils/nodes.js'; //импорт констант с узлами страницы
 import { initialCards } from '../utils/initial-cards.js'; //импорт массива с данными начальных карточек
 import Card from '../components/Card.js'; //импорт класса, отвечающего за создание карточек
+import Section from '../components/Section.js'; //импорт класса, отвечающего за создание карточек
 import FormValidator from '../components/FormValidator.js'; //импорт класса, отвечающего за валидацию форм
 
 /*Объект с селекторами формы*/
@@ -21,8 +22,22 @@ const addCardValidation = new FormValidator(formSelectors, nodes.popupAddCard);
 editProfileValidation.enableValidation();
 addCardValidation.enableValidation();
 
+/*Создаем объект*/
+const cardsList = new Section({
+    data: initialCards,
+    renderer: (item) => {
 
+        const card = new Card(data, '#card-template', openImagePopup); /*Создаем объект карточки*/
+        const cardNode = card.createCard(); /*Вставляем разметку*/
+  
+        cardsList.addItem(cardElement);
+      },
+    },
+    nodes.elements
+  );
 
+// отрисовка карточек
+cardsList.renderItems();
 
 /*Открываем попап*/
 function openPopup(popup) {
