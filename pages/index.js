@@ -1,7 +1,7 @@
-import * as nodes from './nodes.js'; //импорт констант с узлами страницы
-import { initialCards } from './initial-cards.js'; //импорт массива с данными начальных карточек
-import Card from './Card.js'; //импорт класса, отвечающего за создание карточек
-import FormValidator from './FormValidator.js'; //импорт класса, отвечающего за валидацию форм
+import * as nodes from '../utils/nodes.js'; //импорт констант с узлами страницы
+import { initialCards } from '../utils/initial-cards.js'; //импорт массива с данными начальных карточек
+import Card from '../components/Card.js'; //импорт класса, отвечающего за создание карточек
+import FormValidator from '../components/FormValidator.js'; //импорт класса, отвечающего за валидацию форм
 
 /*Объект с селекторами формы*/
 const formSelectors = {
