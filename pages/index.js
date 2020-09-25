@@ -21,6 +21,9 @@ const addCardValidation = new FormValidator(formSelectors, nodes.popupAddCard);
 editProfileValidation.enableValidation();
 addCardValidation.enableValidation();
 
+
+
+
 /*Открываем попап*/
 function openPopup(popup) {
     addHandlerPopup(popup);
