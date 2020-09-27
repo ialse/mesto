@@ -2,7 +2,7 @@ import * as nodes from '../utils/nodes.js'; //импорт констант с �
 import { initialCards } from '../utils/initial-cards.js'; //импорт массива с данными начальных карточек
 import Card from '../components/Card.js'; //импорт класса, отвечающего за создание карточек
 import Section from '../components/Section.js'; //импорт класса, отвечающего за вывод данных на страницу
-import Popup from '../components/Popup.js'; //импорт класса, отвечающего за попапы
+import PopupWithForm from '../components/PopupWithForm.js'; //импорт класса, отвечающего за попапы с формами
 import FormValidator from '../components/FormValidator.js'; //импорт класса, отвечающего за валидацию форм
 
 /*Объект с селекторами формы*/
@@ -42,9 +42,8 @@ const cardsList = new Section({
 cardsList.renderItems();
 
 /*Создаем объект*/
-const popupEditProfile111 = new Popup(nodes.popupEditProfile);
-console.log(popupEditProfile111);
-
+const popupEditProfile = new PopupWithForm('.popup_edit-profile');
+popupEditProfile.setEventListeners(); //устанавливаем обработчики
 
 
 
@@ -73,11 +72,11 @@ function saveAddCardPopup(e) {
 
 
 /*Навешиваем обработчики*/
-nodes.btnEdit.addEventListener('click', popupEditProfile111.open);
-/*nodes.btnAdd.addEventListener('click', openAddCardPopup);
+nodes.btnEdit.addEventListener('click', popupEditProfile.open);
+/*nodes.btnAdd.addEventListener('click', openAddCardPopup);*/
 
-nodes.btnCloseEditProfile.addEventListener('click', () => closePopup(nodes.popupEditProfile));
-nodes.btnCloseAddCard.addEventListener('click', () => closePopup(nodes.popupAddCard));
+
+/*nodes.btnCloseAddCard.addEventListener('click', () => closePopup(nodes.popupAddCard));
 nodes.btnCloseImage.addEventListener('click', () => closePopup(nodes.popupImage));
 
 nodes.formSaveEditProfile.addEventListener('submit', saveEditProfilePopup);
