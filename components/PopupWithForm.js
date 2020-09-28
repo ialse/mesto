@@ -1,12 +1,17 @@
-import { btnCloseEditProfile, btnCloseAddCard } from '../utils/nodes.js'; //импорт констант с узлами страницы
-
-
 import Popup from './Popup.js';
 
 export default class PopupWithForm extends Popup {
-    constructor(popupSelector, /*колбэк сабмита формы*/ ) {
+    constructor({getInfo, handleSubmit}, popupSelector,  ) {
         super(popupSelector);
+        this._getInfo = getInfo;
+        this._handleSubmit = handleSubmit;
+    }
 
+    _setInfo = ({_name, _work}) => {
+        this._inputName = this._popup.querySelector('.popup__input_name');
+        this._inputWork = this._popup.querySelector('.popup__input_work');
+        this._inputName.value = _name;
+        this._inputWork.value = _work;
     }
 
     _getInputValues = () => {
@@ -16,27 +21,25 @@ export default class PopupWithForm extends Popup {
         this._popupValues = {};
         this._inputList.forEach(input => this._popupValues[input.name] = input.value);
 
-        return this._inputList;
-        /*this._popup.querySelector('popup__input_name').value = profileName.textContent;
-        this._popup.querySelector('popup__input_work').value = profileWork.textContent;*/
+        return this._popupValues;
+    }
+
+    /*Чтобы открылся этот метод и не было ошибки при вызове super,
+     надо написать стрелочную функцию (надо разобраться почему*/
+    open = () => {        
+        super.open();
+        const info = this._getInfo(); //получаем данные со страницы через объект UserInfo
+        this._setInfo(info); //заполняем поля в попапе 
+        
     }
 
     close = () => {
         super.close();
-
         /*reset*/
-    }
-
-    _handleSubmit = () => {
-        const inputList = this._getInputValues();
-
     }
 
     setEventListeners = () => {
         super.setEventListeners();
-
-        this._popup.addEventListener('submit', this._handleSubmit)
-            /*обработка сабмита*/
-
+        this._popup.addEventListener('submit', this._handleSubmit);
     }
 }
