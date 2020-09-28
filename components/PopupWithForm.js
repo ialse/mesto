@@ -33,7 +33,7 @@ export default class PopupWithForm extends Popup {
         
     }
 
-    close = () => {
+    close () {
         super.close();
         /*reset*/
     }

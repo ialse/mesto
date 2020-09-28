@@ -1,6 +1,6 @@
 export default class Card {
 
-    constructor(data, cardTemplate, createImagePopup) {
+    constructor(data, {createImagePopup}, cardTemplate) {
         this._name = data.name;
         this._link = data.link;
         this._cardTemplate = cardTemplate;
@@ -13,6 +13,12 @@ export default class Card {
             .content
             .querySelector('.element')
             .cloneNode(true);
+    }
+
+    getCardInfo() {
+        const name = this._name;
+        const link = this._link;
+        return {name, link};
     }
 
     /*Обработчик события, отвечающий за работу лайка*/
@@ -34,7 +40,7 @@ export default class Card {
 
         like.addEventListener('click', () => { this._addHandlerLike(like); });
         btnRemove.addEventListener('click', () => { this._addHandlerBtnRemove(); });
-        image.addEventListener('click', this._createImagePopup);
+        image.addEventListener('click', () => { this._createImagePopup(); });
     }
 
     /*Создаем карточку*/

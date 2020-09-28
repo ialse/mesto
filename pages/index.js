@@ -4,6 +4,7 @@ import Card from '../components/Card.js'; //импорт класса, отве�
 import UserInfo from '../components/UserInfo.js'; //импорт класса, отвечающего за информацию о пользователе
 import Section from '../components/Section.js'; //импорт класса, отвечающего за вывод данных на страницу
 import PopupWithForm from '../components/PopupWithForm.js'; //импорт класса, отвечающего за попапы с формами
+import PopupWithImage from '../components/PopupWithImage.js'; //импорт класса, отвечающего за попапы с изображениями
 import FormValidator from '../components/FormValidator.js'; //импорт класса, отвечающего за валидацию форм
 
 /*Объект с селекторами формы*/
@@ -29,10 +30,19 @@ const cardsList = new Section({
         data: initialCards,
         renderer: (item) => {
 
-            const card = new Card(initialCards[0], '#card-template', saveEditProfilePopup); /*Создаем объект карточки*/
-            const cardNode = card.createCard(); /*Вставляем разметку*/
+            /*Создаем объект карточки*/
+            const card = new Card(item, { 
+                createImagePopup: () => {
 
-            cardsList.addItem(cardNode);
+                    const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
+                    const popupImage = new PopupWithImage(cardInfo, '.popup_image');
+                    popupImage.setEventListeners();
+                    popupImage.open();
+                    }
+                },
+                '#card-template'); 
+            const cardNode = card.createCard(); // Вставляем разметку
+            cardsList.addItem(cardNode); // Добавляем на страницу
         },
     },
     nodes.elements
@@ -69,17 +79,6 @@ popupEditProfile.setEventListeners(); //устанавливаем обрабо�
 popupAddCard.setEventListeners(); //устанавливаем обработчики*/
 
 
-
-
-/*Функция, отрабатывающая при нажатии кнопки сохранить в попапе с редактированием профиля*/
-function saveEditProfilePopup(e) {
-    e.preventDefault();
-
-    nodes.profileName.textContent = nodes.inputName.value;
-    nodes.profileWork.textContent = nodes.inputWork.value;
-    /*closePopup(nodes.popupEditProfile);*/
-}
-
 /*Функция, отрабатывающая при нажатии кнопки создать в попапе с добавлением карточки
 function saveAddCardPopup(e) {
     e.preventDefault();
@@ -99,8 +98,5 @@ nodes.btnEdit.addEventListener('click', popupEditProfile.open);
 /*nodes.btnAdd.addEventListener('click', popupAddCard.open);*/
 
 
-/*nodes.btnCloseAddCard.addEventListener('click', () => closePopup(nodes.popupAddCard));
-nodes.btnCloseImage.addEventListener('click', () => closePopup(nodes.popupImage));
-
-nodes.formSaveEditProfile.addEventListener('submit', saveEditProfilePopup);
+/*nodes.formSaveEditProfile.addEventListener('submit', saveEditProfilePopup);
 nodes.formSaveAddCard.addEventListener('submit', saveAddCardPopup);*/
