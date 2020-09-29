@@ -1,10 +1,10 @@
 export default class Card {
 
-    constructor(data, {createImagePopup}, cardTemplate) {
+    constructor(data, {openImagePopup}, cardTemplate) {
         this._name = data.name;
         this._link = data.link;
         this._cardTemplate = cardTemplate;
-        this._createImagePopup = createImagePopup;
+        this._openImagePopup = openImagePopup;
     }
 
     _getTemplate() {
@@ -40,7 +40,7 @@ export default class Card {
 
         like.addEventListener('click', () => { this._addHandlerLike(like); });
         btnRemove.addEventListener('click', () => { this._addHandlerBtnRemove(); });
-        image.addEventListener('click', () => { this._createImagePopup(); });
+        image.addEventListener('click', () => { this._openImagePopup(); });
     }
 
     /*Создаем карточку*/

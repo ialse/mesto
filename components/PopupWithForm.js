@@ -25,21 +25,20 @@ export default class PopupWithForm extends Popup {
     }
 
     /*Чтобы открылся этот метод и не было ошибки при вызове super,
-     надо написать стрелочную функцию (надо разобраться почему*/
-    open = () => {        
+     надо написать стрелочную функцию (надо разобраться почему)*/
+    open() {        
         super.open();
         const info = this._getInfo(); //получаем данные со страницы через объект UserInfo
-        this._setInfo(info); //заполняем поля в попапе 
-        
+        this._setInfo(info); //заполняем поля в попапе         
     }
 
-    close () {
+    close() {
         super.close();
         /*reset*/
     }
 
-    setEventListeners = () => {
+    setEventListeners () {
         super.setEventListeners();
-        this._popup.addEventListener('submit', this._handleSubmit);
+        this._popup.addEventListener('submit', this._handleSubmit);        
     }
 }

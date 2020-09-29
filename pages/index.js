@@ -32,15 +32,17 @@ const cardsList = new Section({
 
             /*Создаем объект карточки*/
             const card = new Card(item, { 
-                createImagePopup: () => {
-
+                openImagePopup: () => {
                     const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
+                    console.log(cardInfo);
                     const popupImage = new PopupWithImage(cardInfo, '.popup_image');
+                    
                     popupImage.setEventListeners();
-                    popupImage.open();
-                    }
-                },
-                '#card-template'); 
+                    popupImage.openImage.call(popupImage);
+
+                }
+            },
+            '#card-template'); 
             const cardNode = card.createCard(); // Вставляем разметку
             cardsList.addItem(cardNode); // Добавляем на страницу
         },
@@ -75,8 +77,38 @@ const popupEditProfile = new PopupWithForm({
 popupEditProfile.setEventListeners(); //устанавливаем обработчики
 
 /*Создаем объект для добавления карточки*/
-/*const popupAddCard = new PopupWithForm('.popup_add-card');
-popupAddCard.setEventListeners(); //устанавливаем обработчики*/
+const popupAddCard = new PopupWithForm({
+        getInfo: () => {},
+        //Обработчик кнопки Создать
+        handleSubmit: () => {
+                const inputValues = popupAddCard._getInputValues();
+                const cardsList = new Section({
+                    data: [inputValues],
+                    renderer: (item) => {
+                    
+                        /*Создаем объект карточки*/
+                        const card = new Card(item, { 
+                            openImagePopup: () => {
+                            
+                                const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
+                                const popupImage = new PopupWithImage(cardInfo, '.popup_image');
+                                popupImage.setEventListeners();
+                                popupImage.open();
+                                }
+                            },
+                            '#card-template'); 
+                        const cardNode = card.createCard(); // Вставляем разметку
+                        cardsList.addItem(cardNode); // Добавляем на страницу
+                    },
+                },
+                nodes.elements
+            );
+            cardsList.renderItems();
+            popupAddCard.close();
+        }
+    
+    }, '.popup_add-card');
+popupAddCard.setEventListeners(); //устанавливаем обработчики
 
 
 /*Функция, отрабатывающая при нажатии кнопки создать в попапе с добавлением карточки
@@ -95,7 +127,7 @@ function saveAddCardPopup(e) {
 
 /*Навешиваем обработчики*/
 nodes.btnEdit.addEventListener('click', popupEditProfile.open);
-/*nodes.btnAdd.addEventListener('click', popupAddCard.open);*/
+nodes.btnAdd.addEventListener('click', popupAddCard.open);
 
 
 /*nodes.formSaveEditProfile.addEventListener('submit', saveEditProfilePopup);

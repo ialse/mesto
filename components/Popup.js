@@ -20,18 +20,16 @@ export default class Popup {
     setEventListeners() {
         this._popup.addEventListener('keyup', this._handleEscClose); //работает, только если поле в фокусе
         document.body.addEventListener('mousedown', this._handleClickOverlayClose);
-        console.log(this._popup);
         this._popup.querySelector('.popup__btn-close').addEventListener('click', this.close);
     }
 
-    open() {
+    open = () => {
         this._popup.classList.add('popup_opened');
     }
 
     /* для попапа профиля не работает стрелочная ф, 
     для попапа картинки не работает обычная (this._popup = undefined)*/
     close = () =>  {
-        console.log(this);
         this._popup.classList.remove('popup_opened');
     }
 }
