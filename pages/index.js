@@ -29,17 +29,13 @@ addCardValidation.enableValidation();
 const cardsList = new Section({
         data: initialCards,
         renderer: (item) => {
-
             /*Создаем объект карточки*/
             const card = new Card(item, {
                     openImagePopup: () => {
                         const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
-                        console.log(cardInfo);
                         const popupImage = new PopupWithImage(cardInfo, '.popup_image');
-
                         popupImage.setEventListeners();
-                        popupImage.openImage.call(popupImage);
-
+                        popupImage.open();
                     }
                 },
                 '#card-template');
@@ -57,7 +53,6 @@ cardsList.renderItems();
 const popupEditProfile = new PopupWithForm({
         //Получаем инфу со страницы через объект UserInfo
         getInfo: () => {
-
             const userInfo = new UserInfo({ name: '', work: '' });
             const info = userInfo.getUserInfo();
 
@@ -88,8 +83,7 @@ const popupAddCard = new PopupWithForm({
 
                     /*Создаем объект карточки*/
                     const card = new Card(item, {
-                            openImagePopup: () => {
-
+                            openImagePopup: () => { // Обработчик клика по картинке - открытие попапа
                                 const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
                                 const popupImage = new PopupWithImage(cardInfo, '.popup_image');
                                 popupImage.setEventListeners();
@@ -110,25 +104,6 @@ const popupAddCard = new PopupWithForm({
 }, '.popup_add-card');
 popupAddCard.setEventListeners(); //устанавливаем обработчики
 
-
-/*Функция, отрабатывающая при нажатии кнопки создать в попапе с добавлением карточки
-function saveAddCardPopup(e) {
-    e.preventDefault();
-
-    const data = {
-        name: nodes.inputPlace.value,
-        link: nodes.inputLink.value
-    }
-
-    addCard(data);
-    closePopup(nodes.popupAddCard);
-}
-
-
 /*Навешиваем обработчики*/
 nodes.btnEdit.addEventListener('click', popupEditProfile.openEditProfile.bind(popupEditProfile));
-nodes.btnAdd.addEventListener('click', popupAddCard.openAddCard.bind(popupAddCard));
-
-
-/*nodes.formSaveEditProfile.addEventListener('submit', saveEditProfilePopup);
-nodes.formSaveAddCard.addEventListener('submit', saveAddCardPopup);*/
+nodes.btnAdd.addEventListener('click', popupAddCard.open.bind(popupAddCard));

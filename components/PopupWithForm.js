@@ -7,6 +7,7 @@ export default class PopupWithForm extends Popup {
         this._handleSubmit = handleSubmit;
     }
 
+    //Заполняем поля в попапе данными со страницы
     _setInfo = ({ _name, _work }) => {
         this._inputName = this._popup.querySelector('.popup__input_name');
         this._inputWork = this._popup.querySelector('.popup__input_work');
@@ -14,6 +15,7 @@ export default class PopupWithForm extends Popup {
         this._inputWork.value = _work;
     }
 
+    //Получаем данные из полей попапа
     _getInputValues() {
 
         this._inputList = this._popup.querySelectorAll('.popup__input');
@@ -24,23 +26,21 @@ export default class PopupWithForm extends Popup {
         return this._popupValues;
     }
 
+    //Открываем попап Редактирования профиля, дополнительно вставлям данные
     openEditProfile() {
         super.open();
         const info = this._getInfo(); //получаем данные со страницы через объект UserInfo
         this._setInfo(info); //заполняем поля в попапе         
     }
 
-    openAddCard() {
-        super.open();
-    }
-
+    //Закрываем попап Редактирования профиля, дополнительно очищаем поля
     close() {
         super.close();
-        /*reset*/
+        this._popup.querySelector('.popup__form').reset(); //очищаем поля
     }
 
     setEventListeners() {
-        super.setEventListeners();
-        this._popup.addEventListener('submit', this._handleSubmit.bind(this));
+        super.setEventListeners(); //навешиваем общие обработчики
+        this._popup.addEventListener('submit', this._handleSubmit.bind(this)); //навешиваем обработчик кнопки Сохранить/Создать
     }
 }
