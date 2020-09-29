@@ -31,18 +31,18 @@ const cardsList = new Section({
         renderer: (item) => {
 
             /*Создаем объект карточки*/
-            const card = new Card(item, { 
-                openImagePopup: () => {
-                    const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
-                    console.log(cardInfo);
-                    const popupImage = new PopupWithImage(cardInfo, '.popup_image');
-                    
-                    popupImage.setEventListeners();
-                    popupImage.openImage.call(popupImage);
+            const card = new Card(item, {
+                    openImagePopup: () => {
+                        const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
+                        console.log(cardInfo);
+                        const popupImage = new PopupWithImage(cardInfo, '.popup_image');
 
-                }
-            },
-            '#card-template'); 
+                        popupImage.setEventListeners();
+                        popupImage.openImage.call(popupImage);
+
+                    }
+                },
+                '#card-template');
             const cardNode = card.createCard(); // Вставляем разметку
             cardsList.addItem(cardNode); // Добавляем на страницу
         },
@@ -53,15 +53,15 @@ const cardsList = new Section({
 /* Отрисовка карточек на страницу*/
 cardsList.renderItems();
 
-/*Создаем объект для редактирования профиля*/
+/*Создаем объект для попапа редактирования профиля*/
 const popupEditProfile = new PopupWithForm({
         //Получаем инфу со страницы через объект UserInfo
         getInfo: () => {
 
-        const userInfo = new UserInfo({name: '', work: ''});
-        const info = userInfo.getUserInfo();
+            const userInfo = new UserInfo({ name: '', work: '' });
+            const info = userInfo.getUserInfo();
 
-        return info;
+            return info;
         },
 
         //Обработчик кнопки Сохранить
@@ -76,38 +76,38 @@ const popupEditProfile = new PopupWithForm({
 
 popupEditProfile.setEventListeners(); //устанавливаем обработчики
 
-/*Создаем объект для добавления карточки*/
+/*Создаем объект для попапа добавления карточки*/
 const popupAddCard = new PopupWithForm({
-        getInfo: () => {},
-        //Обработчик кнопки Создать
-        handleSubmit: () => {
-                const inputValues = popupAddCard._getInputValues();
-                const cardsList = new Section({
-                    data: [inputValues],
-                    renderer: (item) => {
-                    
-                        /*Создаем объект карточки*/
-                        const card = new Card(item, { 
+    getInfo: () => {},
+    //Обработчик кнопки Создать
+    handleSubmit: () => {
+        const inputValues = popupAddCard._getInputValues();
+        const cardsList = new Section({
+                data: [inputValues],
+                renderer: (item) => {
+
+                    /*Создаем объект карточки*/
+                    const card = new Card(item, {
                             openImagePopup: () => {
-                            
+
                                 const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
                                 const popupImage = new PopupWithImage(cardInfo, '.popup_image');
                                 popupImage.setEventListeners();
                                 popupImage.open();
-                                }
-                            },
-                            '#card-template'); 
-                        const cardNode = card.createCard(); // Вставляем разметку
-                        cardsList.addItem(cardNode); // Добавляем на страницу
-                    },
+                            }
+                        },
+                        '#card-template');
+                    const cardNode = card.createCard(); // Вставляем разметку
+                    cardsList.addItem(cardNode); // Добавляем на страницу
                 },
-                nodes.elements
-            );
-            cardsList.renderItems();
-            popupAddCard.close();
-        }
-    
-    }, '.popup_add-card');
+            },
+            nodes.elements
+        );
+        cardsList.renderItems();
+        popupAddCard.close();
+    }
+
+}, '.popup_add-card');
 popupAddCard.setEventListeners(); //устанавливаем обработчики
 
 
@@ -126,8 +126,8 @@ function saveAddCardPopup(e) {
 
 
 /*Навешиваем обработчики*/
-nodes.btnEdit.addEventListener('click', popupEditProfile.open);
-nodes.btnAdd.addEventListener('click', popupAddCard.open);
+nodes.btnEdit.addEventListener('click', popupEditProfile.openEditProfile.bind(popupEditProfile));
+nodes.btnAdd.addEventListener('click', popupAddCard.openAddCard.bind(popupAddCard));
 
 
 /*nodes.formSaveEditProfile.addEventListener('submit', saveEditProfilePopup);

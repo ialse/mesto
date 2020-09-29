@@ -6,30 +6,28 @@ export default class Popup {
     _handleEscClose = (evt) => {
         const popupActive = document.querySelector('.popup_opened');
         if (evt.key === 'Escape') {
-            this.close(popupActive);
+            this.close();
         }
     }
 
     _handleClickOverlayClose = (evt) => {
         const popupActive = document.querySelector('.popup_opened');
         if (evt.target === popupActive) {
-            this.close(popupActive);
+            this.close();
         }
     }
 
-    setEventListeners() {
-        this._popup.addEventListener('keyup', this._handleEscClose); //работает, только если поле в фокусе
-        document.body.addEventListener('mousedown', this._handleClickOverlayClose);
-        this._popup.querySelector('.popup__btn-close').addEventListener('click', this.close);
-    }
-
-    open = () => {
+    open() {
         this._popup.classList.add('popup_opened');
     }
 
-    /* для попапа профиля не работает стрелочная ф, 
-    для попапа картинки не работает обычная (this._popup = undefined)*/
-    close = () =>  {
+    close() {
         this._popup.classList.remove('popup_opened');
+    }
+
+    setEventListeners() {
+        this._popup.addEventListener('keyup', this._handleEscClose.bind(this)); //работает, только если поле в фокусе
+        document.body.addEventListener('mousedown', this._handleClickOverlayClose.bind(this));
+        this._popup.querySelector('.popup__btn-close').addEventListener('click', () => this.close());
     }
 }
