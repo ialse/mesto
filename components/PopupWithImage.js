@@ -7,7 +7,7 @@ export default class PopupWithImage extends Popup {
         this._image = data.link;
     }
 
-    //Открываем попап Добавления карточки, дополнительно вставлям ссылку, alt и название
+    // Открываем попап Добавления карточки, дополнительно вставлям ссылку, alt и название
     open() {
         super.open();
         this._popup.querySelector('.popup__image').src = this._image;

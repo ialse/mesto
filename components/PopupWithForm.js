@@ -1,10 +1,11 @@
 import Popup from './Popup.js';
 
 export default class PopupWithForm extends Popup {
-    constructor({ getInfo, handleSubmit }, popupSelector, ) {
+    constructor({ getInfo, handleSubmit, resetForm }, popupSelector, ) {
         super(popupSelector);
         this._getInfo = getInfo;
         this._handleSubmit = handleSubmit;
+        this._resetForm = resetForm;
     }
 
     //Заполняем поля в попапе данными со страницы
@@ -19,10 +20,8 @@ export default class PopupWithForm extends Popup {
     _getInputValues() {
 
         this._inputList = this._popup.querySelectorAll('.popup__input');
-
         this._popupValues = {};
         this._inputList.forEach(input => this._popupValues[input.name] = input.value);
-
         return this._popupValues;
     }
 
@@ -33,10 +32,10 @@ export default class PopupWithForm extends Popup {
         this._setInfo(info); //заполняем поля в попапе         
     }
 
-    //Закрываем попап Редактирования профиля, дополнительно очищаем поля
+    //Закрываем попап, дополнительно очищаем поля
     close() {
         super.close();
-        this._popup.querySelector('.popup__form').reset(); //очищаем поля
+        this._resetForm();
     }
 
     setEventListeners() {

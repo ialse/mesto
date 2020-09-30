@@ -6,6 +6,7 @@ export default class Popup {
     // Обработчик нажатия Escape - закрывает попап
     _handleEscClose(evt) {
         const popupActive = document.querySelector('.popup_opened');
+        console.log("Нажали Escape");
         if (evt.key === 'Escape') {
             this.close();
         }
@@ -26,13 +27,21 @@ export default class Popup {
 
     //Закрываем попап
     close() {
-        this._popup.classList.remove('popup_opened');
+        this._popup.classList.remove('popup_opened');        
+        this._removeEventListeners(); //не работает
+    }
+
+    //Удаляем обработчики закрытия попапа
+    _removeEventListeners() {
+        document.body.removeEventListener('keyup', this._handleEscClose.bind(this));
+        this._popup.removeEventListener('mousedown', this._handleClickOverlayClose.bind(this));
+        this._popup.querySelector('.popup__btn-close').removeEventListener('click', () => this.close());
     }
 
     //Навешиваем обработчики закрытия попапа
     setEventListeners() {
-        this._popup.addEventListener('keyup', this._handleEscClose.bind(this)); //работает, только если поле в фокусе
-        document.body.addEventListener('mousedown', this._handleClickOverlayClose.bind(this));
+        document.body.addEventListener('keyup', this._handleEscClose.bind(this));
+        this._popup.addEventListener('mousedown', this._handleClickOverlayClose.bind(this));
         this._popup.querySelector('.popup__btn-close').addEventListener('click', () => this.close());
     }
 }

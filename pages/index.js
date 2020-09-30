@@ -51,25 +51,25 @@ cardsList.renderItems();
 
 /*Создаем объект для попапа редактирования профиля*/
 const popupEditProfile = new PopupWithForm({
-        //Получаем инфу со страницы через объект UserInfo
-        getInfo: () => {
-            const userInfo = new UserInfo({ name: '', work: '' });
-            const info = userInfo.getUserInfo();
-
-            return info;
-        },
-
-        //Обработчик кнопки Сохранить
-        handleSubmit: () => {
-            const inputValues = popupEditProfile._getInputValues();
-            const userInfo = new UserInfo(inputValues);
-            userInfo.setUserInfo();
-            popupEditProfile.close();
-        }
+    //Получаем инфу со страницы через объект UserInfo
+    getInfo: () => {
+        const userInfo = new UserInfo({ name: '', work: '' });
+        const info = userInfo.getUserInfo();
+        return info;
     },
-    '.popup_edit-profile');
-
-popupEditProfile.setEventListeners(); //устанавливаем обработчики
+    //Обработчик кнопки Сохранить
+    handleSubmit: () => {
+        const inputValues = popupEditProfile._getInputValues();
+        const userInfo = new UserInfo(inputValues);
+        userInfo.setUserInfo();
+        popupEditProfile.close();
+        editProfileValidation.resetForm();
+    },
+    //Очищаем поля
+    resetForm: () => {
+        editProfileValidation.resetForm();
+    }    
+}, '.popup_edit-profile');
 
 /*Создаем объект для попапа добавления карточки*/
 const popupAddCard = new PopupWithForm({
@@ -92,17 +92,24 @@ const popupAddCard = new PopupWithForm({
                         },
                         '#card-template');
                     const cardNode = card.createCard(); // Вставляем разметку
-                    cardsList.addItem(cardNode); // Добавляем на страницу
+                    cardsList.addItem(cardNode); // Вставляем на страницу
                 },
             },
             nodes.elements
         );
         cardsList.renderItems();
         popupAddCard.close();
+        addCardValidation.resetForm();
+    },
+    //Очищаем поля
+    resetForm: () => {
+        addCardValidation.resetForm();
     }
-
 }, '.popup_add-card');
-popupAddCard.setEventListeners(); //устанавливаем обработчики
+
+//устанавливаем обработчики
+popupEditProfile.setEventListeners(); 
+popupAddCard.setEventListeners();
 
 /*Навешиваем обработчики*/
 nodes.btnEdit.addEventListener('click', popupEditProfile.openEditProfile.bind(popupEditProfile));
