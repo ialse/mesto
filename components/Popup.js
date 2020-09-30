@@ -9,7 +9,6 @@ export default class Popup {
     // Обработчик нажатия Escape - закрывает попап
     _handleEscClose(evt) {
         const popupActive = document.querySelector('.popup_opened');
-        console.log("Нажали Escape");
         if (evt.key === 'Escape') {
             this.close();
         }
@@ -18,7 +17,6 @@ export default class Popup {
     // Обработчик клика по оверлею - закрывает попап
     _handleClickOverlayClose(evt) {
         const popupActive = document.querySelector('.popup_opened');
-        console.log("клик");
         if (evt.target === popupActive) {
             this.close();
         }
@@ -33,7 +31,6 @@ export default class Popup {
     // Закрываем попап
     close() {
         this._popup.classList.remove('popup_opened');
-        this._removeEventListeners();
     }
 
     // Удаляем обработчики закрытия попапа

@@ -5,6 +5,7 @@ export default class PopupWithForm extends Popup {
         super(popupSelector);
         this._getInfo = getInfo;
         this._handleSubmit = handleSubmit;
+        this._handleSubmit = this._handleSubmit.bind(this);
         this._resetForm = resetForm;
     }
 
@@ -18,7 +19,6 @@ export default class PopupWithForm extends Popup {
 
     //Получаем данные из полей попапа
     _getInputValues() {
-
         this._inputList = this._popup.querySelectorAll('.popup__input');
         this._popupValues = {};
         this._inputList.forEach(input => this._popupValues[input.name] = input.value);
@@ -36,10 +36,16 @@ export default class PopupWithForm extends Popup {
     close() {
         super.close();
         this._resetForm(); //очищаем поля
+        this._removeEventListeners(); //удаляем слушатели событий
     }
 
+    _removeEventListeners() {
+        super._removeEventListeners();
+        this._popup.removeEventListener('submit', this._handleSubmit);
+    }
+    
     setEventListeners() {
-        super.setEventListeners(); //навешиваем общие обработчики
-        this._popup.addEventListener('submit', this._handleSubmit.bind(this)); //навешиваем обработчик кнопки Сохранить/Создать
+        super.setEventListeners();
+        this._popup.addEventListener('submit', this._handleSubmit); //навешиваем обработчик кнопки Сохранить/Создать
     }
 }

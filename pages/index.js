@@ -1,4 +1,4 @@
-import * as nodes from '../utils/nodes.js'; //импорт констант с узлами страницы
+import { btnEdit, btnAdd, editProfile, addCard } from '../utils/nodes.js'; //импорт констант с узлами страницы
 import { initialCards } from '../utils/initial-cards.js'; //импорт массива с данными начальных карточек
 import Card from '../components/Card.js'; //импорт класса, отвечающего за создание карточек
 import UserInfo from '../components/UserInfo.js'; //импорт класса, отвечающего за информацию о пользователе
@@ -18,8 +18,8 @@ const formSelectors = {
 };
 
 /*Создаем объекты для валидации*/
-const editProfileValidation = new FormValidator(formSelectors, nodes.popupEditProfile);
-const addCardValidation = new FormValidator(formSelectors, nodes.popupAddCard);
+const editProfileValidation = new FormValidator(formSelectors, editProfile);
+const addCardValidation = new FormValidator(formSelectors, addCard);
 
 /*включаем валидацию*/
 editProfileValidation.enableValidation();
@@ -45,7 +45,7 @@ const cardsList = new Section({
             cardsList.addItem(cardNode); // Добавляем на страницу
         },
     },
-    nodes.elements
+    '.elements'
 );
 
 /* Отрисовка карточек на страницу*/
@@ -60,11 +60,10 @@ const popupEditProfile = new PopupWithForm({
     },
     //Обработчик кнопки Сохранить
     handleSubmit: () => {
-        const inputValues = popupEditProfile._getInputValues();
-        console.log(inputValues);
-        userInfo.setUserInfo(inputValues);
-        popupEditProfile.close();
-        editProfileValidation.resetForm(); //Очищаем поля при сохранении
+        const inputValues = popupEditProfile._getInputValues(); // Получаем данные из попапа
+        userInfo.setUserInfo(inputValues); // Вставляем данные на страницу
+        popupEditProfile.close();        
+        editProfileValidation.resetForm(); // Очищаем поля при сохранении
     },
     //Очищаем поля при закрытии
     resetForm: () => {
@@ -96,7 +95,7 @@ const popupAddCard = new PopupWithForm({
                     cardsList.addItem(cardNode); // Вставляем на страницу
                 },
             },
-            nodes.elements
+            '.elements'
         );
         cardsList.renderItems();
         popupAddCard.close();
@@ -108,10 +107,6 @@ const popupAddCard = new PopupWithForm({
     }
 }, '.popup_add-card');
 
-//устанавливаем обработчики
-//popupEditProfile.setEventListeners(); 
-//popupAddCard.setEventListeners();
-
-/*Навешиваем обработчики*/
-nodes.btnEdit.addEventListener('click', popupEditProfile.openEditProfile.bind(popupEditProfile));
-nodes.btnAdd.addEventListener('click', popupAddCard.open.bind(popupAddCard));
+/*Добавляем слушатели событий*/
+btnEdit.addEventListener('click', popupEditProfile.openEditProfile.bind(popupEditProfile));
+btnAdd.addEventListener('click', popupAddCard.open.bind(popupAddCard));
