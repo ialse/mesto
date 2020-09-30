@@ -1,9 +1,7 @@
 import { profileName, profileWork } from '../utils/nodes.js'; //импорт констант с узлами страницы
 
 export default class UserInfo {
-    constructor({name, work}) {
-        this._name = name;
-        this._work = work;
+    constructor() {
     }
 
     //получить данные со страницы
@@ -14,8 +12,8 @@ export default class UserInfo {
     }
 
     //установить данные на страницу
-    setUserInfo () {
-        profileName.textContent = this._name;
-        profileWork.textContent = this._work;
+    setUserInfo ({name, work}) {
+        profileName.textContent = name;
+        profileWork.textContent = work;
     }
 }

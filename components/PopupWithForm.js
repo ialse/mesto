@@ -29,13 +29,13 @@ export default class PopupWithForm extends Popup {
     openEditProfile() {
         super.open();
         const info = this._getInfo(); //получаем данные со страницы через объект UserInfo
-        this._setInfo(info); //заполняем поля в попапе         
+        this._setInfo(info); //заполняем поля в попапе    
     }
 
-    //Закрываем попап, дополнительно очищаем поля
+    //Закрываем попап
     close() {
         super.close();
-        this._resetForm();
+        this._resetForm(); //очищаем поля
     }
 
     setEventListeners() {

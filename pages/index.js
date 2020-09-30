@@ -25,7 +25,9 @@ const addCardValidation = new FormValidator(formSelectors, nodes.popupAddCard);
 editProfileValidation.enableValidation();
 addCardValidation.enableValidation();
 
-/*Создаем объект*/
+const userInfo = new UserInfo();
+
+/*Создаем объект секции*/
 const cardsList = new Section({
         data: initialCards,
         renderer: (item) => {
@@ -53,19 +55,18 @@ cardsList.renderItems();
 const popupEditProfile = new PopupWithForm({
     //Получаем инфу со страницы через объект UserInfo
     getInfo: () => {
-        const userInfo = new UserInfo({ name: '', work: '' });
         const info = userInfo.getUserInfo();
         return info;
     },
     //Обработчик кнопки Сохранить
     handleSubmit: () => {
         const inputValues = popupEditProfile._getInputValues();
-        const userInfo = new UserInfo(inputValues);
-        userInfo.setUserInfo();
+        console.log(inputValues);
+        userInfo.setUserInfo(inputValues);
         popupEditProfile.close();
-        editProfileValidation.resetForm();
+        editProfileValidation.resetForm(); //Очищаем поля при сохранении
     },
-    //Очищаем поля
+    //Очищаем поля при закрытии
     resetForm: () => {
         editProfileValidation.resetForm();
     }    
@@ -99,17 +100,17 @@ const popupAddCard = new PopupWithForm({
         );
         cardsList.renderItems();
         popupAddCard.close();
-        addCardValidation.resetForm();
+        addCardValidation.resetForm(); // Очищаем поля при Создании
     },
-    //Очищаем поля
+    // Очищаем поля при закрытии
     resetForm: () => {
         addCardValidation.resetForm();
     }
 }, '.popup_add-card');
 
 //устанавливаем обработчики
-popupEditProfile.setEventListeners(); 
-popupAddCard.setEventListeners();
+//popupEditProfile.setEventListeners(); 
+//popupAddCard.setEventListeners();
 
 /*Навешиваем обработчики*/
 nodes.btnEdit.addEventListener('click', popupEditProfile.openEditProfile.bind(popupEditProfile));
