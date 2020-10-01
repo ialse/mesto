@@ -1,3 +1,4 @@
+import './index.css';
 import { btnEdit, btnAdd, editProfile, addCard } from "../utils/nodes.js"; //импорт констант с узлами страницы
 import { initialCards } from "../utils/initial-cards.js"; //импорт массива с данными начальных карточек
 import Card from "../components/Card.js"; //импорт класса, отвечающего за создание карточек
