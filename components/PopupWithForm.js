@@ -38,12 +38,6 @@ export default class PopupWithForm extends Popup {
   close() {
     super.close();
     this._resetForm(); //очищаем поля
-    this._removeEventListeners(); //удаляем слушатели событий
-  }
-
-  _removeEventListeners() {
-    super._removeEventListeners();
-    this._popup.removeEventListener("submit", this._handleSubmit);
   }
 
   setEventListeners() {

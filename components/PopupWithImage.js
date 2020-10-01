@@ -17,10 +17,5 @@ export default class PopupWithImage extends Popup {
 
   close() {
     super.close();
-    this._removeEventListeners();
-  }
-
-  _removeEventListeners() {
-    super._removeEventListeners();
   }
 }

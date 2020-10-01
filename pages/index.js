@@ -125,8 +125,7 @@ const popupAddCard = new PopupWithForm(
 );
 
 /*Добавляем слушатели событий*/
-btnEdit.addEventListener(
-  "click",
-  popupEditProfile.openEditProfile.bind(popupEditProfile)
-);
+popupEditProfile.setEventListeners();
+popupAddCard.setEventListeners();
+btnEdit.addEventListener("click", popupEditProfile.openEditProfile.bind(popupEditProfile));
 btnAdd.addEventListener("click", popupAddCard.open.bind(popupAddCard));

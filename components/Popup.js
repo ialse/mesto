@@ -8,6 +8,7 @@ export default class Popup {
 
   // Обработчик нажатия Escape - закрывает попап
   _handleEscClose(evt) {
+      console.log("111");
     const popupActive = document.querySelector(".popup_opened");
     if (evt.key === "Escape") {
       this.close();
@@ -16,6 +17,7 @@ export default class Popup {
 
   // Обработчик клика по оверлею - закрывает попап
   _handleClickOverlayClose(evt) {
+    console.log("222");
     const popupActive = document.querySelector(".popup_opened");
     if (evt.target === popupActive) {
       this.close();
@@ -25,29 +27,28 @@ export default class Popup {
   // Открываем попап
   open() {
     this._popup.classList.add("popup_opened");
-    this.setEventListeners();
+    this._setCloseEventListeners();
   }
 
   // Закрываем попап
   close() {
     this._popup.classList.remove("popup_opened");
+    this._removeCloseEventListeners();
   }
 
   // Удаляем обработчики закрытия попапа
-  _removeEventListeners() {
+  _removeCloseEventListeners() {
     document.body.removeEventListener("keyup", this._handleEscClose);
     this._popup.removeEventListener("mousedown", this._handleClickOverlayClose);
-    this._popup
-      .querySelector(".popup__btn-close")
-      .removeEventListener("click", this.close);
   }
 
   // Добавляем обработчики закрытия попапа
-  setEventListeners() {
+  _setCloseEventListeners() {
     document.body.addEventListener("keyup", this._handleEscClose);
-    this._popup.addEventListener("mousedown", this._handleClickOverlayClose);
-    this._popup
-      .querySelector(".popup__btn-close")
-      .addEventListener("click", this.close);
+    this._popup.addEventListener("mousedown", this._handleClickOverlayClose);    
+  }
+
+  setEventListeners() {
+    this._popup.querySelector(".popup__btn-close").addEventListener("click", this.close);
   }
 }
