@@ -64,8 +64,7 @@ const popupEditProfile = new PopupWithForm(
       return info;
     },
     //Обработчик кнопки Сохранить
-    handleSubmit: () => {
-      const inputValues = popupEditProfile._getInputValues(); // Получаем данные из попапа
+    handleSubmit: (inputValues) => {
       userInfo.setUserInfo(inputValues); // Вставляем данные на страницу
       popupEditProfile.close();
       editProfileValidation.resetForm(); // Очищаем поля при сохранении
@@ -83,8 +82,7 @@ const popupAddCard = new PopupWithForm(
   {
     getInfo: () => {},
     //Обработчик кнопки Создать
-    handleSubmit: () => {
-      const inputValues = popupAddCard._getInputValues();
+    handleSubmit: (inputValues) => {
       const cardsList = new Section(
         {
           data: [inputValues],
