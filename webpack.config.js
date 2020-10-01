@@ -1,47 +1,51 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: { main: './src/pages/index.js' },
+  entry: { main: "./src/pages/index.js" },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js'
+    path: path.resolve(__dirname, "dist"),
+    filename: "main.js",
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: '/node_modules/'
+        loader: "babel-loader",
+        exclude: "/node_modules/",
       },
       {
         test: /\.css$/,
         loader: [
           MiniCssExtractPlugin.loader,
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
-              importLoaders: 1
-            }
+              importLoaders: 1,
+            },
           },
-          'postcss-loader'
+          "postcss-loader",
         ],
       },
       {
         test: /\.html$/,
-        loader: 'html-loader',
+        loader: "html-loader",
       },
       {
-        test: /\.(png|svg|jpg|JPG|gif|woff2)$/,
-        loader: 'file-loader',
+        test: /.(png|svg|jpg|JPG|gif)$/,
+        loader: "file-loader?name=./images/[name].[ext]",
       },
-    ]
+      {
+        test: /.(eot|ttf|woff|woff2)$/,
+        loader: "file-loader?name=./vendor/[name].[ext]",
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: "src/index.html",
     }),
-    new MiniCssExtractPlugin()
-  ]
+    new MiniCssExtractPlugin(),
+  ],
 };

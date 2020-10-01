@@ -1,4 +1,4 @@
-import './index.css';
+import "./index.css";
 import { btnEdit, btnAdd, editProfile, addCard } from "../utils/nodes.js"; //импорт констант с узлами страницы
 import { initialCards } from "../utils/initial-cards.js"; //импорт массива с данными начальных карточек
 import Card from "../components/Card.js"; //импорт класса, отвечающего за создание карточек
@@ -126,5 +126,8 @@ const popupAddCard = new PopupWithForm(
 /*Добавляем слушатели событий*/
 popupEditProfile.setEventListeners();
 popupAddCard.setEventListeners();
-btnEdit.addEventListener("click", popupEditProfile.openEditProfile.bind(popupEditProfile));
+btnEdit.addEventListener(
+  "click",
+  popupEditProfile.openEditProfile.bind(popupEditProfile)
+);
 btnAdd.addEventListener("click", popupAddCard.open.bind(popupAddCard));
