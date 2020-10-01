@@ -11,7 +11,7 @@ export default class FormValidator {
   }
 
   /*Показать текст ошибки*/
-  _showInputError = (inputElement, errorMessage) => {
+  _showInputError (inputElement, errorMessage) {
     const errorElement = this._form.querySelector(`#${inputElement.id}-error`);
     inputElement.classList.add(this._inputErrorClass);
     errorElement.textContent = errorMessage;
@@ -20,7 +20,7 @@ export default class FormValidator {
 
   /*Скрыть текст ошибки. Метод публичный, 
     так как использую его для скрытия текста ошибок после закрытия попапа*/
-  _hideInputError = (inputElement) => {
+  _hideInputError (inputElement) {
     const errorElement = this._form.querySelector(`#${inputElement.id}-error`);
     inputElement.classList.remove(this._inputErrorClass);
     errorElement.classList.remove(this._errorClass);
@@ -28,7 +28,7 @@ export default class FormValidator {
   };
 
   /*Проверка на ошибки*/
-  _checkInputValidity = (inputElement) => {
+  _checkInputValidity (inputElement) {
     if (!inputElement.validity.valid) {
       this._showInputError(inputElement, inputElement.validationMessage);
     } else {
@@ -37,17 +37,17 @@ export default class FormValidator {
   };
 
   /*Получить массив полей текущей формы*/
-  _getInputList = () => {
+  _getInputList () {
     return Array.from(this._form.querySelectorAll(this._inputSelector));
   };
 
   /*Получить кнопку Сохранить текущей формы*/
-  _getButtonElement = () => {
+  _getButtonElement () {
     return this._form.querySelector(this._submitButtonSelector);
   };
 
   /*Установка обработчиков на все поля форм*/
-  _setEventListeners = () => {
+  _setEventListeners () {
     const inputList = this._getInputList();
     const buttonElement = this._getButtonElement();
     this._toggleButtonState(inputList, buttonElement);
@@ -61,7 +61,7 @@ export default class FormValidator {
   };
 
   /*Включение проверки для нужной формы*/
-  enableValidation = () => {
+  enableValidation () {
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
     });
@@ -85,7 +85,7 @@ export default class FormValidator {
   }
 
   /*Очищаем тексты ошибок, поля и блокируем кнопку*/
-  resetForm = () => {
+  resetForm ()  {
     /*Сначала очишаю поля, чтобы дальнейшие проверки корректно работали*/
     this._form.querySelector(this._formSelector).reset();
 

@@ -1,10 +1,11 @@
 {
-  "name": "yandex.praktikum",
+  "name": "yandex.praktikum.mesto",
   "version": "0.0.1",
   "description": "Learning platform",
   "main": "index.js",
   "scripts": {
-    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+    "build": "rd /s /q dist && webpack",
+    "dev": "webpack-dev-server --open --watch"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,19 @@
   "bugs": {
     "url": "https://github.com/ialse/mesto/issues"
   },
-  "homepage": "https://github.com/ialse/mesto#readme"
+  "homepage": "https://github.com/ialse/mesto#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "babel-loader": "^8.1.0",
+    "file-loader": "^6.1.0",
+    "html-loader": "^1.3.1",
+    "html-webpack-plugin": "^4.5.0",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5"
+  }
 }

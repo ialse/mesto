@@ -10,7 +10,7 @@ export default class PopupWithForm extends Popup {
   }
 
   //Заполняем поля в попапе данными со страницы
-  _setInfo = ({ _name, _work }) => {
+  _setInfo ({ _name, _work }) {
     this._inputName = this._popup.querySelector(".popup__input_name");
     this._inputWork = this._popup.querySelector(".popup__input_work");
     this._inputName.value = _name;
