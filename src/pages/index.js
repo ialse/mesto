@@ -26,24 +26,25 @@ const addCardValidation = new FormValidator(formSelectors, addCard);
 editProfileValidation.enableValidation();
 addCardValidation.enableValidation();
 
-const userInfo = new UserInfo('.profile__title', '.profile__subtitle');
+const userInfo = new UserInfo(".profile__title", ".profile__subtitle");
 const popupImage = new PopupWithImage(".popup_image");
 
-addCardToPage () {
-/*Создаем объект карточки*/
-const card = new Card(
-  item,
-  {
-    openImagePopup: () => {
-      const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки            
-      popupImage.setEventListeners();
-      popupImage.open(cardInfo);
+function addCardToPage(data) {
+  /*Создаем объект карточки*/
+  const card = new Card(
+    data,
+    {
+      // Обработчик клика по картинке карточки
+      openImagePopup: () => {
+        const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки            
+        popupImage.setEventListeners();
+        popupImage.open(cardInfo);
+      },
     },
-  },
-  "#card-template"
-);
-const cardNode = card.createCard(); // Вставляем разметку
-cardsList.addItem(cardNode); // Добавляем на страницу
+    "#card-template"
+  );
+  const cardNode = card.createCard(); // Вставляем разметку
+  cardsList.addItem(cardNode); // Добавляем на страницу
 }
 
 /*Создаем объект секции*/
@@ -51,14 +52,11 @@ const cardsList = new Section(
   {
     data: initialCards,
     renderer: (item) => {
-      
+      addCardToPage(item);
     },
   },
   ".elements"
 );
-
-/* Отрисовка карточек на страницу*/
-cardsList.renderItems();
 
 /*Создаем объект для попапа редактирования профиля*/
 const popupEditProfile = new PopupWithForm(
@@ -82,20 +80,7 @@ const popupAddCard = new PopupWithForm(
   {
     //Обработчик кнопки Создать
     handleSubmit: (inputValues) => {
-
-      const card = new Card(
-        inputValues,
-        {
-          openImagePopup: () => {
-            const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
-            popupImage.setEventListeners();
-            popupImage.open(cardInfo);
-          },
-        },
-        "#card-template"
-      );
-      const cardNode = card.createCard(); // Вставляем разметку
-      cardsList.addItem(cardNode); // Вставляем на страницу
+      addCardToPage(inputValues);
       popupAddCard.close();
       addCardValidation.resetForm(); // Очищаем поля при Создании
     },
@@ -107,13 +92,16 @@ const popupAddCard = new PopupWithForm(
   ".popup_add-card"
 );
 
+/* Отрисовка начальных карточек на страницу*/
+cardsList.renderItems();
+
 /*Добавляем слушатели событий*/
 popupEditProfile.setEventListeners();
 popupAddCard.setEventListeners();
 btnEdit.addEventListener("click", () => {
   const info = userInfo.getUserInfo();
-  popupEditProfile.popup.querySelector(".popup__input_name").value = info._name;
-  popupEditProfile.popup.querySelector(".popup__input_work").value = info._work;
+  popupEditProfile.popup.querySelector(".popup__input_name").value = info.name;
+  popupEditProfile.popup.querySelector(".popup__input_work").value = info.work;
   popupEditProfile.open();
 });
-btnAdd.addEventListener("click", popupAddCard.open.bind(popupAddCard));
+btnAdd.addEventListener("click", () => { popupAddCard.open() });

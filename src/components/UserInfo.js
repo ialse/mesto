@@ -6,10 +6,9 @@ export default class UserInfo {
 
   //получить данные со страницы
   getUserInfo() {
-    
     const name = this._profileName.textContent;
     const work = this._profileWork.textContent;
-    return {name, work};
+    return { name, work };
   }
 
   //установить данные на страницу
