@@ -1,13 +1,13 @@
 export default class FormValidator {
   /*Конструктор*/
-  constructor(data, form) {
+  constructor(data, popup) {
     this._formSelector = data.formSelector;
     this._inputSelector = data.inputSelector;
     this._submitButtonSelector = data.submitButtonSelector;
     this._inactiveButtonClass = data.inactiveButtonClass;
     this._inputErrorClass = data.inputErrorClass;
     this._errorClass = data.errorClass;
-    this._form = form;
+    this._form = popup.querySelector(this._formSelector);
   }
 
   /*Показать текст ошибки*/
@@ -87,7 +87,7 @@ export default class FormValidator {
   /*Очищаем тексты ошибок, поля и блокируем кнопку*/
   resetForm ()  {
     /*Сначала очишаю поля, чтобы дальнейшие проверки корректно работали*/
-    this._form.querySelector(this._formSelector).reset();
+    this._form.reset();
 
     const inputList = this._getInputList();
     const buttonElement = this._getButtonElement();

@@ -1,18 +1,20 @@
-import { profileName, profileWork } from "../utils/nodes.js"; //импорт констант с узлами страницы
-
 export default class UserInfo {
-  constructor() {}
+  constructor(profileName, profileWork) {
+    this._profileName = document.querySelector(profileName);
+    this._profileWork = document.querySelector(profileWork);
+  }
 
   //получить данные со страницы
   getUserInfo() {
-    this._name = profileName.textContent;
-    this._work = profileWork.textContent;
-    return this;
+    
+    const name = this._profileName.textContent;
+    const work = this._profileWork.textContent;
+    return {name, work};
   }
 
   //установить данные на страницу
   setUserInfo({ name, work }) {
-    profileName.textContent = name;
-    profileWork.textContent = work;
+    this._profileName.textContent = name;
+    this._profileWork.textContent = work;
   }
 }

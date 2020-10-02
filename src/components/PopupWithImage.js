@@ -1,21 +1,18 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithImage extends Popup {
-  constructor(data, popupSelector) {
+  constructor(popupSelector) {
     super(popupSelector);
-    this._title = data.name;
-    this._image = data.link;
   }
 
   // Открываем попап Добавления карточки, дополнительно вставлям ссылку, alt и название
-  open() {
+  open({name, link}) {
     super.open();
-    this._popup.querySelector(".popup__image").src = this._image;
-    this._popup.querySelector(".popup__image").alt = this._title;
-    this._popup.querySelector(".popup__title").textContent = this._title;
-  }
-
-  close() {
-    super.close();
+    const image = this.popup.querySelector(".popup__image");
+    const title = this.popup.querySelector(".popup__title");
+    
+    image.src = link;
+    image.alt = name;
+    title.textContent = name;
   }
 }

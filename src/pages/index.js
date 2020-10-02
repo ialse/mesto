@@ -26,7 +26,7 @@ const addCardValidation = new FormValidator(formSelectors, addCard);
 editProfileValidation.enableValidation();
 addCardValidation.enableValidation();
 
-const userInfo = new UserInfo();
+const userInfo = new UserInfo('.profile__title', '.profile__subtitle');
 
 /*Создаем объект секции*/
 const cardsList = new Section(
@@ -39,9 +39,9 @@ const cardsList = new Section(
         {
           openImagePopup: () => {
             const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
-            const popupImage = new PopupWithImage(cardInfo, ".popup_image");
+            const popupImage = new PopupWithImage(".popup_image");
             popupImage.setEventListeners();
-            popupImage.open();
+            popupImage.open(cardInfo);
           },
         },
         "#card-template"
@@ -95,12 +95,9 @@ const popupAddCard = new PopupWithForm(
                 openImagePopup: () => {
                   // Обработчик клика по картинке - открытие попапа
                   const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
-                  const popupImage = new PopupWithImage(
-                    cardInfo,
-                    ".popup_image"
-                  );
+                  const popupImage = new PopupWithImage(".popup_image");
                   popupImage.setEventListeners();
-                  popupImage.open();
+                  popupImage.open(cardInfo);
                 },
               },
               "#card-template"
@@ -126,8 +123,10 @@ const popupAddCard = new PopupWithForm(
 /*Добавляем слушатели событий*/
 popupEditProfile.setEventListeners();
 popupAddCard.setEventListeners();
-btnEdit.addEventListener(
-  "click",
-  popupEditProfile.openEditProfile.bind(popupEditProfile)
-);
+btnEdit.addEventListener("click", () => {
+  const info = userInfo.getUserInfo();
+  popupEditProfile.popup.querySelector(".popup__input_name").value = info._name;
+  popupEditProfile.popup.querySelector(".popup__input_work").value = info._work;
+  popupEditProfile.open();
+});
 btnAdd.addEventListener("click", popupAddCard.open.bind(popupAddCard));
