@@ -27,27 +27,31 @@ editProfileValidation.enableValidation();
 addCardValidation.enableValidation();
 
 const userInfo = new UserInfo('.profile__title', '.profile__subtitle');
+const popupImage = new PopupWithImage(".popup_image");
+
+addCardToPage () {
+/*Создаем объект карточки*/
+const card = new Card(
+  item,
+  {
+    openImagePopup: () => {
+      const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки            
+      popupImage.setEventListeners();
+      popupImage.open(cardInfo);
+    },
+  },
+  "#card-template"
+);
+const cardNode = card.createCard(); // Вставляем разметку
+cardsList.addItem(cardNode); // Добавляем на страницу
+}
 
 /*Создаем объект секции*/
 const cardsList = new Section(
   {
     data: initialCards,
     renderer: (item) => {
-      /*Создаем объект карточки*/
-      const card = new Card(
-        item,
-        {
-          openImagePopup: () => {
-            const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
-            const popupImage = new PopupWithImage(".popup_image");
-            popupImage.setEventListeners();
-            popupImage.open(cardInfo);
-          },
-        },
-        "#card-template"
-      );
-      const cardNode = card.createCard(); // Вставляем разметку
-      cardsList.addItem(cardNode); // Добавляем на страницу
+      
     },
   },
   ".elements"
@@ -59,11 +63,6 @@ cardsList.renderItems();
 /*Создаем объект для попапа редактирования профиля*/
 const popupEditProfile = new PopupWithForm(
   {
-    //Получаем инфу со страницы через объект UserInfo
-    getInfo: () => {
-      const info = userInfo.getUserInfo();
-      return info;
-    },
     //Обработчик кнопки Сохранить
     handleSubmit: (inputValues) => {
       userInfo.setUserInfo(inputValues); // Вставляем данные на страницу
@@ -81,34 +80,22 @@ const popupEditProfile = new PopupWithForm(
 /*Создаем объект для попапа добавления карточки*/
 const popupAddCard = new PopupWithForm(
   {
-    getInfo: () => {},
     //Обработчик кнопки Создать
     handleSubmit: (inputValues) => {
-      const cardsList = new Section(
+
+      const card = new Card(
+        inputValues,
         {
-          data: [inputValues],
-          renderer: (item) => {
-            /*Создаем объект карточки*/
-            const card = new Card(
-              item,
-              {
-                openImagePopup: () => {
-                  // Обработчик клика по картинке - открытие попапа
-                  const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
-                  const popupImage = new PopupWithImage(".popup_image");
-                  popupImage.setEventListeners();
-                  popupImage.open(cardInfo);
-                },
-              },
-              "#card-template"
-            );
-            const cardNode = card.createCard(); // Вставляем разметку
-            cardsList.addItem(cardNode); // Вставляем на страницу
+          openImagePopup: () => {
+            const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки
+            popupImage.setEventListeners();
+            popupImage.open(cardInfo);
           },
         },
-        ".elements"
+        "#card-template"
       );
-      cardsList.renderItems();
+      const cardNode = card.createCard(); // Вставляем разметку
+      cardsList.addItem(cardNode); // Вставляем на страницу
       popupAddCard.close();
       addCardValidation.resetForm(); // Очищаем поля при Создании
     },
