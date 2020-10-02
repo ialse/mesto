@@ -1,3 +1,5 @@
+/*Для КР: Благодарю за ценные замечания. Помогли сделать код гораздо более логичным и не хаотичным,
+ а также лучше понять взаимодействие между классамим*/
 import "./index.css";
 import { btnEdit, btnAdd, editProfile, addCard } from "../utils/nodes.js"; //импорт констант с узлами страницы
 import { initialCards } from "../utils/initial-cards.js"; //импорт массива с данными начальных карточек
