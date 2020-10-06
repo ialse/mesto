@@ -7,6 +7,7 @@ import Section from "../components/Section.js"; //импорт класса, о�
 import PopupWithForm from "../components/PopupWithForm.js"; //импорт класса, отвечающего за попапы с формами
 import PopupWithImage from "../components/PopupWithImage.js"; //импорт класса, отвечающего за попапы с изображениями
 import FormValidator from "../components/FormValidator.js"; //импорт класса, отвечающего за валидацию форм
+import Api from "../components/Api.js"; //импорт класса, отвечающего за API
 
 /*Объект с селекторами формы*/
 const formSelectors = {
@@ -27,12 +28,16 @@ editProfileValidation.enableValidation();
 addCardValidation.enableValidation();
 
 const api = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-16',
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-16',
   headers: {
     authorization: '4b2550a1-9754-487b-87bb-c51dfc845f43',
     'Content-Type': 'application/json'
   }
-}); 
+});
+
+const test = api.getUserInfo();
+console.log(test);
+
 
 const userInfo = new UserInfo(".profile__title", ".profile__subtitle");
 const popupImage = new PopupWithImage(".popup_image");
