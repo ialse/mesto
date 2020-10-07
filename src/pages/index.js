@@ -27,20 +27,20 @@ const addCardValidation = new FormValidator(formSelectors, addCard);
 editProfileValidation.enableValidation();
 addCardValidation.enableValidation();
 
+const userInfo = new UserInfo(".profile__title", ".profile__subtitle", ".profile__avatar");
+
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-16',
   headers: {
     authorization: '4b2550a1-9754-487b-87bb-c51dfc845f43',
     'Content-Type': 'application/json'
+  },
+  setUserInfo: (info) => {
+    userInfo.setUserInfo(info);
   }
 });
 
-
-const userInfo = new UserInfo(".profile__title", ".profile__subtitle");
-
-const test = api.getUserInfo();
-console.log(test.name);
-//userInfo.setUserInfo(api.getUserInfo());
+api.getUserInfoFromServer();
 
 const popupImage = new PopupWithImage(".popup_image");
 

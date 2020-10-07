@@ -1,7 +1,8 @@
 export default class Api {
-    constructor({ baseUrl, headers }) {
+    constructor({ baseUrl, headers, setUserInfo }) {
         this._baseUrl = baseUrl;
         this._headers = headers;
+        this._setUserInfo = setUserInfo;
     }
 
     getInitialCards() {
@@ -9,33 +10,13 @@ export default class Api {
     }
 
     // Получение с сервера информация о пользователе 
-    getUserInfo() {
-        const info = {};
-
-       /* function test(userInfo) {
-            info.name = userInfo.name;
-        }*/
-
-        fetch(`${this._baseUrl}/users/me`, {
-            headers: this._headers
-        })
+    getUserInfoFromServer() {
+        fetch(`${this._baseUrl}/users/me`, { headers: this._headers })
             .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-
+                if (res.ok) { return res.json(); }
                 return Promise.reject(`Ошибка: ${res.status}`); // если ошибка при запросе, переходим к catch
             })
-            .then((userInfo) => {
-               // name = userInfo.name;
-                //work = userInfo.about;
-                //avatar = userInfo.avatar;
-                return userInfo;                
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        //console.log(info);    
-        //return  info;
+            .then((userInfo) => { this._setUserInfo(userInfo); })
+            .catch((err) => { console.log(err); });
     }
 }
