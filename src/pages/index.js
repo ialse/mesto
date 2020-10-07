@@ -37,10 +37,15 @@ const api = new Api({
   },
   setUserInfo: (info) => {
     userInfo.setUserInfo(info);
+    console.log(info);
+  },
+  setCards: (cards) => {
+    cards.forEach((card) => { addCardToPage(card) })
   }
 });
 
 api.getUserInfoFromServer();
+api.getInitialCards();
 
 const popupImage = new PopupWithImage(".popup_image");
 
@@ -79,6 +84,7 @@ const popupEditProfile = new PopupWithForm(
     //Обработчик кнопки Сохранить
     handleSubmit: (inputValues) => {
       userInfo.setUserInfo(inputValues); // Вставляем данные на страницу
+      api.setUserInfoToServer(inputValues); // Сохраняем на сервере
       popupEditProfile.close();
       editProfileValidation.resetForm(); // Очищаем поля при сохранении
     },
@@ -108,7 +114,7 @@ const popupAddCard = new PopupWithForm(
 );
 
 /* Отрисовка начальных карточек на страницу*/
-cardsList.renderItems();
+//cardsList.renderItems();
 
 /*Добавляем слушатели событий*/
 popupEditProfile.setEventListeners();
