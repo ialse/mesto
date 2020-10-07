@@ -35,11 +35,13 @@ const api = new Api({
   }
 });
 
-const test = api.getUserInfo();
-console.log(test);
-
 
 const userInfo = new UserInfo(".profile__title", ".profile__subtitle");
+
+const test = api.getUserInfo();
+console.log(test.name);
+//userInfo.setUserInfo(api.getUserInfo());
+
 const popupImage = new PopupWithImage(".popup_image");
 
 function addCardToPage(data) {

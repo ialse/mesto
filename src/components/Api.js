@@ -8,11 +8,15 @@ export default class Api {
         // ...
     }
 
-    // другие методы работы с API
-
+    // Получение с сервера информация о пользователе 
     getUserInfo() {
-        console.log(this._headers);
-        return fetch(`${this._baseUrl}/users/me`, {
+        const info = {};
+
+       /* function test(userInfo) {
+            info.name = userInfo.name;
+        }*/
+
+        fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers
         })
             .then(res => {
@@ -23,11 +27,15 @@ export default class Api {
                 return Promise.reject(`Ошибка: ${res.status}`); // если ошибка при запросе, переходим к catch
             })
             .then((userInfo) => {
-                console.log(userInfo);
-                return userInfo;
+               // name = userInfo.name;
+                //work = userInfo.about;
+                //avatar = userInfo.avatar;
+                return userInfo;                
             })
             .catch((err) => {
                 console.log(err);
             });
+        //console.log(info);    
+        //return  info;
     }
 }
