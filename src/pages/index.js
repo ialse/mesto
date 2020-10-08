@@ -14,8 +14,8 @@ import Api from "../components/Api.js"; //импорт класса, отвеч�
 const formSelectors = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__btn-save",
-  inactiveButtonClass: "popup__btn-save_disabled",
+  submitButtonSelector: ".popup__btn-submit",
+  inactiveButtonClass: "popup__btn-submit_disabled",
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
 };
@@ -53,17 +53,19 @@ const popupImage = new PopupWithImage(".popup_image");
 const popupDeleteConfirm = new PopupWithSubmit(
   {
     //Обработчик кнопки Да
-    handleSubmit: () => {
+    handleSubmit: (card) => {
+      console.log(card);
       popupDeleteConfirm.close();
-    },    
+      api.deleteCardToServer(card);
+    },
   },
   ".popup_confirm-delete"
 );
 
-function addCardToPage(data) {
+function addCardToPage(dataCard) {
   /*Создаем объект карточки*/
   const card = new Card(
-    data,
+    dataCard,
     {
       // Обработчик клика по картинке карточки
       openImagePopup: () => {
@@ -71,8 +73,8 @@ function addCardToPage(data) {
         popupImage.setEventListeners();
         popupImage.open(cardInfo);
       },
-      handleDeleteClick: () => {        
-        popupDeleteConfirm.setEventListeners();
+      handleDeleteClick: () => {
+        popupDeleteConfirm.setEventListeners(card);
         popupDeleteConfirm.open();
       },
     },

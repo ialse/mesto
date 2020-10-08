@@ -1,10 +1,12 @@
 export default class Card {
-  constructor(data, { openImagePopup }, cardTemplate) {
+  constructor(data, { openImagePopup, handleDeleteClick }, cardTemplate) {
     this._name = data.name;
     this._link = data.link;
-    this._likes = data.likes.length;
+    this._likes = (data.likes) ? data.likes.length : 0; //когда создаем карточку надо ставить 0 иначе ошибка
+    this._id = data._id;
     this._cardTemplate = cardTemplate;
     this._openImagePopup = openImagePopup;
+    this._handleDeleteClick = handleDeleteClick;
   }
 
   // Получаем шаблон карточки
@@ -29,8 +31,9 @@ export default class Card {
 
   // Обработчик события, удаляющий карточку
   _addHandlerBtnRemove() {
-    this._card.remove();
-    this._card = null;
+    //this._card.remove();
+    //this._card = null;
+    this._handleDeleteClick();
   }
 
   // Установка слушателей

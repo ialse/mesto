@@ -7,11 +7,17 @@ export default class PopupWithSubmit extends Popup {
     this._handleSubmit = this._handleSubmit.bind(this);
   }
 
-  setEventListeners() {
+
+  setEventListeners(card) {
     super.setEventListeners();
     //навешиваем обработчик кнопки Да
-    this.popup.addEventListener("submit", () => {
-      this._handleSubmit();
-    });
+    this.popup.addEventListener("submit", (evt) => {
+      evt.preventDefault();
+      this._handleSubmit(card);
+    },
+      { once: true } //обработчик удаляется после однократного выполнения
+    );
+
+
   }
 }

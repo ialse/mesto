@@ -27,7 +27,8 @@ export default class PopupWithForm extends Popup {
   setEventListeners() {
     super.setEventListeners();
     //навешиваем обработчик кнопки Сохранить/Создать
-    this.popup.addEventListener("submit", () => {
+    this.popup.addEventListener("submit", (evt) => {
+      evt.preventDefault();
       this._handleSubmit(this._getInputValues());
     });
   }

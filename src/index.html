@@ -45,7 +45,7 @@
           minlength="2" maxlength="200" required />
         <span class="popup__error" id="work-input-error"></span>
       </label>
-      <button type="submit" class="popup__btn-save">Сохранить</button>
+      <button type="submit" class="popup__btn-submit">Сохранить</button>
       <button type="button" class="popup__btn-close"></button>
     </form>
   </div>
@@ -63,7 +63,7 @@
           placeholder="Ссылка на картинку" required />
         <span class="popup__error" id="link-input-error"></span>
       </label>
-      <button type="submit" class="popup__btn-save">Создать</button>
+      <button type="submit" class="popup__btn-submit">Создать</button>
       <button type="button" class="popup__btn-close"></button>
     </form>
   </div>
@@ -77,9 +77,9 @@
   </div>
 
   <div class="popup popup_confirm-delete">
-    <form class="popup__container popup__container_popup_confirm-delete" name="popup__confirm-delete" novalidate>      
-      <h2 class="popup__title">Вы уверены?</h2>
-      <button type="submit" class="popup__btn-delete">Да</button>
+    <form class="popup__container popup__container_popup_confirm-delete" name="popup__confirm-delete" novalidate>
+      <h2 class="popup__title popup__title_confirm">Вы уверены?</h2>
+      <button type="submit" class="popup__btn-submit">Да</button>
       <button type="button" class="popup__btn-close"></button>
     </form>
   </div>
@@ -90,10 +90,10 @@
     <article class="element">
       <img class="element__image" />
       <h2 class="element__title"></h2>
-        <div class="element__likes">
-          <button type="button" class="element__button-like"></button>
-          <span class="element__likes-count">3</span>
-        </div>
+      <div class="element__likes">
+        <button type="button" class="element__button-like"></button>
+        <span class="element__likes-count">3</span>
+      </div>
       <button type="button" class="element__button-remove"></button>
     </article>
   </template>
