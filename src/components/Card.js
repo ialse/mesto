@@ -2,6 +2,7 @@ export default class Card {
   constructor(data, { openImagePopup }, cardTemplate) {
     this._name = data.name;
     this._link = data.link;
+    this._likes = data.likes.length;
     this._cardTemplate = cardTemplate;
     this._openImagePopup = openImagePopup;
   }
@@ -55,10 +56,12 @@ export default class Card {
 
     const elementImage = this._card.querySelector(".element__image");
     const elementTitle = this._card.querySelector(".element__title");
+    const elementLikes = this._card.querySelector(".element__likes-count");
 
     elementImage.src = this._link;
     elementImage.alt = this._name;
     elementTitle.textContent = this._name;
+    elementLikes.textContent = this._likes;
 
     this._setEventListeners();
 

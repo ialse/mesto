@@ -6,6 +6,7 @@ import UserInfo from "../components/UserInfo.js"; //импорт класса, �
 import Section from "../components/Section.js"; //импорт класса, отвечающего за вывод данных на страницу
 import PopupWithForm from "../components/PopupWithForm.js"; //импорт класса, отвечающего за попапы с формами
 import PopupWithImage from "../components/PopupWithImage.js"; //импорт класса, отвечающего за попапы с изображениями
+import PopupWithSubmit from "../components/PopupWithSubmit.js"; //импорт класса, отвечающего за попапы с подтверждением
 import FormValidator from "../components/FormValidator.js"; //импорт класса, отвечающего за валидацию форм
 import Api from "../components/Api.js"; //импорт класса, отвечающего за API
 
@@ -38,9 +39,9 @@ const api = new Api({
   },
   setUserInfo: (info) => {
     userInfo.setUserInfo(info);
-    console.log(info);
   },
   setCards: (cards) => {
+
     cards.forEach((card) => { addCardToPage(card) })
   }
 });
@@ -49,6 +50,15 @@ api.getUserInfoFromServer();
 api.getInitialCards(); //получаем массив карточек
 
 const popupImage = new PopupWithImage(".popup_image");
+const popupDeleteConfirm = new PopupWithSubmit(
+  {
+    //Обработчик кнопки Да
+    handleSubmit: () => {
+      popupDeleteConfirm.close();
+    },    
+  },
+  ".popup_confirm-delete"
+);
 
 function addCardToPage(data) {
   /*Создаем объект карточки*/
@@ -60,6 +70,10 @@ function addCardToPage(data) {
         const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки            
         popupImage.setEventListeners();
         popupImage.open(cardInfo);
+      },
+      handleDeleteClick: () => {        
+        popupDeleteConfirm.setEventListeners();
+        popupDeleteConfirm.open();
       },
     },
     "#card-template"
