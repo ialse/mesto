@@ -29,6 +29,7 @@ addCardValidation.enableValidation();
 
 const userInfo = new UserInfo(".profile__title", ".profile__subtitle", ".profile__avatar");
 
+//Создаем объект для взаимодействия с сервером
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-16',
   headers: {
@@ -45,7 +46,7 @@ const api = new Api({
 });
 
 api.getUserInfoFromServer();
-api.getInitialCards();
+api.getInitialCards(); //получаем массив карточек
 
 const popupImage = new PopupWithImage(".popup_image");
 
@@ -70,7 +71,7 @@ function addCardToPage(data) {
 /*Создаем объект секции*/
 const cardsList = new Section(
   {
-    data: initialCards,
+    data: [],
     renderer: (item) => {
       addCardToPage(item);
     },
@@ -84,7 +85,7 @@ const popupEditProfile = new PopupWithForm(
     //Обработчик кнопки Сохранить
     handleSubmit: (inputValues) => {
       userInfo.setUserInfo(inputValues); // Вставляем данные на страницу
-      api.setUserInfoToServer(inputValues); // Сохраняем на сервере
+      api.saveUserInfoToServer(inputValues); // Сохраняем на сервере
       popupEditProfile.close();
       editProfileValidation.resetForm(); // Очищаем поля при сохранении
     },
@@ -102,6 +103,7 @@ const popupAddCard = new PopupWithForm(
     //Обработчик кнопки Создать
     handleSubmit: (inputValues) => {
       addCardToPage(inputValues);
+      api.saveCardToServer(inputValues);
       popupAddCard.close();
       addCardValidation.resetForm(); // Очищаем поля при Создании
     },

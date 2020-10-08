@@ -7,6 +7,7 @@ export default class Api {
 
     }
 
+    // Получение с сервера начальных карточек 
     getInitialCards() {
         fetch(`${this._baseUrl}/cards`, { headers: this._headers })
             .then(res => {
@@ -15,6 +16,17 @@ export default class Api {
             })
             .then((cards) => { this._setCards(cards); })
             .catch((err) => { console.log(err); });
+    }
+
+    saveCardToServer({ name, link }) {
+        fetch(`${this._baseUrl}/cards`, {
+            headers: this._headers,
+            method: 'POST',
+            body: JSON.stringify({
+                name: name,
+                link: link
+            })
+        })
     }
 
     // Получение с сервера информация о пользователе 
@@ -29,7 +41,7 @@ export default class Api {
     }
 
     // Сохранение на сервере информация о пользователе 
-    setUserInfoToServer({ name, about }) {
+    saveUserInfoToServer({ name, about }) {
         fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers,
             method: 'PATCH',
