@@ -29,7 +29,7 @@ export default class Card {
 
   // Обработчик события, отвечающий за работу лайка
   _addHandlerLike(like) {
-    this._handleLikeClick(this);
+    this._handleLikeClick(this);   //??????? правильно ли?
     like.classList.toggle("element__button-like_active");    
   }
 
@@ -47,7 +47,6 @@ export default class Card {
 
   getStateLike() {
     const like = this._card.querySelector(".element__button-like_active");
-    console.log(like);
     if(like) {
       return true;
     } else {
@@ -55,17 +54,10 @@ export default class Card {
     }
   }
 
-  likeUp() {
-    //Временная логика
-    let countLike = +this._card.querySelector(".element__likes-count").textContent;
-    countLike++;
-    this._card.querySelector(".element__likes-count").textContent = countLike;
-
+  setCountLikeToPage(count) {
+    this._card.querySelector(".element__likes-count").textContent = count;    
   }
 
-  likeDown() {
-
-  }
 
   // Установка слушателей
   _setEventListeners() {

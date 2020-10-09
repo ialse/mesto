@@ -41,9 +41,11 @@ const api = new Api({
     userInfo.setUserInfo(info);
   },
   setCards: (cards) => {
-
     cards.forEach((card) => { addCardToPage(card) })
-  }
+  },
+  setCountLike: (card, likeCount) => {
+    card.setCountLikeToPage(likeCount);
+  },
 });
 
 api.getUserInfoFromServer();
@@ -56,7 +58,6 @@ const popupDeleteConfirm = new PopupWithSubmit(
   {
     //Обработчик кнопки Да
     handleSubmit: (card) => {
-      console.log(card);
       popupDeleteConfirm.close();
       api.deleteCardToServer(card);
       card.deleteCardToPage();

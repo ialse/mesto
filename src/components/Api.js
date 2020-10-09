@@ -1,10 +1,10 @@
 export default class Api {
-    constructor({ baseUrl, headers, setUserInfo, setCards }) {
+    constructor({ baseUrl, headers, setUserInfo, setCards, setCountLike }) {
         this._baseUrl = baseUrl;
         this._headers = headers;
         this._setUserInfo = setUserInfo;
         this._setCards = setCards;
-
+        this._setCountLike = setCountLike;
     }
 
     // Получение с сервера начальных карточек 
@@ -27,7 +27,9 @@ export default class Api {
                 name: name,
                 link: link
             })
+
         })
+        .catch((err) => { console.log(err); });
     }
 
     // Удаление на сервере карточки
@@ -36,22 +38,39 @@ export default class Api {
             headers: this._headers,
             method: 'DELETE'
         })
+        .catch((err) => { console.log(err); });
     }
 
-    // Лайк +
-    likeUpCardToServer({ _id }) {
-        return fetch(`${this._baseUrl}/cards/likes/${_id}`, {
+    // Лайк++
+    likeUpCardToServer(card) {
+        return fetch(`${this._baseUrl}/cards/likes/${card._id}`, {
             headers: this._headers,
             method: 'PUT'
         })
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            //функция, ставящая лайк на основании того, что получено с сервера
+            this._setCountLike(card, data.likes.length);
+        })
+        .catch((err) => { console.log(err); });
     }
 
-    // Лайк -
-    likeDownCardToServer({ _id }) {
-        return fetch(`${this._baseUrl}/cards/likes/${_id}`, {
+    // Лайк--
+    likeDownCardToServer(card) {
+        return fetch(`${this._baseUrl}/cards/likes/${card._id}`, {
             headers: this._headers,
             method: 'DELETE'
         })
+        .then((res) => {
+            return res.json();
+        })
+        .then((data) => {
+            //функция, ставящая лайк на основании того, что получено с сервера
+            this._setCountLike(card, data.likes.length); 
+        })
+        .catch((err) => { console.log(err); });
     }
 
     // Получение с сервера информация о пользователе 
@@ -75,5 +94,6 @@ export default class Api {
                 about: about
             })
         })
+        .catch((err) => { console.log(err); });
     }
 }
