@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data, { openImagePopup, handleDeleteClick }, cardTemplate) {
+  constructor(data, { openImagePopup, handleDeleteClick, handleLikeClick }, cardTemplate) {
     this._name = data.name;
     this._link = data.link;
     this._likes = (data.likes) ? data.likes.length : 0; //когда создаем карточку надо ставить 0 иначе ошибка
@@ -9,6 +9,7 @@ export default class Card {
     this._cardTemplate = cardTemplate;
     this._openImagePopup = openImagePopup;
     this._handleDeleteClick = handleDeleteClick;
+    this._handleLikeClick = handleLikeClick;
   }
 
   // Получаем шаблон карточки
@@ -28,7 +29,8 @@ export default class Card {
 
   // Обработчик события, отвечающий за работу лайка
   _addHandlerLike(like) {
-    like.classList.toggle("element__button-like_active");
+    this._handleLikeClick(this);
+    like.classList.toggle("element__button-like_active");    
   }
 
   // Обработчик события, удаляющий карточку
@@ -38,15 +40,36 @@ export default class Card {
     this._handleDeleteClick();
   }
 
-  removeCardToPage() {
+  deleteCardToPage() {
     this._card.remove();
     this._card = null;
+  }
+
+  getStateLike() {
+    const like = this._card.querySelector(".element__button-like_active");
+    console.log(like);
+    if(like) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  likeUp() {
+    //Временная логика
+    let countLike = +this._card.querySelector(".element__likes-count").textContent;
+    countLike++;
+    this._card.querySelector(".element__likes-count").textContent = countLike;
+
+  }
+
+  likeDown() {
+
   }
 
   // Установка слушателей
   _setEventListeners() {
     const like = this._card.querySelector(".element__button-like");
-
     const image = this._card.querySelector(".element__image");
 
     like.addEventListener("click", () => {

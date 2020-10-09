@@ -38,6 +38,22 @@ export default class Api {
         })
     }
 
+    // Лайк +
+    likeUpCardToServer({ _id }) {
+        return fetch(`${this._baseUrl}/cards/likes/${_id}`, {
+            headers: this._headers,
+            method: 'PUT'
+        })
+    }
+
+    // Лайк -
+    likeDownCardToServer({ _id }) {
+        return fetch(`${this._baseUrl}/cards/likes/${_id}`, {
+            headers: this._headers,
+            method: 'DELETE'
+        })
+    }
+
     // Получение с сервера информация о пользователе 
     getUserInfoFromServer() {
         return fetch(`${this._baseUrl}/users/me`, { headers: this._headers })

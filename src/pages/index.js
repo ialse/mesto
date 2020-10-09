@@ -50,6 +50,8 @@ api.getUserInfoFromServer();
 api.getInitialCards(); //получаем массив карточек
 
 const popupImage = new PopupWithImage(".popup_image");
+
+/*Создаем объект для попапа Подтверждения*/
 const popupDeleteConfirm = new PopupWithSubmit(
   {
     //Обработчик кнопки Да
@@ -57,12 +59,13 @@ const popupDeleteConfirm = new PopupWithSubmit(
       console.log(card);
       popupDeleteConfirm.close();
       api.deleteCardToServer(card);
-      card.removeCardToPage();
+      card.deleteCardToPage();
     },
   },
   ".popup_confirm-delete"
 );
 
+/*функция добавления карточки на страницу*/
 function addCardToPage(dataCard) {
   /*Создаем объект карточки*/
   const card = new Card(
@@ -74,10 +77,22 @@ function addCardToPage(dataCard) {
         popupImage.setEventListeners();
         popupImage.open(cardInfo);
       },
+      // Обработчик клика по кнопке удаления карточки
       handleDeleteClick: () => {
         popupDeleteConfirm.setEventListeners(card);
         popupDeleteConfirm.open();
       },
+      // Обработчик клика по лайку карточки
+      handleLikeClick: (thisCard) => {
+        //Если стоит лайк, то минусуем, иначе плюсуем
+        if(card.getStateLike()) {
+          api.likeDownCardToServer(thisCard);
+          
+        } else {
+          api.likeUpCardToServer(thisCard);    
+          //card.likeUp();      
+        }
+      }
     },
     "#card-template"
   );
