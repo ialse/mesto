@@ -32,7 +32,6 @@ export default class Api {
 
     // Удаление на сервере карточки
     deleteCardToServer({ _id }) {
-        console.log(_id);
         return fetch(`${this._baseUrl}/cards/${_id}`, {
             headers: this._headers,
             method: 'DELETE'

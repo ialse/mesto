@@ -29,5 +29,6 @@
 @import url("../blocks/popup/__title/_popup-image/popup__title_popup-image.css");
 @import url("../blocks/popup/__title/_confirm/popup__title_confirm.css");
 @import url("../blocks/element/__button-like/_active/element__button-like_active.css");
+@import url("../blocks/element/__button-remove/_active/element__button-remove_active.css");
 @import url("../blocks/popup/__btn-submit/_btn-submit_disabled/popup___btn-submit_disabled.css");
 @import url("../blocks/popup/__error/_visible/popup__error_visible.css");

@@ -57,6 +57,7 @@ const popupDeleteConfirm = new PopupWithSubmit(
       console.log(card);
       popupDeleteConfirm.close();
       api.deleteCardToServer(card);
+      card.removeCardToPage();
     },
   },
   ".popup_confirm-delete"
