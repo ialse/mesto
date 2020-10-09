@@ -1,6 +1,5 @@
 import "./index.css";
 import { btnEdit, btnAdd, editProfile, addCard } from "../utils/nodes.js"; //импорт констант с узлами страницы
-import { initialCards } from "../utils/initial-cards.js"; //импорт массива с данными начальных карточек
 import Card from "../components/Card.js"; //импорт класса, отвечающего за создание карточек
 import UserInfo from "../components/UserInfo.js"; //импорт класса, отвечающего за информацию о пользователе
 import Section from "../components/Section.js"; //импорт класса, отвечающего за вывод данных на страницу
@@ -73,25 +72,24 @@ function addCardToPage(dataCard) {
     dataCard,
     {
       // Обработчик клика по картинке карточки
-      openImagePopup: () => {
+      handleClickImage: () => {
         const cardInfo = card.getCardInfo(); //получаем название и ссылку карточки            
         popupImage.setEventListeners();
         popupImage.open(cardInfo);
       },
       // Обработчик клика по кнопке удаления карточки
       handleDeleteClick: () => {
+        console.log(card);
         popupDeleteConfirm.setEventListeners(card);
         popupDeleteConfirm.open();
       },
       // Обработчик клика по лайку карточки
-      handleLikeClick: (thisCard) => {
+      handleLikeClick: () => {
         //Если стоит лайк, то минусуем, иначе плюсуем
-        if(card.getStateLike()) {
-          api.likeDownCardToServer(thisCard);
-          
+        if (card.getStateLike()) {
+          api.likeDownCardToServer(card);
         } else {
-          api.likeUpCardToServer(thisCard);    
-          //card.likeUp();      
+          api.likeUpCardToServer(card);
         }
       }
     },
@@ -105,9 +103,7 @@ function addCardToPage(dataCard) {
 const cardsList = new Section(
   {
     data: [],
-    renderer: (item) => {
-      addCardToPage(item);
-    },
+    renderer: () => { },
   },
   ".elements"
 );
@@ -147,9 +143,6 @@ const popupAddCard = new PopupWithForm(
   },
   ".popup_add-card"
 );
-
-/* Отрисовка начальных карточек на страницу*/
-//cardsList.renderItems();
 
 /*Добавляем слушатели событий*/
 popupEditProfile.setEventListeners();
