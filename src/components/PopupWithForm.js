@@ -3,6 +3,7 @@ import Popup from "./Popup.js";
 export default class PopupWithForm extends Popup {
   constructor({ handleSubmit, resetForm }, popupSelector) {
     super(popupSelector);
+    this._btnSubmit = this.popup.querySelector('.popup__btn-submit')
     this._handleSubmit = handleSubmit;
     this._handleSubmit = this._handleSubmit.bind(this);
     this._resetForm = resetForm;
@@ -16,6 +17,15 @@ export default class PopupWithForm extends Popup {
       (input) => (this._popupValues[input.name] = input.value)
     );
     return this._popupValues;
+  }
+
+  // UX - подгрузка данных
+  loadStart() {
+    this._btnSubmit.textContent = this._btnSubmit.textContent + '...';
+  }
+
+  loadEnd() {
+    this._btnSubmit.textContent = this._btnSubmit.textContent.replace('...', '');
   }
 
   //Закрываем попап

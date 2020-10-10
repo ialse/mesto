@@ -137,7 +137,8 @@ const popupEditProfile = new PopupWithForm(
 /*Создаем объект для попапа редактирования Аватара*/
 const popupEditAvatar = new PopupWithForm({
   handleSubmit: (inputValues) => {
-    api.saveAvatarToServer(inputValues);
+    popupEditAvatar.loadStart();
+    api.saveAvatarToServer(inputValues, popupEditAvatar);
     popupEditAvatar.close();
     editAvatarValidation.resetForm(); // Очищаем поля при Создании
   },
@@ -154,7 +155,7 @@ const popupAddCard = new PopupWithForm(
   {
     //Обработчик кнопки Создать
     handleSubmit: (inputValues) => {
-      //addCardToPage(inputValues);
+      popupAddCard.loadStart();
       api.saveCardToServer(inputValues);
       popupAddCard.close();
       addCardValidation.resetForm(); // Очищаем поля при Создании

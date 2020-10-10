@@ -83,7 +83,7 @@ export default class Api {
     }
 
     // Сохранение на сервере Аватара 
-    saveAvatarToServer({ link }) {
+    saveAvatarToServer({ link }, popupEditAvatar) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
             headers: this._headers,
             method: 'PATCH',
@@ -96,7 +96,8 @@ export default class Api {
                 return Promise.reject(`Ошибка: ${res.status}`);
             })
             .then((userInfo) => { this._setUserInfo(userInfo); })
-            .catch((err) => { console.log(err); });
+            .catch((err) => { console.log(err); })
+            .finally(() => { popupEditAvatar.loadEnd() })
     }
 
     // Получение с сервера информация о пользователе 
