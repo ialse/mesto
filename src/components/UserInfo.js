@@ -18,7 +18,7 @@ export default class UserInfo {
     this._profileWork.textContent = about;
     // Так как при редактировании профиля аватар не ставится, то проверка
     if (avatar) {
-      this._profileAvatar.src = avatar;
+      this._profileAvatar.style.backgroundImage = `url("${avatar}")`;
     }
   }
 }

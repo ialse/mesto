@@ -1,5 +1,5 @@
 import "./index.css";
-import { btnEdit, btnAdd, editProfile, addCard } from "../utils/nodes.js"; //импорт констант с узлами страницы
+import { btnEditAvatar, btnEdit, btnAdd, editProfile, editAvatar, addCard } from "../utils/nodes.js"; //импорт констант с узлами страницы
 import Card from "../components/Card.js"; //импорт класса, отвечающего за создание карточек
 import UserInfo from "../components/UserInfo.js"; //импорт класса, отвечающего за информацию о пользователе
 import Section from "../components/Section.js"; //импорт класса, отвечающего за вывод данных на страницу
@@ -20,10 +20,13 @@ const formSelectors = {
 };
 
 /*Создаем объекты для валидации*/
+const editAvatarValidation = new FormValidator(formSelectors, editAvatar);
 const editProfileValidation = new FormValidator(formSelectors, editProfile);
 const addCardValidation = new FormValidator(formSelectors, addCard);
 
+
 /*включаем валидацию*/
+editAvatarValidation.enableValidation();
 editProfileValidation.enableValidation();
 addCardValidation.enableValidation();
 
@@ -44,7 +47,7 @@ const api = new Api({
   },
   setCountLike: (card, likeCount) => {
     card.setCountLikeToPage(likeCount);
-  },
+  }
 });
 
 api.getUserInfoFromServer();
@@ -126,12 +129,27 @@ const popupEditProfile = new PopupWithForm(
   ".popup_edit-profile"
 );
 
+/*Создаем объект для попапа редактирования Аватара*/
+const popupEditAvatar = new PopupWithForm({
+  handleSubmit: (inputValues) => {
+    api.saveAvatarToServer(inputValues);
+    popupEditAvatar.close();
+    editAvatarValidation.resetForm(); // Очищаем поля при Создании
+  },
+  // Очищаем поля при закрытии
+  resetForm: () => {
+    addCardValidation.resetForm();
+  },
+},
+  ".popup_edit-avatar"
+);
+
 /*Создаем объект для попапа добавления карточки*/
 const popupAddCard = new PopupWithForm(
   {
     //Обработчик кнопки Создать
     handleSubmit: (inputValues) => {
-      addCardToPage(inputValues);
+      //addCardToPage(inputValues);
       api.saveCardToServer(inputValues);
       popupAddCard.close();
       addCardValidation.resetForm(); // Очищаем поля при Создании
@@ -145,8 +163,10 @@ const popupAddCard = new PopupWithForm(
 );
 
 /*Добавляем слушатели событий*/
+popupEditAvatar.setEventListeners();
 popupEditProfile.setEventListeners();
 popupAddCard.setEventListeners();
+
 btnEdit.addEventListener("click", () => {
   const info = userInfo.getUserInfo();
   popupEditProfile.popup.querySelector(".popup__input_name").value = info.name;
@@ -154,3 +174,4 @@ btnEdit.addEventListener("click", () => {
   popupEditProfile.open();
 });
 btnAdd.addEventListener("click", () => { popupAddCard.open() });
+btnEditAvatar.addEventListener("click", () => { popupEditAvatar.open() });

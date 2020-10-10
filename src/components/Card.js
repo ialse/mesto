@@ -2,10 +2,10 @@ export default class Card {
   constructor(data, { handleClickImage, handleDeleteClick, handleLikeClick }, cardTemplate) {
     this._name = data.name;
     this._link = data.link;
-    this._likesCount = (data.likes) ? data.likes.length : 0; //когда создаем карточку надо ставить 0 иначе ошибка
+    this._likesCount = data.likes.length; //) ? data.likes.length : 0; //когда создаем карточку надо ставить 0 иначе ошибка
     this._likes = data.likes;
-    this._id = (data._id) ? data._id : '';
-    this._ownerId = (data.owner) ? data.owner._id : '49625d136d51856d79886d0e';
+    this._id = data._id; //) ? data._id : '';
+    this._ownerId = data.owner._id; //) ? data.owner._id : '49625d136d51856d79886d0e';
 
     this._cardTemplate = cardTemplate;
     //Обработчики

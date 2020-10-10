@@ -1,5 +1,5 @@
 export default class Api {
-    constructor({ baseUrl, headers, setUserInfo, setCards, setCountLike }) {
+    constructor({ baseUrl, headers, setUserInfo, setCards, setCard, setCountLike }) {
         this._baseUrl = baseUrl;
         this._headers = headers;
         this._setUserInfo = setUserInfo;
@@ -29,7 +29,12 @@ export default class Api {
             })
 
         })
-        .catch((err) => { console.log(err); });
+            .then((res) => {
+                if (res.ok) { return res.json(); }
+                return Promise.reject(`Ошибка: ${res.status}`);
+            })
+            .then((card) => { this._setCards(card); })
+            .catch((err) => { console.log(err); });
     }
 
     // Удаление на сервере карточки
@@ -38,7 +43,7 @@ export default class Api {
             headers: this._headers,
             method: 'DELETE'
         })
-        .catch((err) => { console.log(err); });
+            .catch((err) => { console.log(err); });
     }
 
     // Лайк++
@@ -47,14 +52,15 @@ export default class Api {
             headers: this._headers,
             method: 'PUT'
         })
-        .then((res) => {
-            return res.json();
-        })
-        .then((data) => {
-            //функция, ставящая лайк на основании того, что получено с сервера
-            this._setCountLike(card, data.likes.length);
-        })
-        .catch((err) => { console.log(err); });
+            .then((res) => {
+                if (res.ok) { return res.json(); }
+                return Promise.reject(`Ошибка: ${res.status}`);
+            })
+            .then((data) => {
+                //функция, ставящая лайк на основании того, что получено с сервера
+                this._setCountLike(card, data.likes.length);
+            })
+            .catch((err) => { console.log(err); });
     }
 
     // Лайк--
@@ -63,14 +69,32 @@ export default class Api {
             headers: this._headers,
             method: 'DELETE'
         })
-        .then((res) => {
-            return res.json();
+            .then((res) => {
+                if (res.ok) { return res.json(); }
+                return Promise.reject(`Ошибка: ${res.status}`);
+            })
+            .then((data) => {
+                //функция, ставящая лайк на основании того, что получено с сервера
+                this._setCountLike(card, data.likes.length);
+            })
+            .catch((err) => { console.log(err); });
+    }
+
+    // Сохранение на сервере Аватара 
+    saveAvatarToServer({ link }) {
+        return fetch(`${this._baseUrl}/users/me/avatar`, {
+            headers: this._headers,
+            method: 'PATCH',
+            body: JSON.stringify({
+                avatar: link
+            })
         })
-        .then((data) => {
-            //функция, ставящая лайк на основании того, что получено с сервера
-            this._setCountLike(card, data.likes.length); 
-        })
-        .catch((err) => { console.log(err); });
+            .then((res) => {
+                if (res.ok) { return res.json(); }
+                return Promise.reject(`Ошибка: ${res.status}`);
+            })
+            .then((userInfo) => { this._setUserInfo(userInfo); })
+            .catch((err) => { console.log(err); });
     }
 
     // Получение с сервера информация о пользователе 
@@ -78,7 +102,7 @@ export default class Api {
         return fetch(`${this._baseUrl}/users/me`, { headers: this._headers })
             .then(res => {
                 if (res.ok) { return res.json(); }
-                return Promise.reject(`Ошибка: ${res.status}`); // если ошибка при запросе, переходим к catch
+                return Promise.reject(`Ошибка: ${res.status}`);
             })
             .then((userInfo) => { this._setUserInfo(userInfo); })
             .catch((err) => { console.log(err); });
@@ -94,6 +118,11 @@ export default class Api {
                 about: about
             })
         })
-        .catch((err) => { console.log(err); });
+            .then(res => {
+                if (res.ok) { return res.json(); }
+                return Promise.reject(`Ошибка: ${res.status}`);
+            })
+            .then((userInfo) => { this._setUserInfo(userInfo); })
+            .catch((err) => { console.log(err); });
     }
 }
