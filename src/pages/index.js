@@ -53,6 +53,11 @@ const api = new Api({
   },
   setCountLike: (card, likeCount) => {
     card.setCountLikeToPage(likeCount);
+  },
+  doAfterLoad: (popup, popupValidation) => {
+    popup.loadEnd();
+    popup.close();
+    popupValidation.resetForm(); // Очищаем поля при Создании
   }
 });
 
@@ -138,9 +143,7 @@ const popupEditProfile = new PopupWithForm(
 const popupEditAvatar = new PopupWithForm({
   handleSubmit: (inputValues) => {
     popupEditAvatar.loadStart();
-    api.saveAvatarToServer(inputValues, popupEditAvatar);
-    popupEditAvatar.close();
-    editAvatarValidation.resetForm(); // Очищаем поля при Создании
+    api.saveAvatarToServer(inputValues, popupEditAvatar, editAvatarValidation);
   },
   // Очищаем поля при закрытии
   resetForm: () => {

@@ -1,10 +1,11 @@
 export default class Api {
-    constructor({ baseUrl, headers, setUserInfo, setCards, setCard, setCountLike }) {
+    constructor({ baseUrl, headers, setUserInfo, setCards, setCard, setCountLike, doAfterLoad }) {
         this._baseUrl = baseUrl;
         this._headers = headers;
         this._setUserInfo = setUserInfo;
         this._setCards = setCards;
         this._setCountLike = setCountLike;
+        this._doAfterLoad = doAfterLoad;
     }
 
     // Получение с сервера начальных карточек 
@@ -83,7 +84,7 @@ export default class Api {
     }
 
     // Сохранение на сервере Аватара 
-    saveAvatarToServer({ link }, popupEditAvatar) {
+    saveAvatarToServer({ link }, popupEditAvatar, editAvatarValidation) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
             headers: this._headers,
             method: 'PATCH',
@@ -97,7 +98,9 @@ export default class Api {
             })
             .then((userInfo) => { this._setUserInfo(userInfo); })
             .catch((err) => { console.log(err); })
-            .finally(() => { popupEditAvatar.loadEnd() })
+            .finally(() => {
+                this._doAfterLoad(popupEditAvatar, editAvatarValidation)
+            })
     }
 
     // Получение с сервера информация о пользователе 
