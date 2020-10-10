@@ -33,7 +33,9 @@ export default class Api {
                 if (res.ok) { return res.json(); }
                 return Promise.reject(`Ошибка: ${res.status}`);
             })
-            .then((card) => { this._setCards(card); })
+            .then((card) => {
+                this._setCards(card);
+            })
             .catch((err) => { console.log(err); });
     }
 

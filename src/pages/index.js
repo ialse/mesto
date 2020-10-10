@@ -43,7 +43,13 @@ const api = new Api({
     userInfo.setUserInfo(info);
   },
   setCards: (cards) => {
-    cards.forEach((card) => { addCardToPage(card) })
+    //Т.к. при создании карточки в ответ приходит объект,
+    //то делаем проверку, чтобы не падало на forEach
+    if (Array.isArray(cards)) {
+      cards.forEach((card) => { addCardToPage(card) });
+    } else {
+      addCardToPage(cards);
+    }
   },
   setCountLike: (card, likeCount) => {
     card.setCountLikeToPage(likeCount);
@@ -82,7 +88,6 @@ function addCardToPage(dataCard) {
       },
       // Обработчик клика по кнопке удаления карточки
       handleDeleteClick: () => {
-        console.log(card);
         popupDeleteConfirm.setEventListeners(card);
         popupDeleteConfirm.open();
       },
