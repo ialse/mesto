@@ -4,7 +4,7 @@ export default class PopupWithForm extends Popup {
   constructor({ handleSubmit, resetForm }, popupSelector) {
     super(popupSelector);
     this._btnSubmit = this.popup.querySelector('.popup__btn-submit')
-    this._blockAction = document.querySelector('.blockAction');
+    this._blockAction = document.querySelector('.block-action');
     this._handleSubmit = handleSubmit;
     this._handleSubmit = this._handleSubmit.bind(this);
     this._resetForm = resetForm;
@@ -22,13 +22,17 @@ export default class PopupWithForm extends Popup {
 
   // UX - подгрузка данных
   loadStart() {
-    this._btnSubmit.textContent = this._btnSubmit.textContent + '...';
-    this._blockAction.classList.add('blockAction_active'); //ставим блокирующий клики слой
+    this._btnSubmit.textContent = "Сохранение...";
+    this._blockAction.classList.add("block-action_active"); //ставим блокирующий клики слой
   }
 
   loadEnd() {
-    this._btnSubmit.textContent = this._btnSubmit.textContent.replace('...', '');
-    this._blockAction.classList.remove('blockAction_active'); //снимаем блокирующий клики слой
+    if (this.popup.classList.contains("popup_add-card")) {
+      this._btnSubmit.textContent = "Создать";
+    } else {
+      this._btnSubmit.textContent = "Сохранить";
+    }
+    this._blockAction.classList.remove("block-action_active"); //снимаем блокирующий клики слой
   }
 
   //Закрываем попап

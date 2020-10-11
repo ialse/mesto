@@ -1,5 +1,6 @@
 export default class Api {
-    constructor({ baseUrl, headers, setUserInfo, setCards, setCard, setCountLike, doAfterLoad, doAfterDeleteCard }) {
+    constructor({ baseUrl, headers, setUserInfo, setCards,
+        setCountLike, doAfterLoad, doAfterDeleteCard }) {
         this._baseUrl = baseUrl;
         this._headers = headers;
         this._setUserInfo = setUserInfo;
@@ -7,6 +8,7 @@ export default class Api {
         this._setCountLike = setCountLike;
         this._doAfterLoad = doAfterLoad;
         this._doAfterDeleteCard = doAfterDeleteCard;
+        this._errorServer = document.querySelector(".error-server");
     }
 
     // Получение с сервера начальных карточек 
@@ -17,7 +19,7 @@ export default class Api {
                 return Promise.reject(`Ошибка: ${res.status}`); // если ошибка при запросе, переходим к catch
             })
             .then((cards) => { this._setCards(cards); })
-            .catch((err) => { console.log(err); });
+            .catch((err) => { this._setErrorServer(err); });
     }
 
     // Сохранение на сервере карточки
@@ -38,7 +40,7 @@ export default class Api {
             .then((card) => {
                 this._setCards(card);
             })
-            .catch((err) => { console.log(err); })
+            .catch((err) => { this._setErrorServer(err); })
             .finally(() => {
                 this._doAfterLoad(popupAddCard, addCardValidation)
             })
@@ -53,7 +55,7 @@ export default class Api {
             .then(() => {
                 this._doAfterDeleteCard(card);
             })
-            .catch((err) => { console.log(err); });
+            .catch((err) => { this._setErrorServer(err); });
     }
 
     // Лайк++
@@ -70,7 +72,7 @@ export default class Api {
                 //функция, ставящая лайк на основании того, что получено с сервера
                 this._setCountLike(card, data.likes.length);
             })
-            .catch((err) => { console.log(err); });
+            .catch((err) => { this._setErrorServer(err); });
     }
 
     // Лайк--
@@ -87,7 +89,7 @@ export default class Api {
                 //функция, ставящая лайк на основании того, что получено с сервера
                 this._setCountLike(card, data.likes.length);
             })
-            .catch((err) => { console.log(err); });
+            .catch((err) => { this._setErrorServer(err); });
     }
 
     // Сохранение на сервере Аватара 
@@ -104,7 +106,7 @@ export default class Api {
                 return Promise.reject(`Ошибка: ${res.status}`);
             })
             .then((userInfo) => { this._setUserInfo(userInfo); })
-            .catch((err) => { console.log(err); })
+            .catch((err) => { this._setErrorServer(err); })
             .finally(() => {
                 this._doAfterLoad(popupEditAvatar, editAvatarValidation)
             })
@@ -118,7 +120,7 @@ export default class Api {
                 return Promise.reject(`Ошибка: ${res.status}`);
             })
             .then((userInfo) => { this._setUserInfo(userInfo); })
-            .catch((err) => { console.log(err); });
+            .catch((err) => { this._setErrorServer(err); });
     }
 
     // Сохранение на сервере информация о пользователе 
@@ -136,9 +138,19 @@ export default class Api {
                 return Promise.reject(`Ошибка: ${res.status}`);
             })
             .then((userInfo) => { this._setUserInfo(userInfo); })
-            .catch((err) => { console.log(err); })
+            .catch((err) => { this._setErrorServer(err); })
             .finally(() => {
                 this._doAfterLoad(popupEditProfile, editProfileValidation);
             })
+    }
+
+    _setErrorServer(err) {
+        this._errorServer.textContent = "Ошибка при соединение с сервером: " +
+            err + ". Попробуйте повторить позже";
+
+        this._errorServer.classList.add('error-server_active');
+        setTimeout(() => {
+            this._errorServer.classList.remove('error-server_active');
+        }, 8000)
     }
 }

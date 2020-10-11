@@ -64,10 +64,6 @@ const api = new Api({
 
 // Создаем объект секции
 const cardsList = new Section(
-  {
-    data: [],
-    renderer: () => { },
-  },
   ".elements"
 );
 
@@ -184,4 +180,3 @@ btnEditProfile.addEventListener("click", () => {
   popupEditProfile.open();
 });
 btnAdd.addEventListener("click", () => { popupAddCard.open() });
-
