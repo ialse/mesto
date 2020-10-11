@@ -16,6 +16,7 @@
 @import url("../blocks/element/element.css");
 @import url("../blocks/footer/footer.css");
 @import url("../blocks/popup/popup.css");
+@import url("../blocks/blockAction/blockAction.css");
 
 /*Импорт модификаторов*/
 
@@ -32,3 +33,4 @@
 @import url("../blocks/element/__button-remove/_active/element__button-remove_active.css");
 @import url("../blocks/popup/__btn-submit/_btn-submit_disabled/popup___btn-submit_disabled.css");
 @import url("../blocks/popup/__error/_visible/popup__error_visible.css");
+@import url("../blocks/blockAction/_active/blockAction_active.css");

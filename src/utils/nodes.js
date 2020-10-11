@@ -1,6 +1,6 @@
 /* Кнопки */
 export const btnEditAvatar = document.querySelector('.profile__avatar');
-export const btnEdit = document.querySelector('.profile__button-edit');
+export const btnEditProfile = document.querySelector('.profile__button-edit');
 export const btnAdd = document.querySelector('.profile__button-add');
 
 /*Попапы */

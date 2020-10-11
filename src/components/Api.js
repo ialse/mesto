@@ -1,11 +1,12 @@
 export default class Api {
-    constructor({ baseUrl, headers, setUserInfo, setCards, setCard, setCountLike, doAfterLoad }) {
+    constructor({ baseUrl, headers, setUserInfo, setCards, setCard, setCountLike, doAfterLoad, doAfterDeleteCard }) {
         this._baseUrl = baseUrl;
         this._headers = headers;
         this._setUserInfo = setUserInfo;
         this._setCards = setCards;
         this._setCountLike = setCountLike;
         this._doAfterLoad = doAfterLoad;
+        this._doAfterDeleteCard = doAfterDeleteCard;
     }
 
     // Получение с сервера начальных карточек 
@@ -20,7 +21,7 @@ export default class Api {
     }
 
     // Сохранение на сервере карточки
-    saveCardToServer({ name, link }) {
+    saveCardToServer({ name, link }, popupAddCard, addCardValidation) {
         return fetch(`${this._baseUrl}/cards`, {
             headers: this._headers,
             method: 'POST',
@@ -37,15 +38,21 @@ export default class Api {
             .then((card) => {
                 this._setCards(card);
             })
-            .catch((err) => { console.log(err); });
+            .catch((err) => { console.log(err); })
+            .finally(() => {
+                this._doAfterLoad(popupAddCard, addCardValidation)
+            })
     }
 
     // Удаление на сервере карточки
-    deleteCardToServer({ _id }) {
-        return fetch(`${this._baseUrl}/cards/${_id}`, {
+    deleteCardToServer(card) {
+        return fetch(`${this._baseUrl}/cards/${card._id}`, {
             headers: this._headers,
             method: 'DELETE'
         })
+            .then(() => {
+                this._doAfterDeleteCard(card);
+            })
             .catch((err) => { console.log(err); });
     }
 
@@ -115,7 +122,7 @@ export default class Api {
     }
 
     // Сохранение на сервере информация о пользователе 
-    saveUserInfoToServer({ name, about }) {
+    saveUserInfoToServer({ name, about }, popupEditProfile, editProfileValidation) {
         return fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers,
             method: 'PATCH',
@@ -129,6 +136,9 @@ export default class Api {
                 return Promise.reject(`Ошибка: ${res.status}`);
             })
             .then((userInfo) => { this._setUserInfo(userInfo); })
-            .catch((err) => { console.log(err); });
+            .catch((err) => { console.log(err); })
+            .finally(() => {
+                this._doAfterLoad(popupEditProfile, editProfileValidation);
+            })
     }
 }

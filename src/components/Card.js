@@ -1,11 +1,11 @@
 export default class Card {
   constructor(data, { handleClickImage, handleDeleteClick, handleLikeClick }, cardTemplate) {
-    this._name = data.name;
-    this._link = data.link;
-    this._likesCount = data.likes.length; //) ? data.likes.length : 0; //когда создаем карточку надо ставить 0 иначе ошибка
-    this._likes = data.likes;
-    this._id = data._id; //) ? data._id : '';
-    this._ownerId = data.owner._id; //) ? data.owner._id : '49625d136d51856d79886d0e';
+    this._name = data.name; //Название карточки
+    this._link = data.link; //Ссылка на картинку
+    this._likesCount = data.likes.length; // Кол-во лайков
+    this._likes = data.likes; //Массив лайков, нужен для определения где есть мои лайки
+    this._id = data._id; // ИД карточки, нужен при удалении карточки и для лайков
+    this._ownerId = data.owner._id; // ИД владельца карточки
 
     this._cardTemplate = cardTemplate;
     //Обработчики
