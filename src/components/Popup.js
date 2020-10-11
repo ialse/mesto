@@ -41,7 +41,7 @@ export default class Popup {
   // Добавляем обработчики закрытия попапа
   _setCloseEventListeners() {
     document.body.addEventListener("keyup", this._handleEscClose);
-    this.popup.addEventListener("mousedown", this._handleClickOverlayClose);    
+    this.popup.addEventListener("mousedown", this._handleClickOverlayClose);
   }
 
   setEventListeners() {

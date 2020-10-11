@@ -1,4 +1,4 @@
-.popup__btn-save_disabled {
+.popup__btn-submit_disabled {
     position: relative;
     opacity: 0.2;
     border: 1px solid #000;
@@ -8,6 +8,6 @@
     user-select: none;
 }
 
-.popup__btn-save_disabled:hover {
+.popup__btn-submit_disabled:hover {
     opacity: 0.2;
 }

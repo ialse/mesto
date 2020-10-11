@@ -1,4 +1,4 @@
-.popup__btn-save {
+.popup__btn-submit {
   font-family: inherit;
   background-color: #000;
   font-size: 18px;
@@ -12,13 +12,13 @@
   border-radius: 2px;
 }
 
-.popup__btn-save:hover {
+.popup__btn-submit:hover {
   opacity: 0.8;
   transition: opacity 0.7s ease 0.1s;
 }
 
 @media screen and (max-width: 500px) {
-  .popup__btn-save {
+  .popup__btn-submit {
     height: 40px;
     font-size: 14px;
   }

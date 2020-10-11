@@ -3,6 +3,8 @@ import Popup from "./Popup.js";
 export default class PopupWithForm extends Popup {
   constructor({ handleSubmit, resetForm }, popupSelector) {
     super(popupSelector);
+    this._btnSubmit = this.popup.querySelector('.popup__btn-submit')
+    this._blockAction = document.querySelector('.block-action');
     this._handleSubmit = handleSubmit;
     this._handleSubmit = this._handleSubmit.bind(this);
     this._resetForm = resetForm;
@@ -18,6 +20,21 @@ export default class PopupWithForm extends Popup {
     return this._popupValues;
   }
 
+  // UX - подгрузка данных
+  loadStart() {
+    this._btnSubmit.textContent = "Сохранение...";
+    this._blockAction.classList.add("block-action_active"); //ставим блокирующий клики слой
+  }
+
+  loadEnd() {
+    if (this.popup.classList.contains("popup_add-card")) {
+      this._btnSubmit.textContent = "Создать";
+    } else {
+      this._btnSubmit.textContent = "Сохранить";
+    }
+    this._blockAction.classList.remove("block-action_active"); //снимаем блокирующий клики слой
+  }
+
   //Закрываем попап
   close() {
     super.close();
@@ -27,7 +44,8 @@ export default class PopupWithForm extends Popup {
   setEventListeners() {
     super.setEventListeners();
     //навешиваем обработчик кнопки Сохранить/Создать
-    this.popup.addEventListener("submit", () => {
+    this.popup.addEventListener("submit", (evt) => {
+      evt.preventDefault();
       this._handleSubmit(this._getInputValues());
     });
   }

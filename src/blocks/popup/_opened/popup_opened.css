@@ -2,4 +2,5 @@
   opacity: 1;
   visibility: visible;
   transition: opacity 0.4s ease-in-out;
+  z-index: 2;
 }
