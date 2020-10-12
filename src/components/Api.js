@@ -1,29 +1,22 @@
 export default class Api {
-    constructor({ baseUrl, headers, setUserInfo, setCards,
-        setCountLike, doAfterLoad, doAfterDeleteCard }) {
+    constructor({ baseUrl, headers }) {
         this._baseUrl = baseUrl;
         this._headers = headers;
-        this._setUserInfo = setUserInfo;
-        this._setCards = setCards;
-        this._setCountLike = setCountLike;
-        this._doAfterLoad = doAfterLoad;
-        this._doAfterDeleteCard = doAfterDeleteCard;
         this._errorServer = document.querySelector(".error-server");
     }
 
+    _getResponseData(res) {
+        if (res.ok) { return res.json(); }
+        return Promise.reject(new Error(`Ошибка: ${res.status}`)); // если ошибка при запросе, переходим к catch
+    }
     // Получение с сервера начальных карточек 
     getInitialCards() {
         return fetch(`${this._baseUrl}/cards`, { headers: this._headers })
-            .then(res => {
-                if (res.ok) { return res.json(); }
-                return Promise.reject(`Ошибка: ${res.status}`); // если ошибка при запросе, переходим к catch
-            })
-            .then((cards) => { this._setCards(cards); })
-            .catch((err) => { this._setErrorServer(err); });
+            .then(res => { return this._getResponseData(res); })
     }
 
     // Сохранение на сервере карточки
-    saveCardToServer({ name, link }, popupAddCard, addCardValidation) {
+    saveCardToServer({ name, link }) {
         return fetch(`${this._baseUrl}/cards`, {
             headers: this._headers,
             method: 'POST',
@@ -31,19 +24,8 @@ export default class Api {
                 name: name,
                 link: link
             })
-
         })
-            .then((res) => {
-                if (res.ok) { return res.json(); }
-                return Promise.reject(`Ошибка: ${res.status}`);
-            })
-            .then((card) => {
-                this._setCards(card);
-            })
-            .catch((err) => { this._setErrorServer(err); })
-            .finally(() => {
-                this._doAfterLoad(popupAddCard, addCardValidation)
-            })
+            .then((res) => { return this._getResponseData(res); })
     }
 
     // Удаление на сервере карточки
@@ -52,10 +34,6 @@ export default class Api {
             headers: this._headers,
             method: 'DELETE'
         })
-            .then(() => {
-                this._doAfterDeleteCard(card);
-            })
-            .catch((err) => { this._setErrorServer(err); });
     }
 
     // Лайк++
@@ -64,15 +42,7 @@ export default class Api {
             headers: this._headers,
             method: 'PUT'
         })
-            .then((res) => {
-                if (res.ok) { return res.json(); }
-                return Promise.reject(`Ошибка: ${res.status}`);
-            })
-            .then((data) => {
-                //функция, ставящая лайк на основании того, что получено с сервера
-                this._setCountLike(card, data.likes.length);
-            })
-            .catch((err) => { this._setErrorServer(err); });
+            .then((res) => { return this._getResponseData(res); })
     }
 
     // Лайк--
@@ -81,19 +51,11 @@ export default class Api {
             headers: this._headers,
             method: 'DELETE'
         })
-            .then((res) => {
-                if (res.ok) { return res.json(); }
-                return Promise.reject(`Ошибка: ${res.status}`);
-            })
-            .then((data) => {
-                //функция, ставящая лайк на основании того, что получено с сервера
-                this._setCountLike(card, data.likes.length);
-            })
-            .catch((err) => { this._setErrorServer(err); });
+            .then((res) => { return this._getResponseData(res); })
     }
 
     // Сохранение на сервере Аватара 
-    saveAvatarToServer({ link }, popupEditAvatar, editAvatarValidation) {
+    saveAvatarToServer({ link }) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
             headers: this._headers,
             method: 'PATCH',
@@ -101,30 +63,17 @@ export default class Api {
                 avatar: link
             })
         })
-            .then((res) => {
-                if (res.ok) { return res.json(); }
-                return Promise.reject(`Ошибка: ${res.status}`);
-            })
-            .then((userInfo) => { this._setUserInfo(userInfo); })
-            .catch((err) => { this._setErrorServer(err); })
-            .finally(() => {
-                this._doAfterLoad(popupEditAvatar, editAvatarValidation)
-            })
+            .then((res) => { return this._getResponseData(res); })
     }
 
     // Получение с сервера информация о пользователе 
     getUserInfoFromServer() {
         return fetch(`${this._baseUrl}/users/me`, { headers: this._headers })
-            .then(res => {
-                if (res.ok) { return res.json(); }
-                return Promise.reject(`Ошибка: ${res.status}`);
-            })
-            .then((userInfo) => { this._setUserInfo(userInfo); })
-            .catch((err) => { this._setErrorServer(err); });
+            .then(res => { return this._getResponseData(res); })
     }
 
     // Сохранение на сервере информация о пользователе 
-    saveUserInfoToServer({ name, about }, popupEditProfile, editProfileValidation) {
+    saveUserInfoToServer({ name, about }) {
         return fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers,
             method: 'PATCH',
@@ -133,24 +82,6 @@ export default class Api {
                 about: about
             })
         })
-            .then(res => {
-                if (res.ok) { return res.json(); }
-                return Promise.reject(`Ошибка: ${res.status}`);
-            })
-            .then((userInfo) => { this._setUserInfo(userInfo); })
-            .catch((err) => { this._setErrorServer(err); })
-            .finally(() => {
-                this._doAfterLoad(popupEditProfile, editProfileValidation);
-            })
-    }
-
-    _setErrorServer(err) {
-        this._errorServer.textContent = "Ошибка при соединение с сервером: " +
-            err + ". Попробуйте повторить позже";
-
-        this._errorServer.classList.add('error-server_active');
-        setTimeout(() => {
-            this._errorServer.classList.remove('error-server_active');
-        }, 8000)
+            .then(res => { return this._getResponseData(res); })
     }
 }

@@ -1,7 +1,7 @@
 /*Для КР: Благодарю за ценные замечания. Помогли сделать код гораздо более логичным и не хаотичным,
  а также лучше понять взаимодействие между классамим*/
 import "./index.css";
-import { btnEditAvatar, btnEditProfile, btnAdd, editProfile, editAvatar, addCard } from "../utils/nodes.js"; //импорт констант с узлами страницы
+import { btnEditAvatar, btnEditProfile, btnAdd, editProfile, editAvatar, addCard, errorServer } from "../utils/nodes.js"; //импорт констант с узлами страницы
 import Card from "../components/Card.js"; //импорт класса, отвечающего за создание карточек
 import UserInfo from "../components/UserInfo.js"; //импорт класса, отвечающего за информацию о пользователе
 import Section from "../components/Section.js"; //импорт класса, отвечающего за вывод данных на страницу
@@ -39,41 +39,39 @@ const api = new Api({
     authorization: '4b2550a1-9754-487b-87bb-c51dfc845f43',
     'Content-Type': 'application/json'
   },
-  setUserInfo: (info) => {
-    userInfo.setUserInfo(info);
-  },
-  setCards: (cards) => {
-    //Т.к. при создании карточки в ответ приходит объект вместо массива,
-    //то делаем проверку, чтобы не падало на forEach
-    if (Array.isArray(cards)) {
-      cards.forEach((card) => { addCardToPage(card) });
-    } else {
-      addCardToPage(cards);
-    }
-  },
-  setCountLike: (card, likeCount) => {
-    card.setCountLikeToPage(likeCount);
-  },
-  doAfterLoad: (popup, popupValidation) => {
-    popup.loadEnd();
-    popup.close();
-    popupValidation.resetForm(); // Очищаем поля при Создании
-  },
-  doAfterDeleteCard: (card) => {
-    card.deleteCardToPage();
-  }
 });
 
+function setErrorServer(err) {
+  errorServer.textContent = "Ошибка при соединение с сервером: " +
+    err + ". Попробуйте повторить позже";
+
+  errorServer.classList.add('error-server_active');
+  setTimeout(() => {
+    errorServer.classList.remove('error-server_active');
+  }, 8000)
+}
+
 // Создаем объект секции
-const cardsList = new Section(
+const cardsList = new Section({
+  renderer: (card) => {
+    addCardToPage(card);
+  }
+},
   ".elements"
 );
 
 // Создаем объект профиля
 const userInfo = new UserInfo(".profile__title", ".profile__subtitle", ".profile__avatar");
 
-api.getUserInfoFromServer(); //получаем данные профиля
-api.getInitialCards(); //получаем массив карточек
+// Получаем данные профиля и устанавливаем на страницу
+api.getUserInfoFromServer()
+  .then((info) => { userInfo.setUserInfo(info); })
+  .catch((err) => { setErrorServer(err) });
+
+// Получаем массив карточек и устанавливаем на страницу
+api.getInitialCards()
+  .then((cards) => { cardsList.renderItems(cards); })
+  .catch((err) => { setErrorServer(err); });
 
 const popupImage = new PopupWithImage(".popup_image");
 
@@ -83,7 +81,9 @@ const popupDeleteConfirm = new PopupWithSubmit(
     //Обработчик кнопки Да
     handleSubmit: (card) => {
       popupDeleteConfirm.close();
-      api.deleteCardToServer(card);
+      api.deleteCardToServer(card)
+        .then(() => { card.deleteCardToPage(); })
+        .catch((err) => { setErrorServer(err); });
     },
   },
   ".popup_confirm-delete"
@@ -110,9 +110,18 @@ function addCardToPage(dataCard) {
       handleLikeClick: () => {
         //Если стоит лайк, то минусуем, иначе плюсуем
         if (card.getStateLike()) {
-          api.likeDownCardToServer(card);
+          api.likeDownCardToServer(card)
+            .then((data) => {
+              //функция, ставящая лайк на основании того, что получено с сервера
+              card.setCountLikeToPage(data.likes.length);
+            })
+            .catch((err) => { setErrorServer(err); });
         } else {
-          api.likeUpCardToServer(card);
+          api.likeUpCardToServer(card)
+            .then((data) => {
+              card.setCountLikeToPage(data.likes.length);
+            })
+            .catch((err) => { setErrorServer(err); });
         }
       }
     },
@@ -128,8 +137,15 @@ const popupEditProfile = new PopupWithForm(
   {
     //Обработчик кнопки Сохранить
     handleSubmit: (inputValues) => {
-      popupEditProfile.loadStart();
-      api.saveUserInfoToServer(inputValues, popupEditProfile, editProfileValidation); // Сохраняем на сервере
+      popupEditProfile.loadStart();           // Включаем блок и меняем название кнопки
+      api.saveUserInfoToServer(inputValues)   // Сохраняем на сервере
+        .then((info) => { userInfo.setUserInfo(info); }) // Устанавливаем данные о пользователе на страницу
+        .catch((err) => { setErrorServer(err); })
+        .finally(() => {
+          popupEditProfile.loadEnd();     //Снимаем блок и меняем название кнопки на начальное
+          popupEditProfile.close();
+          editProfileValidation.resetForm(); // Очищаем поля при Создании
+        });
     },
     //Очищаем поля при закрытии
     resetForm: () => {
@@ -143,11 +159,18 @@ const popupEditProfile = new PopupWithForm(
 const popupEditAvatar = new PopupWithForm({
   handleSubmit: (inputValues) => {
     popupEditAvatar.loadStart();
-    api.saveAvatarToServer(inputValues, popupEditAvatar, editAvatarValidation);
+    api.saveAvatarToServer(inputValues)
+      .then((info) => { userInfo.setUserInfo(info); }) // Устанавливаем данные о пользователе на страницу
+      .catch((err) => { setErrorServer(err); })
+      .finally(() => {
+        popupEditAvatar.loadEnd();  //Снимаем блок и меняем название кнопки на начальное
+        popupEditAvatar.close();
+        editAvatarValidation.resetForm(); // Очищаем поля при Создании
+      });
   },
   // Очищаем поля при закрытии
   resetForm: () => {
-    addCardValidation.resetForm();
+    editAvatarValidation.resetForm();
   },
 },
   ".popup_edit-avatar"
@@ -159,7 +182,16 @@ const popupAddCard = new PopupWithForm(
     // Обработчик кнопки Создать
     handleSubmit: (inputValues) => {
       popupAddCard.loadStart();
-      api.saveCardToServer(inputValues, popupAddCard, addCardValidation);
+      api.saveCardToServer(inputValues)
+        .then((card) => {
+          addCardToPage(card);
+        })
+        .catch((err) => { setErrorServer(err); })
+        .finally(() => {
+          popupAddCard.loadEnd();  //Снимаем блок и меняем название кнопки на начальное
+          popupAddCard.close();
+          addCardValidation.resetForm(); // Очищаем поля при Создании
+        });
     },
     // Очищаем поля при закрытии
     resetForm: () => {
