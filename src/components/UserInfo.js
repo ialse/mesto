@@ -15,12 +15,18 @@ export default class UserInfo {
 
   //установить данные на страницу
   setUserInfo({ name, about, avatar, _id }) {
-    this._profileName.textContent = name;
-    this._profileWork.textContent = about;
     this.id = _id;
     // Так как при редактировании профиля аватар не ставится, то проверка
     if (avatar) {
       this._profileAvatar.style.backgroundImage = `url("${avatar}")`;
+    }
+
+    if (name) {
+      this._profileName.textContent = name;
+    }
+
+    if (about) {
+      this._profileWork.textContent = about;
     }
   }
 }

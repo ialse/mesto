@@ -1,9 +1,10 @@
 export default class Popup {
   constructor(popupSelector) {
     this.popup = document.querySelector(popupSelector);
+    this._btnClose = this.popup.querySelector(".popup__btn-close");
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleClickOverlayClose = this._handleClickOverlayClose.bind(this);
-    this.close = this.close.bind(this);
+    this.close = this.close.bind(this);    
   }
 
   // Обработчик нажатия Escape - закрывает попап
@@ -45,6 +46,6 @@ export default class Popup {
   }
 
   setEventListeners() {
-    this.popup.querySelector(".popup__btn-close").addEventListener("click", this.close);
+    this._btnClose.addEventListener("click", this.close);
   }
 }

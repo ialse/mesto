@@ -78,10 +78,12 @@ const popupImage = new PopupWithImage(".popup_image");
 const popupDeleteConfirm = new PopupWithSubmit(
   {
     //Обработчик кнопки Да
-    handleSubmit: (card) => {
-      popupDeleteConfirm.close();
+    handleSubmit: (card) => {      
       api.deleteCardToServer(card)
-        .then(() => { card.deleteCardToPage(); })
+        .then(() => { 
+          card.deleteCardToPage();
+          popupDeleteConfirm.close();
+         })
         .catch((err) => { setErrorServer(err); });
     },
   },
