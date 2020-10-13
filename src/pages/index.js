@@ -1,5 +1,4 @@
-/*Для КР: Благодарю за ценные замечания. Помогли сделать код гораздо более логичным и не хаотичным,
- а также лучше понять взаимодействие между классамим*/
+/*Для КР: Благодарю за ценные замечания! Помогли разобраться с запросами к серверу и правильно структуризацией кода*/
 import "./index.css";
 import { btnEditAvatar, btnEditProfile, btnAdd, editProfile, editAvatar, addCard, errorServer } from "../utils/nodes.js"; //импорт констант с узлами страницы
 import Card from "../components/Card.js"; //импорт класса, отвечающего за создание карточек
@@ -62,14 +61,15 @@ const cardsList = new Section({
 // Создаем объект профиля
 const userInfo = new UserInfo(".profile__title", ".profile__subtitle", ".profile__avatar");
 
-// Получаем данные профиля и устанавливаем на страницу
-api.getUserInfoFromServer()
-  .then((info) => { userInfo.setUserInfo(info); })
-  .catch((err) => { setErrorServer(err) });
-
-// Получаем массив карточек и устанавливаем на страницу
-api.getInitialCards()
-  .then((cards) => { cardsList.renderItems(cards); })
+Promise.all([
+  api.getUserInfoFromServer(), // Получаем данные профиля
+  api.getInitialCards() // Получаем массив карточек
+])
+  .then((values) => {
+    const [userData, cards] = values;
+    userInfo.setUserInfo(userData);
+    cardsList.renderItems(cards);
+  })
   .catch((err) => { setErrorServer(err); });
 
 const popupImage = new PopupWithImage(".popup_image");
@@ -78,12 +78,12 @@ const popupImage = new PopupWithImage(".popup_image");
 const popupDeleteConfirm = new PopupWithSubmit(
   {
     //Обработчик кнопки Да
-    handleSubmit: (card) => {      
+    handleSubmit: (card) => {
       api.deleteCardToServer(card)
-        .then(() => { 
+        .then(() => {
           card.deleteCardToPage();
           popupDeleteConfirm.close();
-         })
+        })
         .catch((err) => { setErrorServer(err); });
     },
   },
