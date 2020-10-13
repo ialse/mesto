@@ -6,8 +6,8 @@ export default class Card {
     this._likes = data.likes; //Массив лайков, нужен для определения где есть мои лайки
     this._id = data._id; // ИД карточки, нужен при удалении карточки и для лайков
     this._ownerId = data.owner._id; // ИД владельца карточки
+    this._cardTemplate = cardTemplate; // Селектор шаблона
 
-    this._cardTemplate = cardTemplate;
     //Обработчики
     this._handleClickImage = handleClickImage;
     this._handleDeleteClick = handleDeleteClick;
@@ -31,14 +31,11 @@ export default class Card {
 
   // Обработчик события, отвечающий за работу лайка
   _addHandlerLike(like) {
-    this._handleLikeClick(); // для отправки на сервер
-    like.classList.toggle("element__button-like_active");
+    this._handleLikeClick();    
   }
 
   // Обработчик события, удаляющий карточку
   _addHandlerBtnRemove() {
-    //this._card.remove();
-    //this._card = null;
     this._handleDeleteClick();
   }
 
@@ -48,24 +45,26 @@ export default class Card {
     this._card = null;
   }
 
-  // Получение состояния лайка
-  getStateLike() {
-    const like = this._card.querySelector(".element__button-like_active");
-    return like ? true : false;
+  // Проверка на лайк владельца  
+  haveLikeOwner() {
+    return this._likes.some((like) => {
+
+      return like._id === '49625d136d51856d79886d0e';
+    })
+  }
+
+  // Смена состояния лайка
+  setStateLike() {
+    this._card
+        .querySelector(".element__button-like")
+        .classList
+        .toggle("element__button-like_active");
   }
 
   // Установка количества лайков на странице
-  setCountLikeToPage(count) {
-    this._card.querySelector(".element__likes-count").textContent = count;
-  }
-
-  // Проверяем есть ли среди ИД лайков мой и делаем лайк активным, если есть
-  _setMyLike() {
-    this._likes.forEach((like) => {
-      if (like._id === '49625d136d51856d79886d0e') {
-        this._card.querySelector(".element__button-like").classList.add('element__button-like_active');
-      }
-    })
+  setCountLikeToPage(likes) {
+    this._likes = likes; // Обновляем массив лайков в объекте
+    this._card.querySelector(".element__likes-count").textContent = likes.length;
   }
 
   // Установка слушателей
@@ -98,11 +97,16 @@ export default class Card {
     elementTitle.textContent = this._name;
     elementLikes.textContent = this._likesCount;
 
+    // Проверяем, есть ли мой ИД и если есть добавляем значок корзины
     if (this._ownerId === '49625d136d51856d79886d0e') {
       this._btnRemove.classList.add("element__button-remove_active")
     }
 
-    this._setMyLike();
+    // Проверяем, есть ли мой ИД в лайках и если есть, ставим лайк
+    if (this.haveLikeOwner() ) {
+      this.setStateLike();
+    }
+
     this._setEventListeners();
 
     return this._card;

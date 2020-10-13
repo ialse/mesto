@@ -42,8 +42,7 @@ const api = new Api({
 });
 
 function setErrorServer(err) {
-  errorServer.textContent = "Ошибка при соединение с сервером: " +
-    err + ". Попробуйте повторить позже";
+  errorServer.textContent = `Ошибка при соединение с сервером: ${err}. Попробуйте повторить позже`;
 
   errorServer.classList.add('error-server_active');
   setTimeout(() => {
@@ -108,18 +107,20 @@ function addCardToPage(dataCard) {
       },
       // Обработчик клика по лайку карточки
       handleLikeClick: () => {
-        //Если стоит лайк, то минусуем, иначе плюсуем
-        if (card.getStateLike()) {
+        // Если владелец лайка я, то делаем его активным
+        if (card.haveLikeOwner()) {
           api.likeDownCardToServer(card)
             .then((data) => {
-              //функция, ставящая лайк на основании того, что получено с сервера
-              card.setCountLikeToPage(data.likes.length);
+              // Ставим лайк и количество на основании того, что получено с сервера
+              card.setCountLikeToPage(data.likes);
+              card.setStateLike();
             })
             .catch((err) => { setErrorServer(err); });
         } else {
           api.likeUpCardToServer(card)
             .then((data) => {
-              card.setCountLikeToPage(data.likes.length);
+              card.setCountLikeToPage(data.likes);
+              card.setStateLike();
             })
             .catch((err) => { setErrorServer(err); });
         }
