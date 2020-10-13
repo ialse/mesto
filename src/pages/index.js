@@ -1,4 +1,4 @@
-/*Для КР: Благодарю за ценные замечания! Помогли разобраться с запросами к серверу и правильно структуризацией кода*/
+/*Для КР: Благодарю за ценные замечания! Помогли разобраться с запросами к серверу и правильной структуризацией кода*/
 import "./index.css";
 import { btnEditAvatar, btnEditProfile, btnAdd, editProfile, editAvatar, addCard, errorServer } from "../utils/nodes.js"; //импорт констант с узлами страницы
 import Card from "../components/Card.js"; //импорт класса, отвечающего за создание карточек
@@ -40,6 +40,7 @@ const api = new Api({
   },
 });
 
+// Вывод ошибки запроса к серверу на страницу
 function setErrorServer(err) {
   errorServer.textContent = `Ошибка при соединение с сервером: ${err}. Попробуйте повторить позже`;
 
@@ -61,6 +62,7 @@ const cardsList = new Section({
 // Создаем объект профиля
 const userInfo = new UserInfo(".profile__title", ".profile__subtitle", ".profile__avatar");
 
+// Ждем, когда все промисы выполнятся и после рисуем страницу
 Promise.all([
   api.getUserInfoFromServer(), // Получаем данные профиля
   api.getInitialCards() // Получаем массив карточек
@@ -72,6 +74,7 @@ Promise.all([
   })
   .catch((err) => { setErrorServer(err); });
 
+// Создаем объект для попапа с картинкой
 const popupImage = new PopupWithImage(".popup_image");
 
 // Создаем объект для попапа Подтверждения
@@ -134,7 +137,6 @@ function addCardToPage(dataCard) {
   const cardNode = card.createCard(); // Вставляем разметку
   cardsList.addItem(cardNode); // Добавляем на страницу
 }
-
 
 // Создаем объект для попапа редактирования профиля
 const popupEditProfile = new PopupWithForm(

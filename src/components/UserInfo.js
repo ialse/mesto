@@ -3,7 +3,6 @@ export default class UserInfo {
     this._profileName = document.querySelector(profileName);
     this._profileWork = document.querySelector(profileWork);
     this._profileAvatar = document.querySelector(profileAvatar);
-    
   }
 
   //получить данные со страницы
