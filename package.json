@@ -4,7 +4,7 @@
   "description": "Learning platform",
   "main": "index.js",
   "scripts": {
-    "build": "rd /s /q dist && webpack",
+    "build": "rimraf dist && webpack",
     "dev": "webpack-dev-server --open --watch"
   },
   "repository": {
@@ -30,6 +30,7 @@
     "mini-css-extract-plugin": "^0.11.2",
     "postcss": "^8.1.1",
     "postcss-loader": "^4.0.2",
+    "rimraf": "^3.0.2",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
