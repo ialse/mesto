@@ -3,6 +3,7 @@ export default class UserInfo {
     this._profileName = document.querySelector(profileName);
     this._profileWork = document.querySelector(profileWork);
     this._profileAvatar = document.querySelector(profileAvatar);
+    
   }
 
   //получить данные со страницы
@@ -13,9 +14,10 @@ export default class UserInfo {
   }
 
   //установить данные на страницу
-  setUserInfo({ name, about, avatar }) {
+  setUserInfo({ name, about, avatar, _id }) {
     this._profileName.textContent = name;
     this._profileWork.textContent = about;
+    this.id = _id;
     // Так как при редактировании профиля аватар не ставится, то проверка
     if (avatar) {
       this._profileAvatar.style.backgroundImage = `url("${avatar}")`;

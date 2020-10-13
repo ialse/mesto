@@ -93,6 +93,7 @@ function addCardToPage(dataCard) {
   // Создаем объект карточки
   const card = new Card(
     dataCard,
+    userInfo.id,
     {
       // Обработчик клика по картинке карточки
       handleClickImage: () => {

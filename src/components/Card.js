@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data, { handleClickImage, handleDeleteClick, handleLikeClick }, cardTemplate) {
+  constructor(data, userID, { handleClickImage, handleDeleteClick, handleLikeClick }, cardTemplate) {
     this._name = data.name; //Название карточки
     this._link = data.link; //Ссылка на картинку
     this._likesCount = data.likes.length; // Кол-во лайков
@@ -7,6 +7,7 @@ export default class Card {
     this._id = data._id; // ИД карточки, нужен при удалении карточки и для лайков
     this._ownerId = data.owner._id; // ИД владельца карточки
     this._cardTemplate = cardTemplate; // Селектор шаблона
+    this._userID = userID; // ИД текущего пользователя
 
     //Обработчики
     this._handleClickImage = handleClickImage;
@@ -48,8 +49,7 @@ export default class Card {
   // Проверка на лайк владельца  
   haveLikeOwner() {
     return this._likes.some((like) => {
-
-      return like._id === '49625d136d51856d79886d0e';
+      return like._id === this._userID;
     })
   }
 
@@ -98,7 +98,7 @@ export default class Card {
     elementLikes.textContent = this._likesCount;
 
     // Проверяем, есть ли мой ИД и если есть добавляем значок корзины
-    if (this._ownerId === '49625d136d51856d79886d0e') {
+    if (this._ownerId === this._userID) {
       this._btnRemove.classList.add("element__button-remove_active")
     }
 
