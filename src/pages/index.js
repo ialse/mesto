@@ -172,6 +172,7 @@ const popupEditAvatar = new PopupWithForm({
         userInfo.setUserInfo(info); // Устанавливаем данные о пользователе на страницу
         popupEditAvatar.close();
         editAvatarValidation.resetForm(); // Очищаем поля при Создании }) 
+      })
       .catch((err) => { setErrorServer(err); })
       .finally(() => {
         popupEditAvatar.loadEnd();  //Снимаем блок и меняем название кнопки на начальное       
