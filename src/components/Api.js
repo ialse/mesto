@@ -5,10 +5,12 @@ export default class Api {
         this._errorServer = document.querySelector(".error-server");
     }
 
+    // Получение ответа от сервера, иначе ошибка
     _getResponseData(res) {
         if (res.ok) { return res.json(); }
         return Promise.reject(new Error(`Ошибка: ${res.status}`)); // если ошибка при запросе, переходим к catch
     }
+
     // Получение с сервера начальных карточек 
     getInitialCards() {
         return fetch(`${this._baseUrl}/cards`, { headers: this._headers })

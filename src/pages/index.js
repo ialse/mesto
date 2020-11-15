@@ -145,12 +145,14 @@ const popupEditProfile = new PopupWithForm(
     handleSubmit: (inputValues) => {
       popupEditProfile.loadStart();           // Включаем блок и меняем название кнопки
       api.saveUserInfoToServer(inputValues)   // Сохраняем на сервере
-        .then((info) => { userInfo.setUserInfo(info); }) // Устанавливаем данные о пользователе на страницу
-        .catch((err) => { setErrorServer(err); })
-        .finally(() => {
-          popupEditProfile.loadEnd();     //Снимаем блок и меняем название кнопки на начальное
+        .then((info) => { 
+          userInfo.setUserInfo(info);
           popupEditProfile.close();
           editProfileValidation.resetForm(); // Очищаем поля при Создании
+         }) // Устанавливаем данные о пользователе на страницу
+        .catch((err) => { setErrorServer(err); })
+        .finally(() => {
+          popupEditProfile.loadEnd();     //Снимаем блок и меняем название кнопки на начальное          
         });
     },
     //Очищаем поля при закрытии
@@ -166,12 +168,14 @@ const popupEditAvatar = new PopupWithForm({
   handleSubmit: (inputValues) => {
     popupEditAvatar.loadStart();
     api.saveAvatarToServer(inputValues)
-      .then((info) => { userInfo.setUserInfo(info); }) // Устанавливаем данные о пользователе на страницу
+      .then((info) => { 
+        userInfo.setUserInfo(info); // Устанавливаем данные о пользователе на страницу
+        popupEditAvatar.close();
+        editAvatarValidation.resetForm(); // Очищаем поля при Создании }) 
+      })
       .catch((err) => { setErrorServer(err); })
       .finally(() => {
-        popupEditAvatar.loadEnd();  //Снимаем блок и меняем название кнопки на начальное
-        popupEditAvatar.close();
-        editAvatarValidation.resetForm(); // Очищаем поля при Создании
+        popupEditAvatar.loadEnd();  //Снимаем блок и меняем название кнопки на начальное       
       });
   },
   // Очищаем поля при закрытии
@@ -190,13 +194,13 @@ const popupAddCard = new PopupWithForm(
       popupAddCard.loadStart();
       api.saveCardToServer(inputValues)
         .then((card) => {
-          addCardToPage(card);
+          addCardToPage(card); //Добавляем карточку на страницу
+          popupAddCard.close();
+          addCardValidation.resetForm(); // Очищаем поля при Создании
         })
         .catch((err) => { setErrorServer(err); })
         .finally(() => {
-          popupAddCard.loadEnd();  //Снимаем блок и меняем название кнопки на начальное
-          popupAddCard.close();
-          addCardValidation.resetForm(); // Очищаем поля при Создании
+          popupAddCard.loadEnd();  //Снимаем блок и меняем название кнопки на начальное          
         });
     },
     // Очищаем поля при закрытии
